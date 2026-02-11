@@ -1,0 +1,4 @@
+# Random Character Prompt Generator for Stable Diffusion
+# Required dependencies
+
+gradio>=4.0.0
