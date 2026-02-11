@@ -1,4 +1,8 @@
 # Random Character Prompt Generator for Stable Diffusion
 # Required dependencies
 
+# Gradio version (run_gradio.py)
 gradio>=4.0.0
+
+# Reflex version (run_reflex.py)
+reflex>=0.5.0
