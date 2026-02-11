@@ -54,6 +54,7 @@ async def get_slots():
         "slots": slots,
         "sections": SECTION_LAYOUT,
         "lower_body_covers_legs_by_name": gen.get_lower_body_covers_legs_by_name(),
+        "pose_uses_hands_by_name": gen.get_pose_uses_hands_by_name(),
     }
 
 

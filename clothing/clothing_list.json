@@ -1266,309 +1266,386 @@
       "aliases": []
     },
     {
-      "id": "backpacks",
-      "name": "backpacks",
+      "id": "backpack",
+      "name": "backpack",
       "body_part": "accessory",
+      "description": "casual carry bag worn on both shoulders",
       "aliases": []
     },
     {
-      "id": "ballroom",
-      "name": "ballroom",
+      "id": "mini_backpack",
+      "name": "mini backpack",
       "body_part": "accessory",
+      "description": "small fashion backpack for cute streetwear looks",
       "aliases": []
     },
     {
-      "id": "bows",
-      "name": "bow",
+      "id": "school_bag",
+      "name": "school bag",
       "body_part": "accessory",
+      "description": "student bag often paired with uniform styles",
       "aliases": [
-        "bows"
+        "randoseru"
       ]
     },
     {
-      "id": "cafe_restaurant_uniform",
-      "name": "Cafe / restaurant uniform",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "cat",
-      "name": "cat",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "chains",
-      "name": "chains",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "cheongsam_qipao",
-      "name": "Cheongsam / qipao",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "classic",
-      "name": "classic",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "clubwear",
-      "name": "clubwear",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "clutches",
-      "name": "clutches",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "crossbody_bags",
+      "id": "crossbody_bag",
       "name": "crossbody bag",
       "body_part": "accessory",
+      "description": "compact bag hanging diagonally across the torso",
+      "aliases": []
+    },
+    {
+      "id": "messenger_bag",
+      "name": "messenger bag",
+      "body_part": "accessory",
+      "description": "rectangular shoulder bag with long strap",
+      "aliases": []
+    },
+    {
+      "id": "shoulder_bag",
+      "name": "shoulder bag",
+      "body_part": "accessory",
+      "description": "everyday handbag carried on one shoulder",
+      "aliases": []
+    },
+    {
+      "id": "tote_bag",
+      "name": "tote bag",
+      "body_part": "accessory",
+      "description": "soft carryall bag with open top handles",
+      "aliases": []
+    },
+    {
+      "id": "leather_satchel",
+      "name": "leather satchel",
+      "body_part": "accessory",
+      "description": "structured satchel suited for classic outfits",
+      "aliases": []
+    },
+    {
+      "id": "clutch_bag",
+      "name": "clutch bag",
+      "body_part": "accessory",
+      "description": "small hand-held evening bag",
       "aliases": [
-        "crossbody bags"
+        "clutch"
       ]
     },
     {
-      "id": "etc",
-      "name": "etc.",
+      "id": "purse",
+      "name": "purse",
       "body_part": "accessory",
+      "description": "compact purse accessory for stylish looks",
       "aliases": []
     },
     {
-      "id": "flashy_jewelry",
-      "name": "flashy jewelry",
+      "id": "coin_pouch",
+      "name": "coin pouch",
       "body_part": "accessory",
+      "description": "small pouch attached to belt or bag",
       "aliases": []
     },
     {
-      "id": "frills",
-      "name": "frills",
+      "id": "keychain_charm",
+      "name": "keychain charm",
       "body_part": "accessory",
+      "description": "decorative charm hanging from bag or belt",
       "aliases": []
     },
     {
-      "id": "furisode",
-      "name": "furisode",
+      "id": "phone_charm",
+      "name": "phone charm",
       "body_part": "accessory",
+      "description": "cute dangling strap attached to smartphone",
       "aliases": []
     },
     {
-      "id": "gothic",
-      "name": "gothic",
+      "id": "umbrella",
+      "name": "umbrella",
       "body_part": "accessory",
+      "description": "standard umbrella prop for rain scenes",
       "aliases": []
     },
     {
-      "id": "gothic_lolita_classic_lolita",
-      "name": "Gothic lolita / classic lolita",
+      "id": "parasol",
+      "name": "parasol",
       "body_part": "accessory",
+      "description": "sun parasol for elegant outdoor styling",
       "aliases": []
     },
     {
-      "id": "hair_ornaments",
-      "name": "Hair ornaments",
+      "id": "lace_parasol",
+      "name": "lace parasol",
       "body_part": "accessory",
+      "description": "decorative lace parasol with romantic aesthetic",
       "aliases": []
     },
     {
-      "id": "heavy",
-      "name": "heavy",
+      "id": "folding_fan",
+      "name": "folding fan",
       "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "idol_costume_stage_outfit",
-      "name": "Idol costume / stage outfit",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "iro_uchikake",
-      "name": "iro-uchikake",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "light",
-      "name": "light",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "magical_girl_outfit",
-      "name": "Magical girl outfit",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "maid_outfit",
-      "name": "Maid outfit",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "male_school_uniform",
-      "name": "Male School Uniform",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "matsuri",
-      "name": "matsuri",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "messenger_bags",
-      "name": "messenger bags",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "miko",
-      "name": "miko",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "naval_uniform",
-      "name": "Naval Uniform",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "neon_accents",
-      "name": "neon accents",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "nurse_doctor_style_uniforms",
-      "name": "Nurse / doctor style uniforms",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "ol_style",
-      "name": "OL style",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "outerwear",
-      "name": "outerwear",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "pajamas",
-      "name": "pajamas",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "pastels",
-      "name": "pastels",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "princess_noble_attire",
-      "name": "Princess / noble attire",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "princess_silhouettes",
-      "name": "princess silhouettes",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "punk_alt",
-      "name": "Punk / alt",
-      "body_part": "accessory",
-      "aliases": []
-    },
-    {
-      "id": "ribbons",
-      "name": "ribbon",
-      "body_part": "accessory",
+      "description": "traditional folding fan for festival and kimono looks",
       "aliases": [
-        "ribbons"
+        "sensu fan"
       ]
     },
     {
-      "id": "scale_mail",
-      "name": "Scale Mail",
+      "id": "uchiwa_fan",
+      "name": "uchiwa fan",
       "body_part": "accessory",
+      "description": "round flat summer festival fan",
       "aliases": []
     },
     {
-      "id": "sequins",
-      "name": "sequins",
+      "id": "pom_poms",
+      "name": "pom-poms",
       "body_part": "accessory",
+      "description": "cheer props held in both hands",
       "aliases": []
     },
     {
-      "id": "shiromuku",
-      "name": "shiromuku",
+      "id": "glow_stick",
+      "name": "glow stick",
       "body_part": "accessory",
+      "description": "concert light stick for idol or stage themes",
       "aliases": []
     },
     {
-      "id": "stylized",
-      "name": "stylized",
+      "id": "idol_microphone",
+      "name": "idol microphone",
       "body_part": "accessory",
+      "description": "stage microphone prop for performance scenes",
+      "aliases": [
+        "handheld microphone"
+      ]
+    },
+    {
+      "id": "plush_bunny",
+      "name": "plush bunny",
+      "body_part": "accessory",
+      "description": "soft bunny plush toy carried as a prop",
       "aliases": []
     },
     {
-      "id": "sweet",
-      "name": "sweet",
+      "id": "teddy_bear_plush",
+      "name": "teddy bear plush",
       "body_part": "accessory",
+      "description": "classic stuffed teddy bear accessory",
       "aliases": []
     },
     {
-      "id": "team_uniforms",
-      "name": "Team Uniforms",
+      "id": "cat_plush",
+      "name": "cat plush",
       "body_part": "accessory",
+      "description": "cute cat plushie for playful character vibes",
       "aliases": []
     },
     {
-      "id": "techwear",
-      "name": "techwear",
+      "id": "spellbook",
+      "name": "spellbook",
       "body_part": "accessory",
+      "description": "arcane magic book prop for caster characters",
       "aliases": []
     },
     {
-      "id": "tunics",
-      "name": "tunics",
+      "id": "grimoire",
+      "name": "grimoire",
       "body_part": "accessory",
+      "description": "ornate ancient tome with mystical motifs",
       "aliases": []
     },
     {
-      "id": "umbrellas",
-      "name": "umbrellas",
+      "id": "sketchbook",
+      "name": "sketchbook",
       "body_part": "accessory",
+      "description": "artist notebook accessory for creative themes",
       "aliases": []
     },
     {
-      "id": "witch",
-      "name": "witch",
+      "id": "camera",
+      "name": "camera",
       "body_part": "accessory",
+      "description": "compact camera carried around the neck or hand",
       "aliases": []
     },
     {
-      "id": "womens_tailoring",
-      "name": "women’s tailoring",
+      "id": "instant_camera",
+      "name": "instant camera",
       "body_part": "accessory",
+      "description": "retro instant camera for casual street shots",
+      "aliases": []
+    },
+    {
+      "id": "smartphone",
+      "name": "smartphone",
+      "body_part": "accessory",
+      "description": "modern phone prop for daily life scenes",
+      "aliases": []
+    },
+    {
+      "id": "headphones",
+      "name": "headphones",
+      "body_part": "accessory",
+      "description": "over-ear headphones as a music-themed accessory",
+      "aliases": []
+    },
+    {
+      "id": "cat_ear_headphones",
+      "name": "cat-ear headphones",
+      "body_part": "accessory",
+      "description": "stylized headphones with cat-ear design",
+      "aliases": []
+    },
+    {
+      "id": "sunglasses",
+      "name": "sunglasses",
+      "body_part": "accessory",
+      "description": "cool fashion eyewear for outdoor scenes",
+      "aliases": []
+    },
+    {
+      "id": "visor_glasses",
+      "name": "visor glasses",
+      "body_part": "accessory",
+      "description": "futuristic tinted visor-style eyewear",
+      "aliases": []
+    },
+    {
+      "id": "eyepatch",
+      "name": "eyepatch",
+      "body_part": "accessory",
+      "description": "single-eye patch for chuunibyou or pirate styling",
+      "aliases": []
+    },
+    {
+      "id": "festival_mask",
+      "name": "festival mask",
+      "body_part": "accessory",
+      "description": "decorative mask used in festival scenes",
+      "aliases": []
+    },
+    {
+      "id": "fox_mask",
+      "name": "fox mask",
+      "body_part": "accessory",
+      "description": "kitsune-style mask for shrine or festival aesthetics",
+      "aliases": [
+        "kitsune mask"
+      ]
+    },
+    {
+      "id": "brooch",
+      "name": "brooch",
+      "body_part": "accessory",
+      "description": "pin-on ornament attached to chest or collar",
+      "aliases": []
+    },
+    {
+      "id": "corsage",
+      "name": "corsage",
+      "body_part": "accessory",
+      "description": "flower accessory pinned to outfit or wrist",
+      "aliases": []
+    },
+    {
+      "id": "charm_bracelet",
+      "name": "charm bracelet",
+      "body_part": "accessory",
+      "description": "bracelet with dangling decorative charms",
+      "aliases": []
+    },
+    {
+      "id": "bangles",
+      "name": "bangles",
+      "body_part": "accessory",
+      "description": "stacked rigid bracelets for ornate styling",
+      "aliases": []
+    },
+    {
+      "id": "wristwatch",
+      "name": "wristwatch",
+      "body_part": "accessory",
+      "description": "everyday watch accessory",
+      "aliases": []
+    },
+    {
+      "id": "pocket_watch",
+      "name": "pocket watch",
+      "body_part": "accessory",
+      "description": "vintage chain watch for elegant or steampunk looks",
+      "aliases": []
+    },
+    {
+      "id": "ring_set",
+      "name": "ring set",
+      "body_part": "accessory",
+      "description": "multiple decorative rings worn across fingers",
+      "aliases": []
+    },
+    {
+      "id": "hoop_earrings",
+      "name": "hoop earrings",
+      "body_part": "accessory",
+      "description": "circular earrings with a bold silhouette",
+      "aliases": []
+    },
+    {
+      "id": "jeweled_earrings",
+      "name": "jeweled earrings",
+      "body_part": "accessory",
+      "description": "sparkling gem earrings for formal outfits",
+      "aliases": []
+    },
+    {
+      "id": "ear_cuff",
+      "name": "ear cuff",
+      "body_part": "accessory",
+      "description": "clip-on ear ornament without piercings",
+      "aliases": []
+    },
+    {
+      "id": "magic_wand",
+      "name": "magic wand",
+      "body_part": "accessory",
+      "description": "wand prop for magical girl and fantasy themes",
+      "aliases": []
+    },
+    {
+      "id": "ceremonial_staff",
+      "name": "ceremonial staff",
+      "body_part": "accessory",
+      "description": "ornamental staff carried by priestess or mage characters",
+      "aliases": []
+    },
+    {
+      "id": "ornate_scepter",
+      "name": "ornate scepter",
+      "body_part": "accessory",
+      "description": "royal scepter accessory for princess themes",
+      "aliases": []
+    },
+    {
+      "id": "sword_sheath",
+      "name": "sword sheath",
+      "body_part": "accessory",
+      "description": "decorative scabbard accessory at hip or back",
+      "aliases": [
+        "scabbard"
+      ]
+    },
+    {
+      "id": "lucky_omamori",
+      "name": "lucky omamori",
+      "body_part": "accessory",
+      "description": "small Japanese amulet charm for shrine motifs",
+      "aliases": []
+    },
+    {
+      "id": "ribbon_charm",
+      "name": "ribbon charm",
+      "body_part": "accessory",
+      "description": "decorative ribbon accessory tied to clothing or bag",
       "aliases": []
     },
     {
@@ -2353,56 +2430,59 @@
       "veil"
     ],
     "accessory": [
-      "backpacks",
-      "ballroom",
-      "bows",
-      "cafe_restaurant_uniform",
-      "cat",
-      "chains",
-      "cheongsam_qipao",
-      "classic",
-      "clubwear",
-      "clutches",
-      "crossbody_bags",
-      "etc",
-      "flashy_jewelry",
-      "frills",
-      "furisode",
-      "gothic",
-      "gothic_lolita_classic_lolita",
-      "hair_ornaments",
-      "heavy",
-      "idol_costume_stage_outfit",
-      "iro_uchikake",
-      "light",
-      "magical_girl_outfit",
-      "maid_outfit",
-      "male_school_uniform",
-      "matsuri",
-      "messenger_bags",
-      "miko",
-      "naval_uniform",
-      "neon_accents",
-      "nurse_doctor_style_uniforms",
-      "ol_style",
-      "outerwear",
-      "pajamas",
-      "pastels",
-      "princess_noble_attire",
-      "princess_silhouettes",
-      "punk_alt",
-      "ribbons",
-      "scale_mail",
-      "sequins",
-      "shiromuku",
-      "stylized",
-      "sweet",
-      "team_uniforms",
-      "techwear",
-      "tunics",
-      "umbrellas",
-      "witch",
-      "womens_tailoring"
+      "backpack",
+      "mini_backpack",
+      "school_bag",
+      "crossbody_bag",
+      "messenger_bag",
+      "shoulder_bag",
+      "tote_bag",
+      "leather_satchel",
+      "clutch_bag",
+      "purse",
+      "coin_pouch",
+      "keychain_charm",
+      "phone_charm",
+      "umbrella",
+      "parasol",
+      "lace_parasol",
+      "folding_fan",
+      "uchiwa_fan",
+      "pom_poms",
+      "glow_stick",
+      "idol_microphone",
+      "plush_bunny",
+      "teddy_bear_plush",
+      "cat_plush",
+      "spellbook",
+      "grimoire",
+      "sketchbook",
+      "camera",
+      "instant_camera",
+      "smartphone",
+      "headphones",
+      "cat_ear_headphones",
+      "sunglasses",
+      "visor_glasses",
+      "eyepatch",
+      "festival_mask",
+      "fox_mask",
+      "brooch",
+      "corsage",
+      "charm_bracelet",
+      "bangles",
+      "wristwatch",
+      "pocket_watch",
+      "ring_set",
+      "hoop_earrings",
+      "jeweled_earrings",
+      "ear_cuff",
+      "magic_wand",
+      "ceremonial_staff",
+      "ornate_scepter",
+      "sword_sheath",
+      "lucky_omamori",
+      "ribbon_charm"
     ],
     "waist": [
       "apron",

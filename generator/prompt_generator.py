@@ -231,6 +231,19 @@ class PromptGenerator:
             mapping[name] = bool(item.get("covers_legs", False))
         return mapping
 
+    def get_pose_uses_hands_by_name(self) -> Dict[str, bool]:
+        """
+        Return a map of pose item name -> whether it uses hands.
+        Missing flag defaults to False for backward compatibility.
+        """
+        mapping: Dict[str, bool] = {}
+        for item in self.get_slot_options("pose"):
+            name = item.get("name")
+            if not name:
+                continue
+            mapping[name] = bool(item.get("uses_hands", False))
+        return mapping
+
     def lower_body_item_covers_legs(self, item: Optional[dict]) -> bool:
         """Check coverage flag on a sampled lower_body item dict."""
         if not item:

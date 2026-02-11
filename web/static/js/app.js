@@ -12,6 +12,9 @@
  * - Enabled live prompt auto-refresh on slot toggle, dropdown, color, weight, and per-slot random.
  * - Removed color mode selection; randomization color assignment now uses palette toggle only.
  * - Changed lower-body leg coverage to one-shot OFF behavior; legs can be manually re-enabled.
+ * - Changed upper-body mode deselect behavior to restore slots auto-disabled by its last enable cycle.
+ * - Added pose `uses_hands` metadata and one-shot pose->hand-actions auto-disable behavior.
+ * - Renamed `gesture` slot label in UI to `hand actions` (slot id unchanged).
  */
 import { state, initSlotState } from "./state.js";
 import * as api from "./api.js";
@@ -29,6 +32,7 @@ async function init() {
   // 2. Store data in state
   state.sections = slotsData.sections;
   state.lowerBodyCoversLegsByName = slotsData.lower_body_covers_legs_by_name || {};
+  state.poseUsesHandsByName = slotsData.pose_uses_hands_by_name || {};
   state.individualColors = palettesData.individual_colors || [];
   state.palettes = palettesData.palettes || [];
   initSlotState(slotsData.slots);

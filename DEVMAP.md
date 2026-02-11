@@ -12,12 +12,14 @@ Quick-reference for finding the right file for any edit.
 | Randomization logic | `web/routes/slots.py` | `randomize_slots()`, `randomize_all()` |
 | Full-body override behavior | `web/routes/slots.py` | Bottom of `randomize_all()` |
 | Lower-body coverage -> legs one-shot off behavior | `web/static/js/handlers.js` | `maybeDisableLegsForLowerBodyCoverage()` using `covers_legs` metadata |
+| Pose hand-usage -> hand actions one-shot off behavior | `web/static/js/handlers.js` | `maybeDisableHandActionsForPoseUsage()` using `uses_hands` metadata |
 | Palette auto-apply logic | `web/routes/prompt.py` | `apply_palette()` |
 | Section layout (which slots in which section) | `web/routes/slots.py` | `SECTION_LAYOUT` dict |
 | Save/Load config format | `web/routes/configs.py` | `save_config()`, `load_config()` |
 | API server setup, static mount | `web/server.py` | FastAPI app + router includes |
 | Catalog loading (JSON data files) | `generator/prompt_generator.py` | `_load_catalogs()` |
 | Lower-body `covers_legs` metadata lookup | `generator/prompt_generator.py` | `get_lower_body_covers_legs_by_name()` |
+| Pose `uses_hands` metadata lookup | `generator/prompt_generator.py` | `get_pose_uses_hands_by_name()` |
 | Color palette sampling | `generator/prompt_generator.py` | `sample_color_from_palette()` |
 
 ## Frontend (HTML/CSS/JS)
@@ -35,7 +37,7 @@ Quick-reference for finding the right file for any edit.
 | Randomize All, Reset, Copy | `web/static/js/handlers.js` | `wireGlobalEvents()` |
 | Section Random/All On/All Off | `web/static/js/handlers.js` | `wireSectionEvents()` |
 | Palette auto-apply on select | `web/static/js/handlers.js` | Inside `wireGlobalEvents()` palette listener |
-| Slot one-shot disable helpers | `web/static/js/handlers.js` | `applyUpperBodyModeOneShotDisable()`, `maybeDisableLegsForLowerBodyCoverage()` |
+| Slot one-shot disable helpers | `web/static/js/handlers.js` | `applyUpperBodyModeOneShotDisable()`, `maybeDisableLegsForLowerBodyCoverage()`, `maybeDisableHandActionsForPoseUsage()` |
 | Save/Load config UI | `web/static/js/handlers.js` | `wireSaveLoadEvents()` |
 | Prompt generation display | `web/static/js/prompt.js` | `generateAndDisplay()` |
 | Colorized prompt output rendering | `web/static/js/prompt.js`, `web/static/index.html` | `setPromptOutput()`, `renderPromptOutput()` |
@@ -55,6 +57,7 @@ Quick-reference for finding the right file for any edit.
 | Clothing items | `clothing/clothing_list.json` |
 | Lower-body leg-coverage flags | `clothing/clothing_list.json` | `covers_legs` on `body_part == lower_body` items |
 | Poses | `poses/poses.json` |
+| Pose `uses_hands` metadata | `poses/poses.json` | item-level flag for pose->hand-actions one-shot disable |
 | Backgrounds | `backgrounds/backgrounds.json` |
 | Color palettes + individual colors | `colors/color_palettes.json` |
 | Saved character presets | `configs/*.json` |

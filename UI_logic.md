@@ -38,7 +38,7 @@ A **slot** is one aspect of the character (e.g., hair style, upper body clothing
 | special_features | no | body/body_features.json → index_by_category.special_features |
 | expression | no | expressions/female_expressions.json → items |
 | pose | no | poses/poses.json → items |
-| gesture | no | poses/poses.json → index_by_category.gesture |
+| gesture (label: hand actions) | no | poses/poses.json → index_by_category.gesture |
 
 **Clothing & Background** (12 slots):
 | Slot | has_color | Data source |
@@ -84,7 +84,7 @@ Each slot row contains these controls in order:
 |---|---|
 | **On/Off button** | Toggles `enabled`. Green="On", Red="Off". Disabled slots are dimmed and excluded from prompt. |
 | **Lock button** | Toggles `locked`. Unlocked=🔓, Locked=🔒. Locked slots are skipped by Randomize All and Section Random. |
-| **Label** | Display name (slot_name with underscores replaced by spaces, title-cased). |
+| **Label** | Display name (slot_name with underscores replaced by spaces, title-cased). `gesture` is shown as `hand actions`. |
 | **Dropdown** | Select from slot options or "(None)". Options come from the JSON data catalogs. |
 | **Random button** 🎲 | Randomize just this slot's value (and color if palette coloring is enabled). |
 | **Color dropdown** | Only visible for `has_color` slots. Select a color or "(No Color)". Colors from `color_palettes.json → individual_colors`. |
@@ -113,7 +113,7 @@ Each slot row contains these controls in order:
 | Setting | Options | Behavior |
 |---|---|---|
 | **Full-body mode** | Checkbox (default: off) | When on and `full_body` slot has a value, `upper_body` and `lower_body` are cleared during randomization and excluded from prompt. |
-| **Upper-body mode** | Checkbox (default: off) | One-shot disabler: when turned on, it toggles `waist`, `lower_body`, `full_body`, `legs`, and `feet` to Off once. User can manually turn any of them back on immediately. |
+| **Upper-body mode** | Checkbox (default: off) | One-shot helper: when turned on, it toggles `waist`, `lower_body`, `full_body`, `legs`, and `feet` to Off once. When turned off, slots that were auto-disabled by that toggle cycle are turned back On. User can still manually change any slot at any time. |
 | **Use Palette Colors** | Checkbox (default: on) | When on, randomization assigns colors from the active palette. When off, randomization does not auto-assign colors. |
 | **Palette selector** | Dropdown of palettes from color_palettes.json | Selects the active palette. If **Use Palette Colors** is on, changing palette applies it to current colored slots and regenerates prompt immediately. |
 
@@ -152,8 +152,11 @@ Same as Randomize All but only for slots within that section.
 - Trigger: when user turns on **Upper-body mode**
 - Action performed once at toggle time:
   - Set `waist`, `lower_body`, `full_body`, `legs`, `feet` to `enabled = false`
+- Trigger: when user turns off **Upper-body mode**
+- Restore action:
+  - Re-enable only the slots that were auto-disabled by the most recent Upper-body mode enable action
 - No persistent lock:
-  - Those slots can be toggled back on immediately
+  - Those slots can still be toggled on/off manually at any time
   - Prompt generation and randomization follow the current on/off state only
 
 ### Lower-Body Leg Coverage Rule
@@ -162,6 +165,13 @@ Same as Randomize All but only for slots within that section.
   - `legs` slot is toggled Off once
   - user can manually toggle `legs` back On immediately (no lock)
 - Prompt generation follows the current `legs.enabled` state only.
+
+### Pose Hand-Usage Rule
+- `poses/poses.json` items include `uses_hands` metadata.
+- If selected `pose` item has `uses_hands == true`:
+  - `gesture` slot (shown as `hand actions`) is toggled Off once
+  - user can manually toggle `gesture` back On immediately (no lock)
+- Prompt generation follows the current `gesture.enabled` state only.
 
 ---
 
@@ -235,7 +245,7 @@ background
 ## 9. API Contract
 
 ### GET /api/slots
-Response: `{ slots: { [name]: { category, has_color, options: string[] } }, sections: { [key]: { label, icon, slots, columns? } }, lower_body_covers_legs_by_name: { [lower_body_name]: boolean } }`
+Response: `{ slots: { [name]: { category, has_color, options: string[] } }, sections: { [key]: { label, icon, slots, columns? } }, lower_body_covers_legs_by_name: { [lower_body_name]: boolean }, pose_uses_hands_by_name: { [pose_name]: boolean } }`
 
 ### GET /api/palettes
 Response: `{ palettes: [{ id, name, colors: string[] }], individual_colors: string[] }`

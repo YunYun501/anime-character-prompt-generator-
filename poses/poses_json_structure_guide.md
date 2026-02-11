@@ -35,7 +35,8 @@ This document explains the structure of the poses JSON file and provides instruc
   "id": "peace_sign",
   "name": "peace sign",
   "category": "gesture",
-  "aliases": ["v sign", "victory sign"]
+  "aliases": ["v sign", "victory sign"],
+  "uses_hands": true
 }
 ```
 
@@ -118,6 +119,7 @@ This document explains the structure of the poses JSON file and provides instruc
 - Use lowercase for `id` and `name`
 - Use underscores in `id`, spaces in `name`
 - Focus on SFW poses
+- Include `uses_hands` boolean for every item (`true` when pose/action relies on hands/arms)
 - Ensure all item IDs are added to `index_by_category`
 
 ---
@@ -127,5 +129,6 @@ This document explains the structure of the poses JSON file and provides instruc
 - [ ] All items have unique `id` values
 - [ ] All items have valid `category` values
 - [ ] All item IDs appear in `index_by_category`
+- [ ] All items include `uses_hands` boolean
 - [ ] `generated_utc` is set
 - [ ] All poses are SFW appropriate

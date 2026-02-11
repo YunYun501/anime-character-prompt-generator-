@@ -11,6 +11,8 @@ let allSlotComponents = {};
 
 /** Slots toggled OFF once when upper-body mode is enabled. */
 const UPPER_BODY_MODE_ONE_SHOT_DISABLE_SLOTS = ["waist", "lower_body", "full_body", "legs", "feet"];
+/** Slots auto-disabled by upper-body mode in the latest enable cycle. */
+const upperBodyModeAutoDisabledSlots = new Set();
 
 /** Cache for deterministic swatch color conversion. */
 const paletteColorCache = new Map();
@@ -32,6 +34,8 @@ export function wireSlotEvents(slotName, comps) {
 
     if (slotName === "lower_body") {
       maybeDisableLegsForLowerBodyCoverage();
+    } else if (slotName === "pose") {
+      maybeDisableHandActionsForPoseUsage();
     }
     generateAndDisplay();
   });
@@ -80,6 +84,8 @@ export function wireSlotEvents(slotName, comps) {
     state.slots[slotName].value = dropdown.value || null;
     if (slotName === "lower_body") {
       maybeDisableLegsForLowerBodyCoverage();
+    } else if (slotName === "pose") {
+      maybeDisableHandActionsForPoseUsage();
     }
     generateAndDisplay();
   });
@@ -188,6 +194,8 @@ export function wireGlobalEvents() {
     state.upperBodyMode = e.target.checked;
     if (!wasEnabled && state.upperBodyMode) {
       applyUpperBodyModeOneShotDisable();
+    } else if (wasEnabled && !state.upperBodyMode) {
+      restoreUpperBodyModeOneShotDisabledSlots();
     }
     applySlotConstraints();
     generateAndDisplay();
@@ -253,6 +261,8 @@ export function wireSaveLoadEvents() {
     }
 
     setStatus(`Loaded: ${name}`);
+    maybeDisableLegsForLowerBodyCoverage();
+    maybeDisableHandActionsForPoseUsage();
     applySlotConstraints();
     generateAndDisplay();
   });
@@ -295,6 +305,9 @@ function applyResults(results) {
   if (Object.prototype.hasOwnProperty.call(results, "lower_body")) {
     maybeDisableLegsForLowerBodyCoverage();
   }
+  if (Object.prototype.hasOwnProperty.call(results, "pose")) {
+    maybeDisableHandActionsForPoseUsage();
+  }
   applySlotConstraints();
 }
 
@@ -323,14 +336,47 @@ function maybeDisableLegsForLowerBodyCoverage() {
   renderSlotEnabledState("legs", legsComps);
 }
 
+function isPoseUsingHands() {
+  const pose = state.slots.pose;
+  if (!pose || !pose.enabled || !pose.value) return false;
+  return !!state.poseUsesHandsByName[pose.value];
+}
+
+function maybeDisableHandActionsForPoseUsage() {
+  if (!isPoseUsingHands()) return;
+
+  const handActionsState = state.slots.gesture;
+  const handActionsComps = allSlotComponents.gesture;
+  if (!handActionsState || !handActionsComps) return;
+  if (!handActionsState.enabled) return;
+
+  handActionsState.enabled = false;
+  renderSlotEnabledState("gesture", handActionsComps);
+}
+
 function applyUpperBodyModeOneShotDisable() {
+  upperBodyModeAutoDisabledSlots.clear();
   for (const slotName of UPPER_BODY_MODE_ONE_SHOT_DISABLE_SLOTS) {
     const slotState = state.slots[slotName];
     const c = allSlotComponents[slotName];
     if (!slotState || !c) continue;
+    if (slotState.enabled) {
+      upperBodyModeAutoDisabledSlots.add(slotName);
+    }
     slotState.enabled = false;
     renderSlotEnabledState(slotName, c);
   }
+}
+
+function restoreUpperBodyModeOneShotDisabledSlots() {
+  for (const slotName of upperBodyModeAutoDisabledSlots) {
+    const slotState = state.slots[slotName];
+    const c = allSlotComponents[slotName];
+    if (!slotState || !c) continue;
+    slotState.enabled = true;
+    renderSlotEnabledState(slotName, c);
+  }
+  upperBodyModeAutoDisabledSlots.clear();
 }
 
 function applySlotConstraints() {

@@ -3,162 +3,1005 @@
   "title": "Anime Character Poses",
   "generated_utc": "2026-02-11T12:00:00Z",
   "items": [
-    {"id": "standing", "name": "standing", "category": "standing", "aliases": []},
-    {"id": "standing_straight", "name": "standing straight", "category": "standing", "aliases": []},
-    {"id": "casual_standing", "name": "casual standing", "category": "standing", "aliases": []},
-    {"id": "contrapposto", "name": "contrapposto", "category": "standing", "aliases": []},
-    {"id": "hand_on_hip", "name": "hand on hip", "category": "standing", "aliases": []},
-    {"id": "hands_on_hips", "name": "hands on hips", "category": "standing", "aliases": []},
-    {"id": "arms_crossed", "name": "arms crossed", "category": "standing", "aliases": ["crossed arms"]},
-    {"id": "arms_behind_back", "name": "arms behind back", "category": "standing", "aliases": []},
-    {"id": "hands_behind_head", "name": "hands behind head", "category": "standing", "aliases": []},
-    {"id": "leaning_forward", "name": "leaning forward", "category": "standing", "aliases": []},
-    {"id": "leaning_back", "name": "leaning back", "category": "standing", "aliases": []},
-    {"id": "leaning_against_wall", "name": "leaning against wall", "category": "standing", "aliases": []},
-    {"id": "looking_back", "name": "looking back", "category": "standing", "aliases": []},
-    {"id": "looking_over_shoulder", "name": "looking over shoulder", "category": "standing", "aliases": []},
-    {"id": "from_behind", "name": "from behind", "category": "standing", "aliases": ["back view"]},
-    {"id": "from_side", "name": "from side", "category": "standing", "aliases": ["side view", "profile"]},
-    {"id": "turned_away", "name": "turned away", "category": "standing", "aliases": []},
-    {"id": "model_pose", "name": "model pose", "category": "standing", "aliases": []},
-    {"id": "idol_pose", "name": "idol pose", "category": "standing", "aliases": []},
-    {"id": "sitting", "name": "sitting", "category": "sitting", "aliases": []},
-    {"id": "sitting_on_chair", "name": "sitting on chair", "category": "sitting", "aliases": []},
-    {"id": "sitting_on_floor", "name": "sitting on floor", "category": "sitting", "aliases": []},
-    {"id": "sitting_on_bed", "name": "sitting on bed", "category": "sitting", "aliases": []},
-    {"id": "sitting_on_bench", "name": "sitting on bench", "category": "sitting", "aliases": []},
-    {"id": "sitting_on_desk", "name": "sitting on desk", "category": "sitting", "aliases": []},
-    {"id": "seiza", "name": "seiza", "category": "sitting", "aliases": ["formal sitting"]},
-    {"id": "wariza", "name": "wariza", "category": "sitting", "aliases": ["w-sitting"]},
-    {"id": "crossed_legs", "name": "crossed legs", "category": "sitting", "aliases": ["legs crossed"]},
-    {"id": "indian_style", "name": "indian style", "category": "sitting", "aliases": ["cross-legged"]},
-    {"id": "hugging_knees", "name": "hugging knees", "category": "sitting", "aliases": ["knees to chest"]},
-    {"id": "knees_up", "name": "knees up", "category": "sitting", "aliases": []},
-    {"id": "legs_together", "name": "legs together", "category": "sitting", "aliases": []},
-    {"id": "lounging", "name": "lounging", "category": "sitting", "aliases": []},
-    {"id": "straddling", "name": "straddling", "category": "sitting", "aliases": []},
-    {"id": "running", "name": "running", "category": "action", "aliases": []},
-    {"id": "walking", "name": "walking", "category": "action", "aliases": []},
-    {"id": "jumping", "name": "jumping", "category": "action", "aliases": []},
-    {"id": "falling", "name": "falling", "category": "action", "aliases": []},
-    {"id": "floating", "name": "floating", "category": "action", "aliases": []},
-    {"id": "flying", "name": "flying", "category": "action", "aliases": []},
-    {"id": "levitating", "name": "levitating", "category": "action", "aliases": []},
-    {"id": "mid_air", "name": "mid-air", "category": "action", "aliases": []},
-    {"id": "kicking", "name": "kicking", "category": "action", "aliases": []},
-    {"id": "punching", "name": "punching", "category": "action", "aliases": []},
-    {"id": "fighting_stance", "name": "fighting stance", "category": "action", "aliases": ["battle stance"]},
-    {"id": "combat_pose", "name": "combat pose", "category": "action", "aliases": []},
-    {"id": "sword_fighting", "name": "sword fighting", "category": "action", "aliases": []},
-    {"id": "drawing_sword", "name": "drawing sword", "category": "action", "aliases": []},
-    {"id": "holding_weapon", "name": "holding weapon", "category": "action", "aliases": []},
-    {"id": "aiming", "name": "aiming", "category": "action", "aliases": []},
-    {"id": "casting_spell", "name": "casting spell", "category": "action", "aliases": ["magic pose"]},
-    {"id": "dancing", "name": "dancing", "category": "action", "aliases": []},
-    {"id": "spinning", "name": "spinning", "category": "action", "aliases": ["twirling"]},
-    {"id": "stretching", "name": "stretching", "category": "action", "aliases": []},
-    {"id": "reaching_out", "name": "reaching out", "category": "action", "aliases": []},
-    {"id": "lying_down", "name": "lying down", "category": "lying", "aliases": []},
-    {"id": "lying_on_back", "name": "lying on back", "category": "lying", "aliases": ["on back"]},
-    {"id": "lying_on_side", "name": "lying on side", "category": "lying", "aliases": ["on side"]},
-    {"id": "lying_on_stomach", "name": "lying on stomach", "category": "lying", "aliases": ["prone", "on stomach"]},
-    {"id": "reclining", "name": "reclining", "category": "lying", "aliases": []},
-    {"id": "sprawled", "name": "sprawled", "category": "lying", "aliases": []},
-    {"id": "curled_up", "name": "curled up", "category": "lying", "aliases": []},
-    {"id": "propped_on_elbow", "name": "propped on elbow", "category": "lying", "aliases": []},
-    {"id": "sleeping", "name": "sleeping", "category": "lying", "aliases": []},
-    {"id": "peace_sign", "name": "peace sign", "category": "gesture", "aliases": ["v sign", "victory sign"]},
-    {"id": "double_peace_sign", "name": "double peace sign", "category": "gesture", "aliases": ["double v"]},
-    {"id": "waving", "name": "waving", "category": "gesture", "aliases": ["waving hand"]},
-    {"id": "pointing", "name": "pointing", "category": "gesture", "aliases": []},
-    {"id": "pointing_at_viewer", "name": "pointing at viewer", "category": "gesture", "aliases": []},
-    {"id": "pointing_up", "name": "pointing up", "category": "gesture", "aliases": []},
-    {"id": "thumbs_up", "name": "thumbs up", "category": "gesture", "aliases": []},
-    {"id": "ok_sign", "name": "ok sign", "category": "gesture", "aliases": []},
-    {"id": "salute", "name": "salute", "category": "gesture", "aliases": []},
-    {"id": "military_salute", "name": "military salute", "category": "gesture", "aliases": []},
-    {"id": "finger_to_lips", "name": "finger to lips", "category": "gesture", "aliases": ["shushing", "silence gesture"]},
-    {"id": "hand_on_cheek", "name": "hand on cheek", "category": "gesture", "aliases": []},
-    {"id": "hand_on_chin", "name": "hand on chin", "category": "gesture", "aliases": ["chin rest"]},
-    {"id": "hand_over_mouth", "name": "hand over mouth", "category": "gesture", "aliases": ["covering mouth"]},
-    {"id": "hands_on_face", "name": "hands on face", "category": "gesture", "aliases": []},
-    {"id": "hands_together", "name": "hands together", "category": "gesture", "aliases": []},
-    {"id": "prayer_hands", "name": "prayer hands", "category": "gesture", "aliases": ["clasped hands"]},
-    {"id": "fist_raised", "name": "fist raised", "category": "gesture", "aliases": ["fist pump"]},
-    {"id": "clenched_fist", "name": "clenched fist", "category": "gesture", "aliases": []},
-    {"id": "hair_flip", "name": "hair flip", "category": "gesture", "aliases": []},
-    {"id": "playing_with_hair", "name": "playing with hair", "category": "gesture", "aliases": ["twirling hair"]},
-    {"id": "adjusting_hair", "name": "adjusting hair", "category": "gesture", "aliases": []},
-    {"id": "adjusting_glasses", "name": "adjusting glasses", "category": "gesture", "aliases": ["pushing up glasses"]},
-    {"id": "blowing_kiss", "name": "blowing kiss", "category": "gesture", "aliases": []},
-    {"id": "heart_hands", "name": "heart hands", "category": "gesture", "aliases": ["finger heart"]},
-    {"id": "cat_pose", "name": "cat pose", "category": "special", "aliases": ["paw pose", "nyaa pose"]},
-    {"id": "jojo_pose", "name": "jojo pose", "category": "special", "aliases": ["dramatic pose"]},
-    {"id": "magical_girl_pose", "name": "magical girl pose", "category": "special", "aliases": ["transformation pose"]},
-    {"id": "idol_stage_pose", "name": "idol stage pose", "category": "special", "aliases": ["concert pose"]},
-    {"id": "victory_pose", "name": "victory pose", "category": "special", "aliases": []},
-    {"id": "shy_pose", "name": "shy pose", "category": "special", "aliases": []},
-    {"id": "embarrassed_pose", "name": "embarrassed pose", "category": "special", "aliases": []},
-    {"id": "tsundere_pose", "name": "tsundere pose", "category": "special", "aliases": ["looking away"]},
-    {"id": "thinking_pose", "name": "thinking pose", "category": "special", "aliases": ["contemplating"]},
-    {"id": "bowing", "name": "bowing", "category": "special", "aliases": ["bow"]},
-    {"id": "curtsy", "name": "curtsy", "category": "special", "aliases": []},
-    {"id": "greeting", "name": "greeting", "category": "special", "aliases": []},
-    {"id": "selfie_pose", "name": "selfie pose", "category": "special", "aliases": ["taking selfie"]},
-    {"id": "holding_phone", "name": "holding phone", "category": "special", "aliases": []},
-    {"id": "reading", "name": "reading", "category": "special", "aliases": ["reading book"]},
-    {"id": "writing", "name": "writing", "category": "special", "aliases": []},
-    {"id": "eating", "name": "eating", "category": "special", "aliases": []},
-    {"id": "drinking", "name": "drinking", "category": "special", "aliases": []},
-    {"id": "holding_cup", "name": "holding cup", "category": "special", "aliases": []},
-    {"id": "singing", "name": "singing", "category": "special", "aliases": []},
-    {"id": "playing_instrument", "name": "playing instrument", "category": "special", "aliases": []}
+    {
+      "id": "standing",
+      "name": "standing",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "standing_straight",
+      "name": "standing straight",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "casual_standing",
+      "name": "casual standing",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "contrapposto",
+      "name": "contrapposto",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "hand_on_hip",
+      "name": "hand on hip",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "hands_on_hips",
+      "name": "hands on hips",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "arms_crossed",
+      "name": "arms crossed",
+      "category": "standing",
+      "aliases": [
+        "crossed arms"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "arms_behind_back",
+      "name": "arms behind back",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "hands_behind_head",
+      "name": "hands behind head",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "leaning_forward",
+      "name": "leaning forward",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "leaning_back",
+      "name": "leaning back",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "leaning_against_wall",
+      "name": "leaning against wall",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "looking_back",
+      "name": "looking back",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "looking_over_shoulder",
+      "name": "looking over shoulder",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "from_behind",
+      "name": "from behind",
+      "category": "standing",
+      "aliases": [
+        "back view"
+      ],
+      "uses_hands": false
+    },
+    {
+      "id": "from_side",
+      "name": "from side",
+      "category": "standing",
+      "aliases": [
+        "side view",
+        "profile"
+      ],
+      "uses_hands": false
+    },
+    {
+      "id": "turned_away",
+      "name": "turned away",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "model_pose",
+      "name": "model pose",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "idol_pose",
+      "name": "idol pose",
+      "category": "standing",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "sitting",
+      "name": "sitting",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "sitting_on_chair",
+      "name": "sitting on chair",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "sitting_on_floor",
+      "name": "sitting on floor",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "sitting_on_bed",
+      "name": "sitting on bed",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "sitting_on_bench",
+      "name": "sitting on bench",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "sitting_on_desk",
+      "name": "sitting on desk",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "seiza",
+      "name": "seiza",
+      "category": "sitting",
+      "aliases": [
+        "formal sitting"
+      ],
+      "uses_hands": false
+    },
+    {
+      "id": "wariza",
+      "name": "wariza",
+      "category": "sitting",
+      "aliases": [
+        "w-sitting"
+      ],
+      "uses_hands": false
+    },
+    {
+      "id": "crossed_legs",
+      "name": "crossed legs",
+      "category": "sitting",
+      "aliases": [
+        "legs crossed"
+      ],
+      "uses_hands": false
+    },
+    {
+      "id": "indian_style",
+      "name": "indian style",
+      "category": "sitting",
+      "aliases": [
+        "cross-legged"
+      ],
+      "uses_hands": false
+    },
+    {
+      "id": "hugging_knees",
+      "name": "hugging knees",
+      "category": "sitting",
+      "aliases": [
+        "knees to chest"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "knees_up",
+      "name": "knees up",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "legs_together",
+      "name": "legs together",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "lounging",
+      "name": "lounging",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "straddling",
+      "name": "straddling",
+      "category": "sitting",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "running",
+      "name": "running",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "walking",
+      "name": "walking",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "jumping",
+      "name": "jumping",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "falling",
+      "name": "falling",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "floating",
+      "name": "floating",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "flying",
+      "name": "flying",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "levitating",
+      "name": "levitating",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "mid_air",
+      "name": "mid-air",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "kicking",
+      "name": "kicking",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "punching",
+      "name": "punching",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "fighting_stance",
+      "name": "fighting stance",
+      "category": "action",
+      "aliases": [
+        "battle stance"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "combat_pose",
+      "name": "combat pose",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "sword_fighting",
+      "name": "sword fighting",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "drawing_sword",
+      "name": "drawing sword",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "holding_weapon",
+      "name": "holding weapon",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "aiming",
+      "name": "aiming",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "casting_spell",
+      "name": "casting spell",
+      "category": "action",
+      "aliases": [
+        "magic pose"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "dancing",
+      "name": "dancing",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "spinning",
+      "name": "spinning",
+      "category": "action",
+      "aliases": [
+        "twirling"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "stretching",
+      "name": "stretching",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "reaching_out",
+      "name": "reaching out",
+      "category": "action",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "lying_down",
+      "name": "lying down",
+      "category": "lying",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "lying_on_back",
+      "name": "lying on back",
+      "category": "lying",
+      "aliases": [
+        "on back"
+      ],
+      "uses_hands": false
+    },
+    {
+      "id": "lying_on_side",
+      "name": "lying on side",
+      "category": "lying",
+      "aliases": [
+        "on side"
+      ],
+      "uses_hands": false
+    },
+    {
+      "id": "lying_on_stomach",
+      "name": "lying on stomach",
+      "category": "lying",
+      "aliases": [
+        "prone",
+        "on stomach"
+      ],
+      "uses_hands": false
+    },
+    {
+      "id": "reclining",
+      "name": "reclining",
+      "category": "lying",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "sprawled",
+      "name": "sprawled",
+      "category": "lying",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "curled_up",
+      "name": "curled up",
+      "category": "lying",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "propped_on_elbow",
+      "name": "propped on elbow",
+      "category": "lying",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "sleeping",
+      "name": "sleeping",
+      "category": "lying",
+      "aliases": [],
+      "uses_hands": false
+    },
+    {
+      "id": "peace_sign",
+      "name": "peace sign",
+      "category": "gesture",
+      "aliases": [
+        "v sign",
+        "victory sign"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "double_peace_sign",
+      "name": "double peace sign",
+      "category": "gesture",
+      "aliases": [
+        "double v"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "waving",
+      "name": "waving",
+      "category": "gesture",
+      "aliases": [
+        "waving hand"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "pointing",
+      "name": "pointing",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "pointing_at_viewer",
+      "name": "pointing at viewer",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "pointing_up",
+      "name": "pointing up",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "thumbs_up",
+      "name": "thumbs up",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "ok_sign",
+      "name": "ok sign",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "salute",
+      "name": "salute",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "military_salute",
+      "name": "military salute",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "finger_to_lips",
+      "name": "finger to lips",
+      "category": "gesture",
+      "aliases": [
+        "shushing",
+        "silence gesture"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "hand_on_cheek",
+      "name": "hand on cheek",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "hand_on_chin",
+      "name": "hand on chin",
+      "category": "gesture",
+      "aliases": [
+        "chin rest"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "hand_over_mouth",
+      "name": "hand over mouth",
+      "category": "gesture",
+      "aliases": [
+        "covering mouth"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "hands_on_face",
+      "name": "hands on face",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "hands_together",
+      "name": "hands together",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "prayer_hands",
+      "name": "prayer hands",
+      "category": "gesture",
+      "aliases": [
+        "clasped hands"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "fist_raised",
+      "name": "fist raised",
+      "category": "gesture",
+      "aliases": [
+        "fist pump"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "clenched_fist",
+      "name": "clenched fist",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "hair_flip",
+      "name": "hair flip",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "playing_with_hair",
+      "name": "playing with hair",
+      "category": "gesture",
+      "aliases": [
+        "twirling hair"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "adjusting_hair",
+      "name": "adjusting hair",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "adjusting_glasses",
+      "name": "adjusting glasses",
+      "category": "gesture",
+      "aliases": [
+        "pushing up glasses"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "blowing_kiss",
+      "name": "blowing kiss",
+      "category": "gesture",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "heart_hands",
+      "name": "heart hands",
+      "category": "gesture",
+      "aliases": [
+        "finger heart"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "cat_pose",
+      "name": "cat pose",
+      "category": "special",
+      "aliases": [
+        "paw pose",
+        "nyaa pose"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "jojo_pose",
+      "name": "jojo pose",
+      "category": "special",
+      "aliases": [
+        "dramatic pose"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "magical_girl_pose",
+      "name": "magical girl pose",
+      "category": "special",
+      "aliases": [
+        "transformation pose"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "idol_stage_pose",
+      "name": "idol stage pose",
+      "category": "special",
+      "aliases": [
+        "concert pose"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "victory_pose",
+      "name": "victory pose",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "shy_pose",
+      "name": "shy pose",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "embarrassed_pose",
+      "name": "embarrassed pose",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "tsundere_pose",
+      "name": "tsundere pose",
+      "category": "special",
+      "aliases": [
+        "looking away"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "thinking_pose",
+      "name": "thinking pose",
+      "category": "special",
+      "aliases": [
+        "contemplating"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "bowing",
+      "name": "bowing",
+      "category": "special",
+      "aliases": [
+        "bow"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "curtsy",
+      "name": "curtsy",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "greeting",
+      "name": "greeting",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "selfie_pose",
+      "name": "selfie pose",
+      "category": "special",
+      "aliases": [
+        "taking selfie"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "holding_phone",
+      "name": "holding phone",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "reading",
+      "name": "reading",
+      "category": "special",
+      "aliases": [
+        "reading book"
+      ],
+      "uses_hands": true
+    },
+    {
+      "id": "writing",
+      "name": "writing",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "eating",
+      "name": "eating",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "drinking",
+      "name": "drinking",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "holding_cup",
+      "name": "holding cup",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "singing",
+      "name": "singing",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    },
+    {
+      "id": "playing_instrument",
+      "name": "playing instrument",
+      "category": "special",
+      "aliases": [],
+      "uses_hands": true
+    }
   ],
   "index_by_category": {
     "standing": [
-      "standing", "standing_straight", "casual_standing", "contrapposto",
-      "hand_on_hip", "hands_on_hips", "arms_crossed", "arms_behind_back", "hands_behind_head",
-      "leaning_forward", "leaning_back", "leaning_against_wall",
-      "looking_back", "looking_over_shoulder", "from_behind", "from_side", "turned_away",
-      "model_pose", "idol_pose"
+      "standing",
+      "standing_straight",
+      "casual_standing",
+      "contrapposto",
+      "hand_on_hip",
+      "hands_on_hips",
+      "arms_crossed",
+      "arms_behind_back",
+      "hands_behind_head",
+      "leaning_forward",
+      "leaning_back",
+      "leaning_against_wall",
+      "looking_back",
+      "looking_over_shoulder",
+      "from_behind",
+      "from_side",
+      "turned_away",
+      "model_pose",
+      "idol_pose"
     ],
     "sitting": [
-      "sitting", "sitting_on_chair", "sitting_on_floor", "sitting_on_bed", "sitting_on_bench", "sitting_on_desk",
-      "seiza", "wariza", "crossed_legs", "indian_style",
-      "hugging_knees", "knees_up", "legs_together", "lounging", "straddling"
+      "sitting",
+      "sitting_on_chair",
+      "sitting_on_floor",
+      "sitting_on_bed",
+      "sitting_on_bench",
+      "sitting_on_desk",
+      "seiza",
+      "wariza",
+      "crossed_legs",
+      "indian_style",
+      "hugging_knees",
+      "knees_up",
+      "legs_together",
+      "lounging",
+      "straddling"
     ],
     "action": [
-      "running", "walking", "jumping", "falling", "floating", "flying", "levitating", "mid_air",
-      "kicking", "punching", "fighting_stance", "combat_pose", "sword_fighting", "drawing_sword", "holding_weapon", "aiming",
-      "casting_spell", "dancing", "spinning", "stretching", "reaching_out"
+      "running",
+      "walking",
+      "jumping",
+      "falling",
+      "floating",
+      "flying",
+      "levitating",
+      "mid_air",
+      "kicking",
+      "punching",
+      "fighting_stance",
+      "combat_pose",
+      "sword_fighting",
+      "drawing_sword",
+      "holding_weapon",
+      "aiming",
+      "casting_spell",
+      "dancing",
+      "spinning",
+      "stretching",
+      "reaching_out"
     ],
     "lying": [
-      "lying_down", "lying_on_back", "lying_on_side", "lying_on_stomach",
-      "reclining", "sprawled", "curled_up", "propped_on_elbow", "sleeping"
+      "lying_down",
+      "lying_on_back",
+      "lying_on_side",
+      "lying_on_stomach",
+      "reclining",
+      "sprawled",
+      "curled_up",
+      "propped_on_elbow",
+      "sleeping"
     ],
     "gesture": [
-      "peace_sign", "double_peace_sign", "waving", "pointing", "pointing_at_viewer", "pointing_up",
-      "thumbs_up", "ok_sign", "salute", "military_salute",
-      "finger_to_lips", "hand_on_cheek", "hand_on_chin", "hand_over_mouth", "hands_on_face",
-      "hands_together", "prayer_hands", "fist_raised", "clenched_fist",
-      "hair_flip", "playing_with_hair", "adjusting_hair", "adjusting_glasses",
-      "blowing_kiss", "heart_hands"
+      "peace_sign",
+      "double_peace_sign",
+      "waving",
+      "pointing",
+      "pointing_at_viewer",
+      "pointing_up",
+      "thumbs_up",
+      "ok_sign",
+      "salute",
+      "military_salute",
+      "finger_to_lips",
+      "hand_on_cheek",
+      "hand_on_chin",
+      "hand_over_mouth",
+      "hands_on_face",
+      "hands_together",
+      "prayer_hands",
+      "fist_raised",
+      "clenched_fist",
+      "hair_flip",
+      "playing_with_hair",
+      "adjusting_hair",
+      "adjusting_glasses",
+      "blowing_kiss",
+      "heart_hands"
     ],
     "special": [
-      "cat_pose", "jojo_pose", "magical_girl_pose", "idol_stage_pose", "victory_pose",
-      "shy_pose", "embarrassed_pose", "tsundere_pose", "thinking_pose",
-      "bowing", "curtsy", "greeting",
-      "selfie_pose", "holding_phone", "reading", "writing",
-      "eating", "drinking", "holding_cup", "singing", "playing_instrument"
+      "cat_pose",
+      "jojo_pose",
+      "magical_girl_pose",
+      "idol_stage_pose",
+      "victory_pose",
+      "shy_pose",
+      "embarrassed_pose",
+      "tsundere_pose",
+      "thinking_pose",
+      "bowing",
+      "curtsy",
+      "greeting",
+      "selfie_pose",
+      "holding_phone",
+      "reading",
+      "writing",
+      "eating",
+      "drinking",
+      "holding_cup",
+      "singing",
+      "playing_instrument"
     ]
   },
   "categories": [
-    {"id": "standing", "name": "Standing Poses", "description": "Various standing positions"},
-    {"id": "sitting", "name": "Sitting Poses", "description": "Seated positions"},
-    {"id": "action", "name": "Action Poses", "description": "Dynamic movement poses"},
-    {"id": "lying", "name": "Lying Poses", "description": "Reclining or lying down positions"},
-    {"id": "gesture", "name": "Gestures", "description": "Hand gestures and arm positions"},
-    {"id": "special", "name": "Special Poses", "description": "Anime-specific or unique poses"}
+    {
+      "id": "standing",
+      "name": "Standing Poses",
+      "description": "Various standing positions"
+    },
+    {
+      "id": "sitting",
+      "name": "Sitting Poses",
+      "description": "Seated positions"
+    },
+    {
+      "id": "action",
+      "name": "Action Poses",
+      "description": "Dynamic movement poses"
+    },
+    {
+      "id": "lying",
+      "name": "Lying Poses",
+      "description": "Reclining or lying down positions"
+    },
+    {
+      "id": "gesture",
+      "name": "Gestures",
+      "description": "Hand gestures and arm positions"
+    },
+    {
+      "id": "special",
+      "name": "Special Poses",
+      "description": "Anime-specific or unique poses"
+    }
   ],
   "meta": {
     "notes": [

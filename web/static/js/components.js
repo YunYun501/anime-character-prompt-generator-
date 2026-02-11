@@ -4,6 +4,10 @@
 
 import { state } from "./state.js";
 
+const SLOT_LABEL_OVERRIDES = {
+  gesture: "hand actions",
+};
+
 /**
  * Create a single slot row element.
  * Returns { row, dropdown, colorSelect, weightInput, onoffBtn, lockBtn, randomBtn, colorRandomBtn }
@@ -29,7 +33,7 @@ export function createSlotRow(slotName, slotDef) {
   // Label
   const label = document.createElement("span");
   label.className = "slot-label";
-  label.textContent = slotName.replace(/_/g, " ");
+  label.textContent = SLOT_LABEL_OVERRIDES[slotName] || slotName.replace(/_/g, " ");
 
   // Dropdown
   const dropdown = document.createElement("select");

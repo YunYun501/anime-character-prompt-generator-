@@ -32,6 +32,9 @@ export const state = {
   /** lower_body display name -> covers_legs bool */
   lowerBodyCoversLegsByName: {},
 
+  /** pose display name -> uses_hands bool */
+  poseUsesHandsByName: {},
+
   /** Palette list from API */
   palettes: [],
 
