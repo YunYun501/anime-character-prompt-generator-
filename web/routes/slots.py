@@ -81,8 +81,6 @@ async def randomize_slots(req: RandomizeRequest):
             continue
         if req.locked.get(name, False):
             continue
-        if req.upper_body_mode and name in ("waist", "lower_body", "legs"):
-            continue
         if (name == "legs" and lower_body_covers_legs
                 and not (req.full_body_mode and full_body_value)):
             results[name] = {"value": None, "color": None}
@@ -113,7 +111,7 @@ async def randomize_slots(req: RandomizeRequest):
         results[name] = {"value": value, "color": color}
 
     # If lower body covers legs, enforce empty legs result.
-    if (not req.upper_body_mode and lower_body_covers_legs
+    if (lower_body_covers_legs
             and not (req.full_body_mode and full_body_value)
             and not req.locked.get("legs", False)):
         results["legs"] = {"value": None, "color": None}
@@ -138,8 +136,6 @@ async def randomize_all(req: RandomizeAllRequest):
 
     for name in gen.SLOT_DEFINITIONS:
         if req.locked.get(name, False):
-            continue
-        if req.upper_body_mode and name in ("waist", "lower_body", "legs"):
             continue
         if (name == "legs" and lower_body_covers_legs
                 and not (req.full_body_mode and full_body_value)):
@@ -172,7 +168,7 @@ async def randomize_all(req: RandomizeAllRequest):
                 results[name]["value"] = None
 
     # Lower-body coverage override for legs.
-    if (not req.upper_body_mode and lower_body_covers_legs
+    if (lower_body_covers_legs
             and not (req.full_body_mode and full_body_value)
             and not req.locked.get("legs", False)):
         results["legs"] = {"value": None, "color": None}

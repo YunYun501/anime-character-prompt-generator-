@@ -35,9 +35,10 @@ Quick-reference for finding the right file for any edit.
 | Randomize All, Reset, Copy | `web/static/js/handlers.js` | `wireGlobalEvents()` |
 | Section Random/All On/All Off | `web/static/js/handlers.js` | `wireSectionEvents()` |
 | Palette auto-apply on select | `web/static/js/handlers.js` | Inside `wireGlobalEvents()` palette listener |
-| Slot constraint engine (upper-body mode + lower-body leg coverage) | `web/static/js/handlers.js` | `applySlotConstraints()` |
+| Slot constraint engine (lower-body leg coverage + upper-body one-shot disable trigger) | `web/static/js/handlers.js` | `applySlotConstraints()`, `applyUpperBodyModeOneShotDisable()` |
 | Save/Load config UI | `web/static/js/handlers.js` | `wireSaveLoadEvents()` |
 | Prompt generation display | `web/static/js/prompt.js` | `generateAndDisplay()` |
+| Always-include prefix preset behavior | `web/static/js/prompt.js`, `web/static/index.html` | `wirePromptPrefixPreset()` |
 | All API fetch calls | `web/static/js/api.js` | One function per endpoint |
 | State shape, init, getters | `web/static/js/state.js` | `state` object, `initSlotState()` |
 | Init flow, wiring order | `web/static/js/app.js` | `init()` — orchestrator |

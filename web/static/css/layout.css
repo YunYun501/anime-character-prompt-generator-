@@ -37,6 +37,21 @@ hr {
   font-weight: 600;
 }
 
+#prompt-prefix-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+#prompt-prefix-controls label {
+  margin-bottom: 0;
+}
+
+#prompt-prefix-preset {
+  min-width: 300px;
+}
+
 #prompt-prefix {
   width: 100%;
   background: var(--bg-surface);

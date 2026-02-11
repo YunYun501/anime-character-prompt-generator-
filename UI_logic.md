@@ -101,6 +101,8 @@ Each slot row contains these controls in order:
 | **Randomize All** | Randomize every non-locked slot, then auto-generate the prompt. |
 | **Copy** | Copy the prompt text to clipboard. |
 | **Reset** | Clear all slot values, colors, weights to defaults. Clear prompt output. |
+| **Always Include Prefix** | Free-text optional prefix prepended to generated prompt. Default is empty. |
+| **Prefix Preset** | Selectable preset that fills the previous SD quality string: `(masterpiece),(best quality),(ultra-detailed),(best illustration),(absurdres),(very aesthetic),(newest),detailed eyes, detailed face`. |
 
 ---
 
@@ -109,7 +111,7 @@ Each slot row contains these controls in order:
 | Setting | Options | Behavior |
 |---|---|---|
 | **Full-body mode** | Checkbox (default: off) | When on and `full_body` slot has a value, `upper_body` and `lower_body` are cleared during randomization and excluded from prompt. |
-| **Upper-body mode** | Checkbox (default: off) | When on, `waist`, `lower_body`, and `legs` are force-disabled and excluded from randomization/prompt. |
+| **Upper-body mode** | Checkbox (default: off) | One-shot disabler: when turned on, it toggles `waist`, `lower_body`, `full_body`, `legs`, and `feet` to Off once. User can manually turn any of them back on immediately. |
 | **Color mode** | None / Palette / Random | Controls how colors are assigned during randomization. None=no colors. Palette=from selected palette. Random=from individual_colors list. |
 | **Palette selector** | Dropdown of palettes from color_palettes.json | On change: auto-switches to Palette mode, applies palette colors to all `has_color` slots that have a current value, and regenerates prompt immediately. |
 
@@ -143,6 +145,14 @@ Same as Randomize All but only for slots within that section.
   - `upper_body` value → null
   - `lower_body` value → null
 - User can still manually set upper/lower body after randomization
+
+### Upper-Body One-Shot Disable
+- Trigger: when user turns on **Upper-body mode**
+- Action performed once at toggle time:
+  - Set `waist`, `lower_body`, `full_body`, `legs`, `feet` to `enabled = false`
+- No persistent lock:
+  - Those slots can be toggled back on immediately
+  - Prompt generation and randomization follow the current on/off state only
 
 ### Lower-Body Leg Coverage Rule
 - `lower_body` items include `covers_legs` metadata in `clothing/clothing_list.json`
@@ -232,18 +242,22 @@ Response: `{ palettes: [{ id, name, colors: string[] }], individual_colors: stri
 
 ### POST /api/randomize
 Body: `{ slot_names, locked, color_mode, palette_id, full_body_mode, upper_body_mode, current_values }`
+Note: `upper_body_mode` is accepted for compatibility but not used as a backend hard-disable.
 Response: `{ results: { [name]: { value, color } } }`
 
 ### POST /api/randomize-all
 Body: `{ locked, color_mode, palette_id, full_body_mode, upper_body_mode }`
+Note: `upper_body_mode` is accepted for compatibility but not used as a backend hard-disable.
 Response: `{ results: { [name]: { value, color } } }`
 
 ### POST /api/generate-prompt
 Body: `{ slots: { [name]: { enabled, value, color, weight } }, full_body_mode, upper_body_mode }`
+Note: `upper_body_mode` is accepted for compatibility but prompt output is driven by slot `enabled` state.
 Response: `{ prompt: string }`
 
 ### POST /api/apply-palette
 Body: `{ palette_id, slots: { [name]: { enabled, value, color, weight } }, full_body_mode, upper_body_mode }`
+Note: `upper_body_mode` is accepted for compatibility but not used as a backend hard-disable.
 Response: `{ colors: { [name]: string }, prompt: string }`
 
 ### GET /api/configs

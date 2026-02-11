@@ -59,10 +59,6 @@ async def generate_prompt(req: GenerateRequest):
         if not slot or not slot.enabled or not slot.value:
             continue
 
-        # Skip lower-body slots if upper-body mode is active
-        if req.upper_body_mode and name in ("waist", "lower_body", "legs"):
-            continue
-
         # Skip upper/lower if full_body active
         if req.full_body_mode and name in ("upper_body", "lower_body") and full_body_val:
             continue
@@ -106,8 +102,6 @@ async def apply_palette(req: ApplyPaletteRequest):
 
     for name, defn in gen.SLOT_DEFINITIONS.items():
         if not defn.get("has_color", False):
-            continue
-        if req.upper_body_mode and name in ("waist", "lower_body", "legs"):
             continue
         if name == "legs" and lower_body_covers_legs:
             continue

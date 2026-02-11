@@ -18,7 +18,14 @@
   <section id="prompt-section">
     <div id="prompt-prefix-wrap">
       <label for="prompt-prefix">Always Include (Stable Diffusion Prefix)</label>
-      <textarea id="prompt-prefix" rows="2">(masterpiece),(best quality),(ultra-detailed),(best illustration),(absurdres),(very aesthetic),(newest),detailed eyes, detailed face</textarea>
+      <div id="prompt-prefix-controls">
+        <label for="prompt-prefix-preset">Preset</label>
+        <select id="prompt-prefix-preset">
+          <option value="">(None)</option>
+          <option value="sd_quality_v1">SD quality preset (masterpiece / best quality / absurdres)</option>
+        </select>
+      </div>
+      <textarea id="prompt-prefix" rows="2" placeholder="Optional text prepended to every generated prompt..."></textarea>
     </div>
     <textarea id="prompt-output" rows="3" placeholder="Generated prompt will appear here..."></textarea>
     <div id="prompt-buttons">

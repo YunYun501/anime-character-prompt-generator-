@@ -9,11 +9,11 @@ import { generateAndDisplay, setPromptOutput } from "./prompt.js";
 /** Reference to all slot DOM components, keyed by slot name. */
 let allSlotComponents = {};
 
-/** Upper-body mode always disables these slots. */
-const UPPER_BODY_MODE_DISABLED_SLOTS = new Set(["waist", "lower_body", "legs"]);
+/** Slots toggled OFF once when upper-body mode is enabled. */
+const UPPER_BODY_MODE_ONE_SHOT_DISABLE_SLOTS = ["waist", "lower_body", "full_body", "legs", "feet"];
 
 /** Slots affected by any constraint logic. */
-const CONSTRAINT_AFFECTED_SLOTS = ["waist", "lower_body", "legs"];
+const CONSTRAINT_AFFECTED_SLOTS = ["legs"];
 
 /** Snapshot of each slot's enabled value before a force-disable starts. */
 const forcedDisabledPrevEnabled = {};
@@ -185,7 +185,11 @@ export function wireGlobalEvents() {
   });
 
   document.getElementById("upper-body-mode").addEventListener("change", (e) => {
+    const wasEnabled = state.upperBodyMode;
     state.upperBodyMode = e.target.checked;
+    if (!wasEnabled && state.upperBodyMode) {
+      applyUpperBodyModeOneShotDisable();
+    }
     applySlotConstraints();
     generateAndDisplay();
   });
@@ -303,9 +307,18 @@ function isLowerBodyCoveringLegs() {
 }
 
 function isSlotForcedDisabled(slotName) {
-  if (state.upperBodyMode && UPPER_BODY_MODE_DISABLED_SLOTS.has(slotName)) return true;
   if (slotName === "legs" && isLowerBodyCoveringLegs()) return true;
   return false;
+}
+
+function applyUpperBodyModeOneShotDisable() {
+  for (const slotName of UPPER_BODY_MODE_ONE_SHOT_DISABLE_SLOTS) {
+    const slotState = state.slots[slotName];
+    const c = allSlotComponents[slotName];
+    if (!slotState || !c) continue;
+    slotState.enabled = false;
+    renderSlotEnabledState(slotName, c);
+  }
 }
 
 function applySlotConstraints() {

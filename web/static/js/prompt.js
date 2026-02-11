@@ -5,6 +5,9 @@
 import { state, getSlotStateForAPI } from "./state.js";
 import * as api from "./api.js";
 
+const PREFIX_PRESET_VALUE = "sd_quality_v1";
+const PREFIX_PRESET_TEXT = "(masterpiece),(best quality),(ultra-detailed),(best illustration),(absurdres),(very aesthetic),(newest),detailed eyes, detailed face";
+
 /** Read the constant prefix text entered by the user. */
 function getPromptPrefix() {
   const el = document.getElementById("prompt-prefix");
@@ -35,4 +38,22 @@ export async function generateAndDisplay() {
   const slotsForAPI = getSlotStateForAPI();
   const data = await api.generatePrompt(slotsForAPI, state.fullBodyMode, state.upperBodyMode);
   setPromptOutput(data.prompt || "");
+}
+
+/** Wire preset selector for the optional "Always Include" prefix text. */
+export function wirePromptPrefixPreset() {
+  const presetSelect = document.getElementById("prompt-prefix-preset");
+  const prefixInput = document.getElementById("prompt-prefix");
+  if (!presetSelect || !prefixInput) return;
+
+  presetSelect.value = "";
+  prefixInput.value = "";
+
+  presetSelect.addEventListener("change", () => {
+    if (presetSelect.value === PREFIX_PRESET_VALUE) {
+      prefixInput.value = PREFIX_PRESET_TEXT;
+      return;
+    }
+    prefixInput.value = "";
+  });
 }
