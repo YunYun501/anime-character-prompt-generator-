@@ -1,0 +1,659 @@
+{
+  "schema_version": "1.0",
+  "title": "Female Anime Facial Expressions (Emotion-Indexed)",
+  "generated_utc": "2026-02-10T23:55:33Z",
+  "items": [
+    {
+      "id": "neutral_baseline__neutral_blank",
+      "name": "Neutral / blank",
+      "emotion_family": "neutral_baseline"
+    },
+    {
+      "id": "neutral_baseline__soft_neutral_gentle_smile",
+      "name": "Soft neutral (gentle smile)",
+      "emotion_family": "neutral_baseline"
+    },
+    {
+      "id": "neutral_baseline__resting_serious_composed",
+      "name": "Resting serious / composed",
+      "emotion_family": "neutral_baseline"
+    },
+    {
+      "id": "neutral_baseline__curious_attentive",
+      "name": "Curious / attentive",
+      "emotion_family": "neutral_baseline"
+    },
+    {
+      "id": "neutral_baseline__deadpan_unimpressed",
+      "name": "\"...\" deadpan / unimpressed",
+      "emotion_family": "neutral_baseline"
+    },
+    {
+      "id": "neutral_baseline__thinking_pondering",
+      "name": "Thinking / pondering",
+      "emotion_family": "neutral_baseline"
+    },
+    {
+      "id": "happiness_positive__smile_closed-mouth",
+      "name": "Smile (closed-mouth)",
+      "emotion_family": "happiness_positive"
+    },
+    {
+      "id": "happiness_positive__big_smile_open-mouth",
+      "name": "Big smile (open-mouth)",
+      "emotion_family": "happiness_positive"
+    },
+    {
+      "id": "happiness_positive__laughing_eyes_closed",
+      "name": "Laughing (eyes closed)",
+      "emotion_family": "happiness_positive"
+    },
+    {
+      "id": "happiness_positive__grin_mischievous",
+      "name": "Grin (mischievous)",
+      "emotion_family": "happiness_positive"
+    },
+    {
+      "id": "happiness_positive__cheerful_energetic",
+      "name": "Cheerful / energetic",
+      "emotion_family": "happiness_positive"
+    },
+    {
+      "id": "happiness_positive__proud_satisfied",
+      "name": "Proud / satisfied",
+      "emotion_family": "happiness_positive"
+    },
+    {
+      "id": "happiness_positive__relieved_soft_exhale",
+      "name": "Relieved (soft exhale)",
+      "emotion_family": "happiness_positive"
+    },
+    {
+      "id": "affection_romance__loving_warm_smile",
+      "name": "Loving / warm smile",
+      "emotion_family": "affection_romance"
+    },
+    {
+      "id": "affection_romance__shy_love_averted_gaze",
+      "name": "Shy love (averted gaze)",
+      "emotion_family": "affection_romance"
+    },
+    {
+      "id": "affection_romance__heart-eyes_sparkly_eyes",
+      "name": "Heart-eyes / sparkly eyes",
+      "emotion_family": "affection_romance"
+    },
+    {
+      "id": "affection_romance__dreamy_enamored",
+      "name": "Dreamy / enamored",
+      "emotion_family": "affection_romance"
+    },
+    {
+      "id": "affection_romance__kiss_face_pout-kiss",
+      "name": "Kiss face / pout-kiss",
+      "emotion_family": "affection_romance"
+    },
+    {
+      "id": "affection_romance__doki_doki_flustered_love",
+      "name": "\"Doki doki\" flustered love",
+      "emotion_family": "affection_romance"
+    },
+    {
+      "id": "playful_teasing_smug__smug_half-lidded_eyes",
+      "name": "Smug (half-lidded eyes)",
+      "emotion_family": "playful_teasing_smug"
+    },
+    {
+      "id": "playful_teasing_smug__smirk",
+      "name": "Smirk",
+      "emotion_family": "playful_teasing_smug"
+    },
+    {
+      "id": "playful_teasing_smug__teasing_grin_tongue_slightly_out",
+      "name": "Teasing grin (tongue slightly out)",
+      "emotion_family": "playful_teasing_smug"
+    },
+    {
+      "id": "playful_teasing_smug__ara_ara_amused",
+      "name": "\"Ara ara\" amused",
+      "emotion_family": "playful_teasing_smug"
+    },
+    {
+      "id": "playful_teasing_smug__mischief_prank_mode",
+      "name": "Mischief / prank mode",
+      "emotion_family": "playful_teasing_smug"
+    },
+    {
+      "id": "playful_teasing_smug__confident_cocky",
+      "name": "Confident / cocky",
+      "emotion_family": "playful_teasing_smug"
+    },
+    {
+      "id": "embarrassment_shyness__blushing_light",
+      "name": "Blushing (light)",
+      "emotion_family": "embarrassment_shyness"
+    },
+    {
+      "id": "embarrassment_shyness__blushing_heavy_full_face",
+      "name": "Blushing (heavy / full face)",
+      "emotion_family": "embarrassment_shyness"
+    },
+    {
+      "id": "embarrassment_shyness__embarrassed_smile",
+      "name": "Embarrassed smile",
+      "emotion_family": "embarrassment_shyness"
+    },
+    {
+      "id": "embarrassment_shyness__flustered_sweat_blush",
+      "name": "Flustered (sweat + blush)",
+      "emotion_family": "embarrassment_shyness"
+    },
+    {
+      "id": "embarrassment_shyness__shy_eyes_down_hidden",
+      "name": "Shy (eyes down / hidden)",
+      "emotion_family": "embarrassment_shyness"
+    },
+    {
+      "id": "embarrassment_shyness__panic-embarrassed_stammer_face",
+      "name": "Panic-embarrassed (stammer face)",
+      "emotion_family": "embarrassment_shyness"
+    },
+    {
+      "id": "surprise_shock__surprised_wide_eyes_small_mouth",
+      "name": "Surprised (wide eyes, small mouth)",
+      "emotion_family": "surprise_shock"
+    },
+    {
+      "id": "surprise_shock__shocked_wide_eyes_open_mouth",
+      "name": "Shocked (wide eyes, open mouth)",
+      "emotion_family": "surprise_shock"
+    },
+    {
+      "id": "surprise_shock__startled_sweat_drop",
+      "name": "Startled (sweat drop)",
+      "emotion_family": "surprise_shock"
+    },
+    {
+      "id": "surprise_shock__jaw-drop_stunned",
+      "name": "Jaw-drop / stunned",
+      "emotion_family": "surprise_shock"
+    },
+    {
+      "id": "surprise_shock__frozen_shock_blank_wide_stare",
+      "name": "\"Frozen shock\" (blank wide stare)",
+      "emotion_family": "surprise_shock"
+    },
+    {
+      "id": "anger_irritation__annoyed_irritated",
+      "name": "Annoyed / irritated",
+      "emotion_family": "anger_irritation"
+    },
+    {
+      "id": "anger_irritation__angry_brows_down_mouth_tense",
+      "name": "Angry (brows down, mouth tense)",
+      "emotion_family": "anger_irritation"
+    },
+    {
+      "id": "anger_irritation__shouting_angry",
+      "name": "Shouting angry",
+      "emotion_family": "anger_irritation"
+    },
+    {
+      "id": "anger_irritation__furious_rage",
+      "name": "Furious / rage",
+      "emotion_family": "anger_irritation"
+    },
+    {
+      "id": "anger_irritation__vein_pop_comedic_anger",
+      "name": "\"Vein pop\" comedic anger",
+      "emotion_family": "anger_irritation"
+    },
+    {
+      "id": "anger_irritation__tsundere_angry-blush",
+      "name": "Tsundere angry-blush",
+      "emotion_family": "anger_irritation"
+    },
+    {
+      "id": "anger_irritation__disgusted_irritation_ew_face",
+      "name": "Disgusted irritation (ew face)",
+      "emotion_family": "anger_irritation"
+    },
+    {
+      "id": "sadness_hurt__sad_downturned_mouth",
+      "name": "Sad (downturned mouth)",
+      "emotion_family": "sadness_hurt"
+    },
+    {
+      "id": "sadness_hurt__about_to_cry_watery_eyes",
+      "name": "About to cry (watery eyes)",
+      "emotion_family": "sadness_hurt"
+    },
+    {
+      "id": "sadness_hurt__crying_tears_streaming",
+      "name": "Crying (tears streaming)",
+      "emotion_family": "sadness_hurt"
+    },
+    {
+      "id": "sadness_hurt__silent_tears",
+      "name": "Silent tears",
+      "emotion_family": "sadness_hurt"
+    },
+    {
+      "id": "sadness_hurt__sobbing_ugly_cry_wailing",
+      "name": "Sobbing (ugly cry / wailing)",
+      "emotion_family": "sadness_hurt"
+    },
+    {
+      "id": "sadness_hurt__depressed_gloomy_shadowed_face",
+      "name": "Depressed / gloomy shadowed face",
+      "emotion_family": "sadness_hurt"
+    },
+    {
+      "id": "sadness_hurt__heartbroken",
+      "name": "Heartbroken",
+      "emotion_family": "sadness_hurt"
+    },
+    {
+      "id": "fear_anxiety_panic__nervous_sweat_forced_smile",
+      "name": "Nervous (sweat, forced smile)",
+      "emotion_family": "fear_anxiety_panic"
+    },
+    {
+      "id": "fear_anxiety_panic__worried_anxious",
+      "name": "Worried / anxious",
+      "emotion_family": "fear_anxiety_panic"
+    },
+    {
+      "id": "fear_anxiety_panic__scared_trembling_eyes",
+      "name": "Scared (trembling eyes)",
+      "emotion_family": "fear_anxiety_panic"
+    },
+    {
+      "id": "fear_anxiety_panic__terrified_small_pupils_open_mouth",
+      "name": "Terrified (small pupils, open mouth)",
+      "emotion_family": "fear_anxiety_panic"
+    },
+    {
+      "id": "fear_anxiety_panic__panic_tears_sweat",
+      "name": "Panic (tears + sweat)",
+      "emotion_family": "fear_anxiety_panic"
+    },
+    {
+      "id": "fear_anxiety_panic__dread_shadowed_eyes",
+      "name": "\"Dread\" (shadowed eyes)",
+      "emotion_family": "fear_anxiety_panic"
+    },
+    {
+      "id": "disgust_contempt__disgusted_ew",
+      "name": "Disgusted (ew)",
+      "emotion_family": "disgust_contempt"
+    },
+    {
+      "id": "disgust_contempt__grossed_out_tongue_out",
+      "name": "Grossed out (tongue out)",
+      "emotion_family": "disgust_contempt"
+    },
+    {
+      "id": "disgust_contempt__contempt_looking_down_on_someone",
+      "name": "Contempt / looking down on someone",
+      "emotion_family": "disgust_contempt"
+    },
+    {
+      "id": "disgust_contempt__cringe_second-hand_embarrassment",
+      "name": "Cringe / second-hand embarrassment",
+      "emotion_family": "disgust_contempt"
+    },
+    {
+      "id": "determination_resolve__determined_focused_eyes",
+      "name": "Determined (focused eyes)",
+      "emotion_family": "determination_resolve"
+    },
+    {
+      "id": "determination_resolve__serious_ready",
+      "name": "Serious / ready",
+      "emotion_family": "determination_resolve"
+    },
+    {
+      "id": "determination_resolve__stoic_cold",
+      "name": "Stoic / cold",
+      "emotion_family": "determination_resolve"
+    },
+    {
+      "id": "determination_resolve__battle_face_grit_teeth",
+      "name": "\"Battle face\" (grit teeth)",
+      "emotion_family": "determination_resolve"
+    },
+    {
+      "id": "determination_resolve__confident_resolve",
+      "name": "Confident resolve",
+      "emotion_family": "determination_resolve"
+    },
+    {
+      "id": "confusion_skepticism__confused_tilt_question_mark_vibe",
+      "name": "Confused (tilt / question mark vibe)",
+      "emotion_family": "confusion_skepticism"
+    },
+    {
+      "id": "confusion_skepticism__doubtful_skeptical",
+      "name": "Doubtful / skeptical",
+      "emotion_family": "confusion_skepticism"
+    },
+    {
+      "id": "confusion_skepticism__side-eye_suspicious",
+      "name": "Side-eye / suspicious",
+      "emotion_family": "confusion_skepticism"
+    },
+    {
+      "id": "confusion_skepticism__judging_stare",
+      "name": "Judging stare",
+      "emotion_family": "confusion_skepticism"
+    },
+    {
+      "id": "confusion_skepticism__huh_baffled",
+      "name": "\"Huh?\" baffled",
+      "emotion_family": "confusion_skepticism"
+    },
+    {
+      "id": "tired_sleepy_bored__sleepy_half-lidded",
+      "name": "Sleepy (half-lidded)",
+      "emotion_family": "tired_sleepy_bored"
+    },
+    {
+      "id": "tired_sleepy_bored__yawning",
+      "name": "Yawning",
+      "emotion_family": "tired_sleepy_bored"
+    },
+    {
+      "id": "tired_sleepy_bored__exhausted_dead_eyes",
+      "name": "Exhausted (dead eyes)",
+      "emotion_family": "tired_sleepy_bored"
+    },
+    {
+      "id": "tired_sleepy_bored__bored_uninterested",
+      "name": "Bored / uninterested",
+      "emotion_family": "tired_sleepy_bored"
+    },
+    {
+      "id": "tired_sleepy_bored__drowsy_smile",
+      "name": "Drowsy smile",
+      "emotion_family": "tired_sleepy_bored"
+    },
+    {
+      "id": "pain_strain_sickness__pain_wince",
+      "name": "Pain (wince)",
+      "emotion_family": "pain_strain_sickness"
+    },
+    {
+      "id": "pain_strain_sickness__injured_tears_grit",
+      "name": "Injured (tears + grit)",
+      "emotion_family": "pain_strain_sickness"
+    },
+    {
+      "id": "pain_strain_sickness__dizzy_swirly_eyes",
+      "name": "Dizzy (swirly eyes)",
+      "emotion_family": "pain_strain_sickness"
+    },
+    {
+      "id": "pain_strain_sickness__nauseated_sick",
+      "name": "Nauseated / sick",
+      "emotion_family": "pain_strain_sickness"
+    },
+    {
+      "id": "pain_strain_sickness__overheated_flustered_panting",
+      "name": "Overheated / flustered (panting)",
+      "emotion_family": "pain_strain_sickness"
+    },
+    {
+      "id": "extreme_anime_stylized__chibi_happy_simple_dot_eyes",
+      "name": "Chibi happy (simple dot eyes)",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__chibi_rage",
+      "name": "Chibi rage",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__chibi_panic",
+      "name": "Chibi panic",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__shadow_face_intimidation_despair",
+      "name": "\"Shadow face\" intimidation / despair",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__sparkle_eyes_admiration",
+      "name": "\"Sparkle eyes\" admiration",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__dead_eyes_no_shine",
+      "name": "\"Dead eyes\" (no shine)",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__crying_waterfall_comedic",
+      "name": "\"Crying waterfall\" comedic",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__sweat_drop_awkward",
+      "name": "Sweat drop (awkward)",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__nosebleed_pervy_shock_trope",
+      "name": "Nosebleed (pervy shock trope)",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__cat_mouth_playful",
+      "name": "\"Cat mouth\" playful",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__3_smug-cat_face_style",
+      "name": "\">:3\" smug-cat face style",
+      "emotion_family": "extreme_anime_stylized"
+    },
+    {
+      "id": "extreme_anime_stylized__moe_panic_tiny_mouth_big_eyes",
+      "name": "\"Moe panic\" (tiny mouth, big eyes)",
+      "emotion_family": "extreme_anime_stylized"
+    }
+  ],
+  "index_by_emotion_family": {
+    "neutral_baseline": [
+      "neutral_baseline__neutral_blank",
+      "neutral_baseline__soft_neutral_gentle_smile",
+      "neutral_baseline__resting_serious_composed",
+      "neutral_baseline__curious_attentive",
+      "neutral_baseline__deadpan_unimpressed",
+      "neutral_baseline__thinking_pondering"
+    ],
+    "happiness_positive": [
+      "happiness_positive__smile_closed-mouth",
+      "happiness_positive__big_smile_open-mouth",
+      "happiness_positive__laughing_eyes_closed",
+      "happiness_positive__grin_mischievous",
+      "happiness_positive__cheerful_energetic",
+      "happiness_positive__proud_satisfied",
+      "happiness_positive__relieved_soft_exhale"
+    ],
+    "affection_romance": [
+      "affection_romance__loving_warm_smile",
+      "affection_romance__shy_love_averted_gaze",
+      "affection_romance__heart-eyes_sparkly_eyes",
+      "affection_romance__dreamy_enamored",
+      "affection_romance__kiss_face_pout-kiss",
+      "affection_romance__doki_doki_flustered_love"
+    ],
+    "playful_teasing_smug": [
+      "playful_teasing_smug__smug_half-lidded_eyes",
+      "playful_teasing_smug__smirk",
+      "playful_teasing_smug__teasing_grin_tongue_slightly_out",
+      "playful_teasing_smug__ara_ara_amused",
+      "playful_teasing_smug__mischief_prank_mode",
+      "playful_teasing_smug__confident_cocky"
+    ],
+    "embarrassment_shyness": [
+      "embarrassment_shyness__blushing_light",
+      "embarrassment_shyness__blushing_heavy_full_face",
+      "embarrassment_shyness__embarrassed_smile",
+      "embarrassment_shyness__flustered_sweat_blush",
+      "embarrassment_shyness__shy_eyes_down_hidden",
+      "embarrassment_shyness__panic-embarrassed_stammer_face"
+    ],
+    "surprise_shock": [
+      "surprise_shock__surprised_wide_eyes_small_mouth",
+      "surprise_shock__shocked_wide_eyes_open_mouth",
+      "surprise_shock__startled_sweat_drop",
+      "surprise_shock__jaw-drop_stunned",
+      "surprise_shock__frozen_shock_blank_wide_stare"
+    ],
+    "anger_irritation": [
+      "anger_irritation__annoyed_irritated",
+      "anger_irritation__angry_brows_down_mouth_tense",
+      "anger_irritation__shouting_angry",
+      "anger_irritation__furious_rage",
+      "anger_irritation__vein_pop_comedic_anger",
+      "anger_irritation__tsundere_angry-blush",
+      "anger_irritation__disgusted_irritation_ew_face"
+    ],
+    "sadness_hurt": [
+      "sadness_hurt__sad_downturned_mouth",
+      "sadness_hurt__about_to_cry_watery_eyes",
+      "sadness_hurt__crying_tears_streaming",
+      "sadness_hurt__silent_tears",
+      "sadness_hurt__sobbing_ugly_cry_wailing",
+      "sadness_hurt__depressed_gloomy_shadowed_face",
+      "sadness_hurt__heartbroken"
+    ],
+    "fear_anxiety_panic": [
+      "fear_anxiety_panic__nervous_sweat_forced_smile",
+      "fear_anxiety_panic__worried_anxious",
+      "fear_anxiety_panic__scared_trembling_eyes",
+      "fear_anxiety_panic__terrified_small_pupils_open_mouth",
+      "fear_anxiety_panic__panic_tears_sweat",
+      "fear_anxiety_panic__dread_shadowed_eyes"
+    ],
+    "disgust_contempt": [
+      "disgust_contempt__disgusted_ew",
+      "disgust_contempt__grossed_out_tongue_out",
+      "disgust_contempt__contempt_looking_down_on_someone",
+      "disgust_contempt__cringe_second-hand_embarrassment"
+    ],
+    "determination_resolve": [
+      "determination_resolve__determined_focused_eyes",
+      "determination_resolve__serious_ready",
+      "determination_resolve__stoic_cold",
+      "determination_resolve__battle_face_grit_teeth",
+      "determination_resolve__confident_resolve"
+    ],
+    "confusion_skepticism": [
+      "confusion_skepticism__confused_tilt_question_mark_vibe",
+      "confusion_skepticism__doubtful_skeptical",
+      "confusion_skepticism__side-eye_suspicious",
+      "confusion_skepticism__judging_stare",
+      "confusion_skepticism__huh_baffled"
+    ],
+    "tired_sleepy_bored": [
+      "tired_sleepy_bored__sleepy_half-lidded",
+      "tired_sleepy_bored__yawning",
+      "tired_sleepy_bored__exhausted_dead_eyes",
+      "tired_sleepy_bored__bored_uninterested",
+      "tired_sleepy_bored__drowsy_smile"
+    ],
+    "pain_strain_sickness": [
+      "pain_strain_sickness__pain_wince",
+      "pain_strain_sickness__injured_tears_grit",
+      "pain_strain_sickness__dizzy_swirly_eyes",
+      "pain_strain_sickness__nauseated_sick",
+      "pain_strain_sickness__overheated_flustered_panting"
+    ],
+    "extreme_anime_stylized": [
+      "extreme_anime_stylized__chibi_happy_simple_dot_eyes",
+      "extreme_anime_stylized__chibi_rage",
+      "extreme_anime_stylized__chibi_panic",
+      "extreme_anime_stylized__shadow_face_intimidation_despair",
+      "extreme_anime_stylized__sparkle_eyes_admiration",
+      "extreme_anime_stylized__dead_eyes_no_shine",
+      "extreme_anime_stylized__crying_waterfall_comedic",
+      "extreme_anime_stylized__sweat_drop_awkward",
+      "extreme_anime_stylized__nosebleed_pervy_shock_trope",
+      "extreme_anime_stylized__cat_mouth_playful",
+      "extreme_anime_stylized__3_smug-cat_face_style",
+      "extreme_anime_stylized__moe_panic_tiny_mouth_big_eyes"
+    ]
+  },
+  "meta": {
+    "emotion_families": [
+      {
+        "id": "neutral_baseline",
+        "name": "Neutral / baseline"
+      },
+      {
+        "id": "happiness_positive",
+        "name": "Happiness / positive mood"
+      },
+      {
+        "id": "affection_romance",
+        "name": "Affection / romance"
+      },
+      {
+        "id": "playful_teasing_smug",
+        "name": "Playful / teasing / smug"
+      },
+      {
+        "id": "embarrassment_shyness",
+        "name": "Embarrassment / shyness"
+      },
+      {
+        "id": "surprise_shock",
+        "name": "Surprise / shock"
+      },
+      {
+        "id": "anger_irritation",
+        "name": "Anger / irritation"
+      },
+      {
+        "id": "sadness_hurt",
+        "name": "Sadness / hurt"
+      },
+      {
+        "id": "fear_anxiety_panic",
+        "name": "Fear / anxiety / panic"
+      },
+      {
+        "id": "disgust_contempt",
+        "name": "Disgust / \"ew\" / contempt"
+      },
+      {
+        "id": "determination_resolve",
+        "name": "Determination / resolve"
+      },
+      {
+        "id": "confusion_skepticism",
+        "name": "Confusion / skepticism"
+      },
+      {
+        "id": "tired_sleepy_bored",
+        "name": "Tired / sleepy / bored"
+      },
+      {
+        "id": "pain_strain_sickness",
+        "name": "Pain / strain / sickness"
+      },
+      {
+        "id": "extreme_anime_stylized",
+        "name": "\"Extreme anime\" expressions (stylized tropes)"
+      }
+    ],
+    "notes": [
+      "Each item is a single facial expression label intended for tagging and random sampling.",
+      "Use index_by_emotion_family to sample IDs by emotion slot, then map ID -> item via items[]."
+    ]
+  }
+}
