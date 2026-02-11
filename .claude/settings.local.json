@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"C:\\\\Users\\\\felix\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python311\\\\python.exe\" -c \"\nimport sys\nsys.path.insert\\(0, ''.''\\)\nfrom generator.prompt_generator import PromptGenerator\ngen = PromptGenerator\\(\\)\n\n# Check what options exist for hands and feet\nfor slot in [''hands'', ''feet'', ''background'']:\n    opts = gen.get_slot_option_names\\(slot\\)\n    print\\(f''{slot}: {len\\(opts\\)} options - {opts[:5]}...''\\)\n\")",
+      "Bash(\"C:\\\\Users\\\\felix\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python311\\\\python.exe\" -c:*)",
+      "WebFetch(domain:danbooru.donmai.us)",
+      "WebSearch",
+      "WebFetch(domain:civitai.com)",
+      "WebFetch(domain:gigazine.net)"
+    ]
+  }
+}

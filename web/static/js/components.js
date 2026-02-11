@@ -9,14 +9,15 @@ import { state } from "./state.js";
  * Returns { row, dropdown, colorSelect, weightInput, onoffBtn, lockBtn, randomBtn, colorRandomBtn }
  */
 export function createSlotRow(slotName, slotDef) {
+  const slotState = state.slots[slotName] || { enabled: true, locked: false };
   const row = document.createElement("div");
-  row.className = "slot-row enabled";
+  row.className = "slot-row " + (slotState.enabled ? "enabled" : "disabled") + (slotState.locked ? " locked" : "");
   row.dataset.slot = slotName;
 
   // On/Off button
   const onoffBtn = document.createElement("button");
-  onoffBtn.className = "btn-onoff on";
-  onoffBtn.textContent = "On";
+  onoffBtn.className = "btn-onoff " + (slotState.enabled ? "on" : "off");
+  onoffBtn.textContent = slotState.enabled ? "On" : "Off";
   onoffBtn.title = "Toggle slot on/off";
 
   // Lock button

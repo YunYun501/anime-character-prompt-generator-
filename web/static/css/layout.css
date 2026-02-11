@@ -86,6 +86,12 @@ hr {
   padding: 10px;
 }
 
+/* Clothing section needs more width for its 2 sub-columns */
+.section[data-section="clothing"] {
+  flex: 2;
+  min-width: 700px;
+}
+
 .section-header {
   display: flex;
   align-items: center;

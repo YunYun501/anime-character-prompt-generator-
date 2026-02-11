@@ -15,7 +15,7 @@ export const state = {
   activePaletteId: null,
 
   /** @type {boolean} */
-  fullBodyMode: true,
+  fullBodyMode: false,
 
   /** Slot definitions from API (options, has_color, category) */
   slotDefs: {},
@@ -30,12 +30,19 @@ export const state = {
   individualColors: [],
 };
 
+/** Slots that should start disabled on first load. */
+const DEFAULT_DISABLED_SLOTS = new Set([
+  "special_features",
+  "full_body",
+  "eye_style",
+]);
+
 /** Initialize slot state for all known slots. */
 export function initSlotState(slotDefs) {
   state.slotDefs = slotDefs;
   for (const name of Object.keys(slotDefs)) {
     state.slots[name] = {
-      enabled: true,
+      enabled: !DEFAULT_DISABLED_SLOTS.has(name),
       locked: false,
       value: null,
       color: null,
