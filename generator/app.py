@@ -139,12 +139,15 @@ class PromptGeneratorUI:
             gr.Markdown("# 🎨 Random Anime Character Prompt Generator")
             
             # Store all slot components for event handling
-            all_enabled = []
+            all_enabled = []      # On/Off state (True/False)
+            all_constant = []     # Constant state (True/False) - if True, skip during randomization
             all_dropdowns = []
             all_colors = []
             all_weights = []
             all_random_btns = []
             all_color_btns = []
+            all_onoff_btns = []   # On/Off toggle buttons
+            all_const_btns = []   # Constant toggle buttons
             
             # Define slot order matching our column layout
             appearance_slots = ["hair_style", "hair_length", "hair_color", "hair_texture", "eye_color", "eye_style"]
@@ -152,24 +155,22 @@ class PromptGeneratorUI:
             clothing_slots = ["head", "neck", "upper_body", "waist", "lower_body", "full_body", "outerwear", "hands", "legs", "feet", "accessory", "background"]
             slot_names_list = appearance_slots + body_slots + clothing_slots
             
-            # ===== GENERATE PROMPT SECTION (at top) =====
+            # ===== GENERATE PROMPT SECTION (full row at top) =====
+            gr.Markdown("## 📝 Generated Prompt")
+            output_prompt = gr.Textbox(
+                label="",
+                lines=3,
+                max_lines=5,
+                interactive=True,
+                elem_id="prompt-output",
+                show_label=False
+            )
             with gr.Row():
-                with gr.Column(scale=3):
-                    output_prompt = gr.Textbox(
-                        label="Generated Prompt",
-                        lines=2,
-                        max_lines=4,
-                        interactive=True,
-                        elem_id="prompt-output"
-                    )
-                with gr.Column(scale=1):
-                    with gr.Row():
-                        generate_btn = gr.Button("✨ Generate", variant="primary")
-                        randomize_all_btn = gr.Button("🎲 Randomize All", variant="secondary")
-                    with gr.Row():
-                        copy_btn = gr.Button("📋 Copy")
-                        reset_btn = gr.Button("🔄 Reset")
-                        shutdown_btn = gr.Button("⏹ Stop", variant="stop")
+                generate_btn = gr.Button("✨ Generate Prompt", variant="primary", scale=2)
+                randomize_all_btn = gr.Button("🎲 Randomize All", variant="secondary", scale=2)
+                copy_btn = gr.Button("📋 Copy", scale=1)
+                reset_btn = gr.Button("🔄 Reset", scale=1)
+                shutdown_btn = gr.Button("⏹ Stop Server", variant="stop", scale=1)
             
             # ===== SETTINGS ROW =====
             with gr.Row():
@@ -185,7 +186,43 @@ class PromptGeneratorUI:
                     label="Color Palette"
                 )
             
+            gr.Markdown("---")
+            
             section_components = {}
+            
+            # Helper to create a slot row with On/Off and Constant buttons
+            def create_slot_row(slot_name, has_color, display_name):
+                row_id = f"slot-row-{slot_name}"
+                
+                # Hidden states
+                enabled_state = gr.State(value=True)
+                constant_state = gr.State(value=False)
+                
+                with gr.Group(elem_id=row_id, elem_classes=["slot-row", "slot-enabled"]):
+                    with gr.Row():
+                        onoff_btn = gr.Button("On", variant="primary", min_width=45, elem_classes="onoff-btn")
+                        const_btn = gr.Button("🔓", min_width=35, elem_classes="const-btn")
+                        dropdown = gr.Dropdown(
+                            choices=self.get_slot_choices(slot_name),
+                            value="(None)",
+                            label=display_name,
+                            scale=2
+                        )
+                        random_btn = gr.Button("🎲", min_width=35)
+                        if has_color:
+                            color_dropdown = gr.Dropdown(
+                                choices=self.get_color_choices(),
+                                value="(No Color)",
+                                label="Color",
+                                scale=1
+                            )
+                            color_random_btn = gr.Button("🎨", min_width=35)
+                        else:
+                            color_dropdown = gr.Dropdown(choices=["(No Color)"], value="(No Color)", visible=False)
+                            color_random_btn = gr.Button("🎨", visible=False)
+                        weight = gr.Number(value=1.0, label="Wt", minimum=0.1, maximum=2.0, step=0.1, min_width=50)
+                
+                return enabled_state, constant_state, onoff_btn, const_btn, dropdown, color_dropdown, color_random_btn, random_btn, weight
             
             # ===== ROW 1: Appearance (left) + Body (right) =====
             with gr.Row():
@@ -194,9 +231,10 @@ class PromptGeneratorUI:
                     gr.Markdown("### 👤 Appearance")
                     with gr.Row():
                         section_random_btn_1 = gr.Button("🎲 Random", size="sm")
-                        section_disable_btn_1 = gr.Button("❌ Disable", size="sm")
-                        section_enable_btn_1 = gr.Button("✅ Enable", size="sm")
+                        section_disable_btn_1 = gr.Button("❌ All Off", size="sm")
+                        section_enable_btn_1 = gr.Button("✅ All On", size="sm")
                     section_enabled_1 = []
+                    section_constant_1 = []
                     section_dropdown_1 = []
                     section_color_1 = []
                     section_weight_1 = []
@@ -207,38 +245,27 @@ class PromptGeneratorUI:
                         slot_def = self.generator.SLOT_DEFINITIONS[slot_name]
                         display_name = slot_name.replace("_", " ").title()
                         has_color = slot_def.get("has_color", False)
-                        row_id = f"slot-row-{slot_name}"
                         
-                        with gr.Group(elem_id=row_id, elem_classes=["slot-row", "slot-enabled"]):
-                            with gr.Row():
-                                enabled = gr.Checkbox(value=True, label="", min_width=30, elem_id=f"chk-{slot_name}")
-                                dropdown = gr.Dropdown(
-                                    choices=self.get_slot_choices(slot_name),
-                                    value="(None)",
-                                    label=display_name,
-                                    scale=2
-                                )
-                                random_btn = gr.Button("🎲", min_width=35)
-                                weight = gr.Number(value=1.0, label="Wt", minimum=0.1, maximum=2.0, step=0.1, min_width=50)
+                        enabled_state, constant_state, onoff_btn, const_btn, dropdown, color_dropdown, color_random_btn, random_btn, weight = create_slot_row(slot_name, has_color, display_name)
                         
-                        # Hidden color dropdown for non-color slots
-                        color_dropdown = gr.Dropdown(choices=["(No Color)"], value="(No Color)", visible=False)
-                        color_random_btn = gr.Button("🎨", visible=False)
-                        
-                        all_enabled.append(enabled)
+                        all_enabled.append(enabled_state)
+                        all_constant.append(constant_state)
+                        all_onoff_btns.append((onoff_btn, slot_name))
+                        all_const_btns.append((const_btn, slot_name))
                         all_dropdowns.append(dropdown)
                         all_colors.append(color_dropdown)
                         all_weights.append(weight)
                         all_random_btns.append((random_btn, slot_name))
                         all_color_btns.append((color_random_btn, slot_name))
-                        section_enabled_1.append(enabled)
+                        section_enabled_1.append(enabled_state)
+                        section_constant_1.append(constant_state)
                         section_dropdown_1.append(dropdown)
                         section_color_1.append(color_dropdown)
                         section_weight_1.append(weight)
                     
                     section_components["appearance"] = {
-                        "enabled": section_enabled_1, "dropdowns": section_dropdown_1,
-                        "colors": section_color_1, "weights": section_weight_1,
+                        "enabled": section_enabled_1, "constant": section_constant_1,
+                        "dropdowns": section_dropdown_1, "colors": section_color_1, "weights": section_weight_1,
                         "random_btn": section_random_btn_1, "disable_btn": section_disable_btn_1,
                         "enable_btn": section_enable_btn_1, "slots": appearance_slots
                     }
@@ -248,9 +275,10 @@ class PromptGeneratorUI:
                     gr.Markdown("### 🧍 Body / Expression / Pose")
                     with gr.Row():
                         section_random_btn_2 = gr.Button("🎲 Random", size="sm")
-                        section_disable_btn_2 = gr.Button("❌ Disable", size="sm")
-                        section_enable_btn_2 = gr.Button("✅ Enable", size="sm")
+                        section_disable_btn_2 = gr.Button("❌ All Off", size="sm")
+                        section_enable_btn_2 = gr.Button("✅ All On", size="sm")
                     section_enabled_2 = []
+                    section_constant_2 = []
                     section_dropdown_2 = []
                     section_color_2 = []
                     section_weight_2 = []
@@ -260,103 +288,104 @@ class PromptGeneratorUI:
                             continue
                         slot_def = self.generator.SLOT_DEFINITIONS[slot_name]
                         display_name = slot_name.replace("_", " ").title()
-                        row_id = f"slot-row-{slot_name}"
+                        has_color = slot_def.get("has_color", False)
                         
-                        with gr.Group(elem_id=row_id, elem_classes=["slot-row", "slot-enabled"]):
-                            with gr.Row():
-                                enabled = gr.Checkbox(value=True, label="", min_width=30, elem_id=f"chk-{slot_name}")
-                                dropdown = gr.Dropdown(
-                                    choices=self.get_slot_choices(slot_name),
-                                    value="(None)",
-                                    label=display_name,
-                                    scale=2
-                                )
-                                random_btn = gr.Button("🎲", min_width=35)
-                                weight = gr.Number(value=1.0, label="Wt", minimum=0.1, maximum=2.0, step=0.1, min_width=50)
+                        enabled_state, constant_state, onoff_btn, const_btn, dropdown, color_dropdown, color_random_btn, random_btn, weight = create_slot_row(slot_name, has_color, display_name)
                         
-                        color_dropdown = gr.Dropdown(choices=["(No Color)"], value="(No Color)", visible=False)
-                        color_random_btn = gr.Button("🎨", visible=False)
-                        
-                        all_enabled.append(enabled)
+                        all_enabled.append(enabled_state)
+                        all_constant.append(constant_state)
+                        all_onoff_btns.append((onoff_btn, slot_name))
+                        all_const_btns.append((const_btn, slot_name))
                         all_dropdowns.append(dropdown)
                         all_colors.append(color_dropdown)
                         all_weights.append(weight)
                         all_random_btns.append((random_btn, slot_name))
                         all_color_btns.append((color_random_btn, slot_name))
-                        section_enabled_2.append(enabled)
+                        section_enabled_2.append(enabled_state)
+                        section_constant_2.append(constant_state)
                         section_dropdown_2.append(dropdown)
                         section_color_2.append(color_dropdown)
                         section_weight_2.append(weight)
                     
                     section_components["body"] = {
-                        "enabled": section_enabled_2, "dropdowns": section_dropdown_2,
-                        "colors": section_color_2, "weights": section_weight_2,
+                        "enabled": section_enabled_2, "constant": section_constant_2,
+                        "dropdowns": section_dropdown_2, "colors": section_color_2, "weights": section_weight_2,
                         "random_btn": section_random_btn_2, "disable_btn": section_disable_btn_2,
                         "enable_btn": section_enable_btn_2, "slots": body_slots
                     }
             
-            # ===== ROW 2: Clothing (left) + Output/Controls (right) =====
+            # ===== ROW 2: Clothing & Background =====
+            gr.Markdown("### 👗 Clothing & Background")
             with gr.Row():
-                # === COLUMN: Clothing & Background ===
+                section_random_btn_3 = gr.Button("🎲 Random Section", size="sm")
+                section_disable_btn_3 = gr.Button("❌ All Off", size="sm")
+                section_enable_btn_3 = gr.Button("✅ All On", size="sm")
+            section_enabled_3 = []
+            section_constant_3 = []
+            section_dropdown_3 = []
+            section_color_3 = []
+            section_weight_3 = []
+            
+            # Split clothing into 2 columns for better layout
+            with gr.Row():
                 with gr.Column(scale=1):
-                    gr.Markdown("### 👗 Clothing & Background")
-                    with gr.Row():
-                        section_random_btn_3 = gr.Button("🎲 Random", size="sm")
-                        section_disable_btn_3 = gr.Button("❌ Disable", size="sm")
-                        section_enable_btn_3 = gr.Button("✅ Enable", size="sm")
-                    section_enabled_3 = []
-                    section_dropdown_3 = []
-                    section_color_3 = []
-                    section_weight_3 = []
-                    
-                    for slot_name in clothing_slots:
+                    clothing_left = ["head", "neck", "upper_body", "waist", "lower_body", "full_body"]
+                    for slot_name in clothing_left:
                         if slot_name not in self.generator.SLOT_DEFINITIONS:
                             continue
                         slot_def = self.generator.SLOT_DEFINITIONS[slot_name]
                         display_name = slot_name.replace("_", " ").title()
                         has_color = slot_def.get("has_color", False)
-                        row_id = f"slot-row-{slot_name}"
                         
-                        with gr.Group(elem_id=row_id, elem_classes=["slot-row", "slot-enabled"]):
-                            with gr.Row():
-                                enabled = gr.Checkbox(value=True, label="", min_width=30, elem_id=f"chk-{slot_name}")
-                                dropdown = gr.Dropdown(
-                                    choices=self.get_slot_choices(slot_name),
-                                    value="(None)",
-                                    label=display_name,
-                                    scale=2
-                                )
-                                random_btn = gr.Button("🎲", min_width=35)
-                                if has_color:
-                                    color_dropdown = gr.Dropdown(
-                                        choices=self.get_color_choices(),
-                                        value="(No Color)",
-                                        label="Color",
-                                        scale=1
-                                    )
-                                    color_random_btn = gr.Button("🎨", min_width=35)
-                                else:
-                                    color_dropdown = gr.Dropdown(choices=["(No Color)"], value="(No Color)", visible=False)
-                                    color_random_btn = gr.Button("🎨", visible=False)
-                                weight = gr.Number(value=1.0, label="Wt", minimum=0.1, maximum=2.0, step=0.1, min_width=50)
+                        enabled_state, constant_state, onoff_btn, const_btn, dropdown, color_dropdown, color_random_btn, random_btn, weight = create_slot_row(slot_name, has_color, display_name)
                         
-                        all_enabled.append(enabled)
+                        all_enabled.append(enabled_state)
+                        all_constant.append(constant_state)
+                        all_onoff_btns.append((onoff_btn, slot_name))
+                        all_const_btns.append((const_btn, slot_name))
                         all_dropdowns.append(dropdown)
                         all_colors.append(color_dropdown)
                         all_weights.append(weight)
                         all_random_btns.append((random_btn, slot_name))
                         all_color_btns.append((color_random_btn, slot_name))
-                        section_enabled_3.append(enabled)
+                        section_enabled_3.append(enabled_state)
+                        section_constant_3.append(constant_state)
                         section_dropdown_3.append(dropdown)
                         section_color_3.append(color_dropdown)
                         section_weight_3.append(weight)
-                    
-                    section_components["clothing"] = {
-                        "enabled": section_enabled_3, "dropdowns": section_dropdown_3,
-                        "colors": section_color_3, "weights": section_weight_3,
-                        "random_btn": section_random_btn_3, "disable_btn": section_disable_btn_3,
-                        "enable_btn": section_enable_btn_3, "slots": clothing_slots
-                    }
+                
+                with gr.Column(scale=1):
+                    clothing_right = ["outerwear", "hands", "legs", "feet", "accessory", "background"]
+                    for slot_name in clothing_right:
+                        if slot_name not in self.generator.SLOT_DEFINITIONS:
+                            continue
+                        slot_def = self.generator.SLOT_DEFINITIONS[slot_name]
+                        display_name = slot_name.replace("_", " ").title()
+                        has_color = slot_def.get("has_color", False)
+                        
+                        enabled_state, constant_state, onoff_btn, const_btn, dropdown, color_dropdown, color_random_btn, random_btn, weight = create_slot_row(slot_name, has_color, display_name)
+                        
+                        all_enabled.append(enabled_state)
+                        all_constant.append(constant_state)
+                        all_onoff_btns.append((onoff_btn, slot_name))
+                        all_const_btns.append((const_btn, slot_name))
+                        all_dropdowns.append(dropdown)
+                        all_colors.append(color_dropdown)
+                        all_weights.append(weight)
+                        all_random_btns.append((random_btn, slot_name))
+                        all_color_btns.append((color_random_btn, slot_name))
+                        section_enabled_3.append(enabled_state)
+                        section_constant_3.append(constant_state)
+                        section_dropdown_3.append(dropdown)
+                        section_color_3.append(color_dropdown)
+                        section_weight_3.append(weight)
+            
+            section_components["clothing"] = {
+                "enabled": section_enabled_3, "constant": section_constant_3,
+                "dropdowns": section_dropdown_3, "colors": section_color_3, "weights": section_weight_3,
+                "random_btn": section_random_btn_3, "disable_btn": section_disable_btn_3,
+                "enable_btn": section_enable_btn_3, "slots": clothing_slots
+            }
             
             # ===== SAVE/LOAD SECTION =====
             with gr.Accordion("💾 Save / Load Configuration", open=False):
@@ -377,25 +406,50 @@ class PromptGeneratorUI:
             
             # ===== EVENT HANDLERS =====
             
-            # All components for prompt building (in slot order)
-            all_components = []
-            for i in range(len(all_enabled)):
-                all_components.extend([all_enabled[i], all_dropdowns[i], all_colors[i], all_weights[i]])
+            # On/Off button toggle handlers
+            for i, (btn, slot_name) in enumerate(all_onoff_btns):
+                row_id = f"slot-row-{slot_name}"
+                
+                def make_onoff_toggle(idx, rid):
+                    def handler(current_state):
+                        new_state = not current_state
+                        btn_text = "On" if new_state else "Off"
+                        btn_variant = "primary" if new_state else "secondary"
+                        return new_state, gr.update(value=btn_text, variant=btn_variant)
+                    return handler
+                
+                btn.click(
+                    fn=make_onoff_toggle(i, row_id),
+                    inputs=[all_enabled[i]],
+                    outputs=[all_enabled[i], btn]
+                )
             
-            # Just the dropdowns and colors for randomize output
-            dropdown_and_color_outputs = []
-            for i in range(len(all_dropdowns)):
-                dropdown_and_color_outputs.extend([all_dropdowns[i], all_colors[i]])
+            # Constant button toggle handlers  
+            for i, (btn, slot_name) in enumerate(all_const_btns):
+                def make_const_toggle(idx):
+                    def handler(current_state):
+                        new_state = not current_state
+                        btn_text = "🔒" if new_state else "🔓"
+                        return new_state, gr.update(value=btn_text)
+                    return handler
+                
+                btn.click(
+                    fn=make_const_toggle(i),
+                    inputs=[all_constant[i]],
+                    outputs=[all_constant[i], btn]
+                )
             
-            # Generate prompt
+            # Generate prompt function
             def generate_prompt(*args):
+                # args = enabled states + dropdowns + colors + weights (interleaved)
+                num_slots = len(slot_names_list)
                 parts = ["1girl"]
-                idx = 0
-                for slot_name in slot_names_list:
-                    if idx + 4 > len(args):
-                        break
-                    enabled, value, color, weight = args[idx:idx+4]
-                    idx += 4
+                
+                for i, slot_name in enumerate(slot_names_list):
+                    enabled = args[i]  # First num_slots args are enabled states
+                    value = args[num_slots + i]  # Next are dropdowns
+                    color = args[num_slots * 2 + i]  # Next are colors
+                    weight = args[num_slots * 3 + i]  # Last are weights
                     
                     if not enabled or value == "(None)" or not value:
                         continue
@@ -413,11 +467,23 @@ class PromptGeneratorUI:
                 
                 return ", ".join(parts)
             
-            generate_btn.click(fn=generate_prompt, inputs=all_components, outputs=[output_prompt])
+            generate_btn.click(
+                fn=generate_prompt, 
+                inputs=all_enabled + all_dropdowns + all_colors + all_weights, 
+                outputs=[output_prompt]
+            )
             
-            # Randomize All - also generates prompt immediately
-            def randomize_all_handler(palette_name, color_mode_val, full_body_on, *current_values):
-                outputs = []
+            # Randomize All - respects Constant flags, generates prompt immediately
+            def randomize_all_handler(palette_name, color_mode_val, full_body_on, *args):
+                # args = constant states + enabled states + current dropdowns + current colors + current weights
+                num_slots = len(slot_names_list)
+                constant_states = args[:num_slots]
+                enabled_states = args[num_slots:num_slots*2]
+                current_dropdowns = args[num_slots*2:num_slots*3]
+                current_colors = args[num_slots*3:num_slots*4]
+                
+                outputs_dropdowns = []
+                outputs_colors = []
                 prompt_parts = ["1girl"]
                 palette_id = None
                 
@@ -429,52 +495,50 @@ class PromptGeneratorUI:
                 
                 full_body_value = None
                 
-                # Get current enabled states (every 4th value starting at 0)
-                enabled_states = []
-                for i in range(0, len(current_values), 4):
-                    enabled_states.append(current_values[i] if i < len(current_values) else True)
-                
-                idx = 0
-                for slot_name in slot_names_list:
-                    is_enabled = enabled_states[idx] if idx < len(enabled_states) else True
+                for i, slot_name in enumerate(slot_names_list):
+                    is_constant = constant_states[i] if i < len(constant_states) else False
+                    is_enabled = enabled_states[i] if i < len(enabled_states) else True
                     
-                    item = self.generator.sample_slot(slot_name)
-                    new_val = item.get("name", "(None)") if item else "(None)"
+                    # If constant, keep current value
+                    if is_constant:
+                        new_val = current_dropdowns[i] if i < len(current_dropdowns) else "(None)"
+                        new_color = current_colors[i] if i < len(current_colors) else "(No Color)"
+                    else:
+                        # Randomize
+                        item = self.generator.sample_slot(slot_name)
+                        new_val = item.get("name", "(None)") if item else "(None)"
+                        
+                        if slot_name == "full_body":
+                            full_body_value = new_val
+                        
+                        if full_body_on and slot_name in ["upper_body", "lower_body"]:
+                            if full_body_value and full_body_value != "(None)":
+                                new_val = "(None)"
+                        
+                        new_color = "(No Color)"
+                        has_color = self.generator.SLOT_DEFINITIONS[slot_name].get("has_color", False)
+                        if has_color:
+                            if color_mode_val == "Palette" and palette_id:
+                                new_color = self.generator.sample_color_from_palette(palette_id) or "(No Color)"
+                            elif color_mode_val == "Random":
+                                new_color = self.generator.sample_random_color() or "(No Color)"
                     
-                    if slot_name == "full_body":
-                        full_body_value = new_val
-                    
-                    if full_body_on and slot_name in ["upper_body", "lower_body"]:
-                        if full_body_value and full_body_value != "(None)":
-                            new_val = "(None)"
-                    
-                    new_color = "(No Color)"
-                    has_color = self.generator.SLOT_DEFINITIONS[slot_name].get("has_color", False)
-                    if has_color:
-                        if color_mode_val == "Palette" and palette_id:
-                            new_color = self.generator.sample_color_from_palette(palette_id) or "(No Color)"
-                        elif color_mode_val == "Random":
-                            new_color = self.generator.sample_random_color() or "(No Color)"
-                    
-                    outputs.extend([new_val, new_color])
+                    outputs_dropdowns.append(new_val)
+                    outputs_colors.append(new_color)
                     
                     # Build prompt part if enabled
                     if is_enabled and new_val and new_val != "(None)":
                         part = f"{new_color} {new_val}" if new_color and new_color != "(No Color)" else new_val
                         prompt_parts.append(part)
-                    
-                    idx += 1
                 
-                # Add generated prompt as last output
                 generated_prompt = ", ".join(prompt_parts)
-                outputs.append(generated_prompt)
                 
-                return outputs
+                return outputs_dropdowns + outputs_colors + [generated_prompt]
             
             randomize_all_btn.click(
                 fn=randomize_all_handler,
-                inputs=[palette_dropdown, color_mode, full_body_mode] + all_components,
-                outputs=dropdown_and_color_outputs + [output_prompt]
+                inputs=[palette_dropdown, color_mode, full_body_mode] + all_constant + all_enabled + all_dropdowns + all_colors,
+                outputs=all_dropdowns + all_colors + [output_prompt]
             )
             
             # Auto-enable Palette mode when selecting a palette
@@ -489,29 +553,35 @@ class PromptGeneratorUI:
                 outputs=[color_mode]
             )
             
-            # Reset All
+            # Reset All - resets dropdowns, colors, weights (not On/Off or Constant)
             def reset_all_handler():
-                outputs = []
-                for _ in slot_names_list:
-                    outputs.extend([True, "(None)", "(No Color)", 1.0])
-                return outputs
+                dropdowns = ["(None)"] * len(slot_names_list)
+                colors = ["(No Color)"] * len(slot_names_list)
+                weights = [1.0] * len(slot_names_list)
+                return dropdowns + colors + weights
             
-            reset_btn.click(fn=reset_all_handler, inputs=[], outputs=all_components)
+            reset_btn.click(
+                fn=reset_all_handler, 
+                inputs=[], 
+                outputs=all_dropdowns + all_colors + all_weights
+            )
             
-            # Section buttons
+            # Section buttons - randomize respects constant flags
             for section_id, section_data in section_components.items():
                 slots = section_data["slots"]
-                enabled_list = section_data["enabled"]
+                constant_list = section_data["constant"]
                 dropdown_list = section_data["dropdowns"]
                 color_list = section_data["colors"]
                 
-                section_dd_color_outputs = []
-                for i in range(len(dropdown_list)):
-                    section_dd_color_outputs.extend([dropdown_list[i], color_list[i]])
-                
                 # Section randomize
-                def make_section_randomize(slots_list):
-                    def handler(palette_name, color_mode_val):
+                def make_section_randomize(slots_list, const_list, dd_list, col_list):
+                    def handler(palette_name, color_mode_val, *current_and_const):
+                        # First half are constant states, second half are current dropdowns
+                        n = len(slots_list)
+                        const_states = current_and_const[:n]
+                        current_dds = current_and_const[n:n*2]
+                        current_cols = current_and_const[n*2:]
+                        
                         outputs = []
                         palette_id = None
                         
@@ -521,47 +591,41 @@ class PromptGeneratorUI:
                                     palette_id = p["id"]
                                     break
                         
-                        for slot_name in slots_list:
+                        for i, slot_name in enumerate(slots_list):
                             if slot_name not in self.generator.SLOT_DEFINITIONS:
+                                outputs.extend(["(None)", "(No Color)"])
                                 continue
                             
-                            item = self.generator.sample_slot(slot_name)
-                            new_val = item.get("name", "(None)") if item else "(None)"
+                            is_constant = const_states[i] if i < len(const_states) else False
                             
-                            new_color = "(No Color)"
-                            has_color = self.generator.SLOT_DEFINITIONS[slot_name].get("has_color", False)
-                            if has_color:
-                                if color_mode_val == "Palette" and palette_id:
-                                    new_color = self.generator.sample_color_from_palette(palette_id) or "(No Color)"
-                                elif color_mode_val == "Random":
-                                    new_color = self.generator.sample_random_color() or "(No Color)"
+                            if is_constant:
+                                new_val = current_dds[i] if i < len(current_dds) else "(None)"
+                                new_color = current_cols[i] if i < len(current_cols) else "(No Color)"
+                            else:
+                                item = self.generator.sample_slot(slot_name)
+                                new_val = item.get("name", "(None)") if item else "(None)"
+                                
+                                new_color = "(No Color)"
+                                has_color = self.generator.SLOT_DEFINITIONS[slot_name].get("has_color", False)
+                                if has_color:
+                                    if color_mode_val == "Palette" and palette_id:
+                                        new_color = self.generator.sample_color_from_palette(palette_id) or "(No Color)"
+                                    elif color_mode_val == "Random":
+                                        new_color = self.generator.sample_random_color() or "(No Color)"
                             
                             outputs.extend([new_val, new_color])
                         
                         return outputs
                     return handler
                 
+                section_dd_color_outputs = []
+                for i in range(len(dropdown_list)):
+                    section_dd_color_outputs.extend([dropdown_list[i], color_list[i]])
+                
                 section_data["random_btn"].click(
-                    fn=make_section_randomize(slots),
-                    inputs=[palette_dropdown, color_mode],
+                    fn=make_section_randomize(slots, constant_list, dropdown_list, color_list),
+                    inputs=[palette_dropdown, color_mode] + constant_list + dropdown_list + color_list,
                     outputs=section_dd_color_outputs
-                )
-                
-                # Section disable/enable
-                def make_toggle_handler(count, value):
-                    def handler():
-                        return [value] * count
-                    return handler
-                
-                section_data["disable_btn"].click(
-                    fn=make_toggle_handler(len(enabled_list), False),
-                    inputs=[],
-                    outputs=enabled_list
-                )
-                section_data["enable_btn"].click(
-                    fn=make_toggle_handler(len(enabled_list), True),
-                    inputs=[],
-                    outputs=enabled_list
                 )
             
             # Per-slot random buttons
@@ -626,26 +690,6 @@ class PromptGeneratorUI:
                     outputs=[all_colors[i]]
                 )
             
-            # Checkbox change handlers - toggle green/red styling via JS
-            for i, slot_name in enumerate(slot_names_list):
-                row_id = f"slot-row-{slot_name}"
-                js_code = f"""
-                (checked) => {{
-                    const row = document.getElementById('{row_id}');
-                    if (row) {{
-                        row.classList.remove('slot-enabled', 'slot-disabled');
-                        row.classList.add(checked ? 'slot-enabled' : 'slot-disabled');
-                    }}
-                    return checked;
-                }}
-                """
-                all_enabled[i].change(
-                    fn=lambda x: x,
-                    inputs=[all_enabled[i]],
-                    outputs=[all_enabled[i]],
-                    js=js_code
-                )
-            
             # ===== SAVE/LOAD HANDLERS =====
             
             # Save config
@@ -656,23 +700,20 @@ class PromptGeneratorUI:
                 config = GeneratorConfig(name=config_name.strip())
                 config.created_at = datetime.now().isoformat()
                 
-                idx = 0
-                for slot_name in slot_names_list:
-                    if idx + 4 > len(slot_values):
-                        break
-                    
-                    enabled = slot_values[idx]
-                    value = slot_values[idx + 1]
-                    color = slot_values[idx + 2]
-                    weight = slot_values[idx + 3]
-                    idx += 4
-                    
+                num_slots = len(slot_names_list)
+                # slot_values = enabled + dropdowns + colors + weights
+                enabled_vals = slot_values[:num_slots]
+                dropdown_vals = slot_values[num_slots:num_slots*2]
+                color_vals = slot_values[num_slots*2:num_slots*3]
+                weight_vals = slot_values[num_slots*3:]
+                
+                for i, slot_name in enumerate(slot_names_list):
                     slot_config = SlotConfig(
-                        enabled=bool(enabled),
-                        value=value if value != "(None)" else None,
-                        color=color if color != "(No Color)" else None,
-                        color_enabled=bool(color and color != "(No Color)"),
-                        weight=float(weight) if weight else 1.0
+                        enabled=bool(enabled_vals[i]) if i < len(enabled_vals) else True,
+                        value=dropdown_vals[i] if i < len(dropdown_vals) and dropdown_vals[i] != "(None)" else None,
+                        color=color_vals[i] if i < len(color_vals) and color_vals[i] != "(No Color)" else None,
+                        color_enabled=bool(color_vals[i] and color_vals[i] != "(No Color)") if i < len(color_vals) else False,
+                        weight=float(weight_vals[i]) if i < len(weight_vals) and weight_vals[i] else 1.0
                     )
                     config.slots[slot_name] = slot_config
                 
@@ -683,42 +724,45 @@ class PromptGeneratorUI:
             
             save_btn.click(
                 fn=save_config_handler,
-                inputs=[config_name_input] + all_components,
+                inputs=[config_name_input] + all_enabled + all_dropdowns + all_colors + all_weights,
                 outputs=[save_status]
             )
             
             # Load config
             def load_config_handler(config_name):
+                num_slots = len(slot_names_list)
+                default_dropdowns = ["(None)"] * num_slots
+                default_colors = ["(No Color)"] * num_slots
+                default_weights = [1.0] * num_slots
+                
                 if not config_name:
-                    return self._get_default_ui_values() + [gr.update(value="❌ Please select a config")]
+                    return default_dropdowns + default_colors + default_weights + [gr.update(value="❌ Please select a config")]
                 
                 filepath = self.configs_dir / f"{config_name}.json"
                 if not filepath.exists():
-                    return self._get_default_ui_values() + [gr.update(value=f"❌ Config not found: {config_name}")]
+                    return default_dropdowns + default_colors + default_weights + [gr.update(value=f"❌ Config not found: {config_name}")]
                 
                 try:
                     config = self.generator.load_config(filepath)
-                    values = []
+                    dropdowns = []
+                    colors = []
+                    weights = []
                     
                     for slot_name in slot_names_list:
                         slot = config.slots.get(slot_name, SlotConfig())
-                        values.extend([
-                            slot.enabled,
-                            slot.value or "(None)",
-                            slot.color or "(No Color)",
-                            slot.weight if slot.weight else 1.0
-                        ])
+                        dropdowns.append(slot.value or "(None)")
+                        colors.append(slot.color or "(No Color)")
+                        weights.append(slot.weight if slot.weight else 1.0)
                     
-                    values.append(gr.update(value=f"✅ Loaded: {config_name}"))
-                    return values
+                    return dropdowns + colors + weights + [gr.update(value=f"✅ Loaded: {config_name}")]
                 except Exception as e:
                     print(f"Error loading config: {e}")
-                    return self._get_default_ui_values() + [gr.update(value=f"❌ Error: {str(e)}")]
+                    return default_dropdowns + default_colors + default_weights + [gr.update(value=f"❌ Error: {str(e)}")]
             
             load_btn.click(
                 fn=load_config_handler,
                 inputs=[load_dropdown],
-                outputs=all_components + [save_status]
+                outputs=all_dropdowns + all_colors + all_weights + [save_status]
             )
             
             # Refresh configs list
