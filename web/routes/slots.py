@@ -63,7 +63,7 @@ class RandomizeRequest(BaseModel):
     locked: Dict[str, bool] = {}
     palette_enabled: bool = True
     palette_id: Optional[str] = None
-    full_body_mode: bool = True
+    full_body_mode: bool = False
     upper_body_mode: bool = False
     current_values: Dict[str, Optional[str]] = {}
 
@@ -105,7 +105,7 @@ class RandomizeAllRequest(BaseModel):
     locked: Dict[str, bool] = {}
     palette_enabled: bool = True
     palette_id: Optional[str] = None
-    full_body_mode: bool = True
+    full_body_mode: bool = False
     upper_body_mode: bool = False
 
 

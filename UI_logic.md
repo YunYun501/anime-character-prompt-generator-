@@ -112,7 +112,7 @@ Each slot row contains these controls in order:
 
 | Setting | Options | Behavior |
 |---|---|---|
-| **Full-body mode** | Checkbox (default: off) | When on and `full_body` slot has a value, `upper_body` and `lower_body` are cleared during randomization and excluded from prompt. |
+| **Full-body specific outfit** | Checkbox (default: off) | One-shot helper: when turned on, it toggles `upper_body`, `waist`, `lower_body`, `hands`, `legs` to Off once. When turned off, slots that were auto-disabled by that toggle cycle are turned back On. User can still manually change any slot at any time. Also during randomization: if `full_body` slot has a value, `upper_body` and `lower_body` values are cleared. |
 | **Upper-body mode** | Checkbox (default: off) | One-shot helper: when turned on, it toggles `waist`, `lower_body`, `full_body`, `legs`, and `feet` to Off once. When turned off, slots that were auto-disabled by that toggle cycle are turned back On. User can still manually change any slot at any time. |
 | **Use Palette Colors** | Checkbox (default: on) | When on, randomization assigns colors from the active palette. When off, randomization does not auto-assign colors. |
 | **Palette selector** | Dropdown of palettes from color_palettes.json | Selects the active palette. If **Use Palette Colors** is on, changing palette applies it to current colored slots and regenerates prompt immediately. |
@@ -141,7 +141,18 @@ Same as Randomize All but only for slots within that section.
    - Update the color dropdown
 4. Regenerate prompt with new colors
 
-### Full-Body Override
+### Full-Body Specific Outfit One-Shot Disable
+- Trigger: when user turns on **Full-body specific outfit**
+- Action performed once at toggle time:
+  - Set `upper_body`, `waist`, `lower_body`, `hands`, `legs` to `enabled = false`
+- Trigger: when user turns off **Full-body specific outfit**
+- Restore action:
+  - Re-enable only the slots that were auto-disabled by the most recent enable action
+- No persistent lock:
+  - Those slots can still be toggled on/off manually at any time
+  - Prompt generation and randomization follow the current on/off state only
+
+### Full-Body Randomization Override
 - Only during randomization (not manual selection)
 - If `full_body` slot has a value AND `full_body_mode` is on:
   - `upper_body` value → null

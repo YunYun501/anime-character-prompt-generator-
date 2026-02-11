@@ -33,7 +33,7 @@ class SlotState(BaseModel):
 
 class GenerateRequest(BaseModel):
     slots: Dict[str, SlotState]
-    full_body_mode: bool = True
+    full_body_mode: bool = False
     upper_body_mode: bool = False
 
 
@@ -69,7 +69,7 @@ async def generate_prompt(req: GenerateRequest):
 class ApplyPaletteRequest(BaseModel):
     palette_id: str
     slots: Dict[str, SlotState]
-    full_body_mode: bool = True
+    full_body_mode: bool = False
     upper_body_mode: bool = False
 
 

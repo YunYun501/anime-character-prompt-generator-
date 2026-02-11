@@ -31,12 +31,6 @@ The launcher auto-selects a free port from `8000-8099` and opens your browser.
 
 ## Other Launchers
 
-- Gradio (legacy fallback):
-
-```bash
-python run_gradio.py
-```
-
 - Reflex (experimental):
 
 ```bash
@@ -96,7 +90,7 @@ Edit JSON catalogs to add new options:
 ## Requirements
 
 - Python 3.10+
-- Dependencies in `requirements.txt`: `fastapi`, `uvicorn`, `gradio`, `reflex`.
+- Dependencies in `requirements.txt`: `fastapi`, `uvicorn`, `reflex`.
 
 ## License
 

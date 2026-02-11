@@ -10,7 +10,8 @@ Quick-reference for finding the right file for any edit.
 | Slot order in prompt output | `web/routes/prompt.py` | `SLOT_ORDER` list |
 | Prompt building logic (weight syntax, color prefix) | `web/routes/prompt.py` | `generate_prompt()` |
 | Randomization logic | `web/routes/slots.py` | `randomize_slots()`, `randomize_all()` |
-| Full-body override behavior | `web/routes/slots.py` | Bottom of `randomize_all()` |
+| Full-body specific outfit one-shot disable/restore | `web/static/js/handlers.js` | `applyFullBodyModeOneShotDisable()`, `restoreFullBodyModeOneShotDisabledSlots()` |
+| Full-body randomization override behavior | `web/routes/slots.py` | Bottom of `randomize_all()` |
 | Lower-body coverage -> legs one-shot off behavior | `web/static/js/handlers.js` | `maybeDisableLegsForLowerBodyCoverage()` using `covers_legs` metadata |
 | Pose hand-usage -> hand actions one-shot off behavior | `web/static/js/handlers.js` | `maybeDisableHandActionsForPoseUsage()` using `uses_hands` metadata |
 | Palette auto-apply logic | `web/routes/prompt.py` | `apply_palette()` |
@@ -67,4 +68,3 @@ Quick-reference for finding the right file for any edit.
 | Script | What it launches |
 |---|---|
 | `python run_Fastapi.py` | FastAPI + vanilla HTML/JS UI (new) |
-| `python run_gradio.py` | Gradio UI (legacy fallback) |

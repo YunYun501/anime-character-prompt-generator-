@@ -383,6 +383,46 @@
       ]
     },
     {
+      "id": "nurse_top",
+      "name": "nurse top",
+      "body_part": "upper_body",
+      "aliases": [
+        "nurse uniform top"
+      ]
+    },
+    {
+      "id": "police_top",
+      "name": "police top",
+      "body_part": "upper_body",
+      "aliases": [
+        "police uniform top"
+      ]
+    },
+    {
+      "id": "office_lady_blouse",
+      "name": "office lady blouse",
+      "body_part": "upper_body",
+      "aliases": [
+        "secretary blouse"
+      ]
+    },
+    {
+      "id": "waitress_top",
+      "name": "waitress top",
+      "body_part": "upper_body",
+      "aliases": [
+        "waitstaff top"
+      ]
+    },
+    {
+      "id": "idol_stage_top",
+      "name": "idol stage top",
+      "body_part": "upper_body",
+      "aliases": [
+        "idol uniform top"
+      ]
+    },
+    {
       "id": "sports_bra",
       "name": "sports bra",
       "body_part": "upper_body",
@@ -668,12 +708,6 @@
       "covers_legs": false
     },
     {
-      "id": "ball_gown",
-      "name": "ball gown",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
       "id": "battle_suit_bodysuit",
       "name": "Battle suit / bodysuit",
       "body_part": "full_body",
@@ -682,36 +716,6 @@
     {
       "id": "bunny_leotard",
       "name": "bunny leotard",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "characters_dressing_up",
-      "name": "characters dressing up",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "cloth_mage_robes",
-      "name": "Cloth Mage Robes",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "colored_kimono",
-      "name": "colored kimono",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "dress",
-      "name": "dress",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "elven_dresses",
-      "name": "elven dresses",
       "body_part": "full_body",
       "aliases": []
     },
@@ -725,34 +729,8 @@
       ]
     },
     {
-      "id": "evening_dress_cocktail_dress",
-      "name": "Evening dress / cocktail dress",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "festival_costume",
-      "name": "festival costume",
-      "body_part": "full_body",
-      "aliases": [
-        "Other festival / folk costumes"
-      ]
-    },
-    {
       "id": "flight_suit",
       "name": "flight suit",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "gothic_dresses_victorian_inspired",
-      "name": "Gothic dresses / Victorian-inspired",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "hotel_yukata",
-      "name": "Hotel Yukata",
       "body_part": "full_body",
       "aliases": []
     },
@@ -779,83 +757,10 @@
       ]
     },
     {
-      "id": "kimono",
-      "name": "kimono",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "kunoichi_outfit",
-      "name": "kunoichi outfit",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "lolita_dress",
-      "name": "lolita dress",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "mage_witch_robes",
-      "name": "Mage / witch robes",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "mage_robe",
-      "name": "mage robe",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "magical_girl_dress",
-      "name": "magical girl dress",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "maid_dress",
-      "name": "maid dress",
-      "body_part": "full_body",
-      "aliases": [
-        "Classic Shrine Maiden",
-        "Combat Maid",
-        "French Maid",
-        "Neko Maid"
-      ]
-    },
-    {
       "id": "mecha_pilot_suit",
       "name": "Mecha pilot suit",
       "body_part": "full_body",
       "aliases": []
-    },
-    {
-      "id": "modern_yukata",
-      "name": "Modern Yukata",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "new_year_kimono",
-      "name": "New Year Kimono",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "nightgowns",
-      "name": "nightgowns",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "nurse_dress",
-      "name": "nurse dress",
-      "body_part": "full_body",
-      "aliases": [
-        "Nurse Uniform"
-      ]
     },
     {
       "id": "one_piece_swimsuit",
@@ -887,76 +792,8 @@
       ]
     },
     {
-      "id": "priestess_robes",
-      "name": "Priestess Robes",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "princess_dress",
-      "name": "princess dress",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "princess_gowns",
-      "name": "princess gowns",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "ritual_robe",
-      "name": "ritual robe",
-      "body_part": "full_body",
-      "aliases": [
-        "Occult / ritual wear"
-      ]
-    },
-    {
-      "id": "robes",
-      "name": "robes",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "santa_dress",
-      "name": "santa dress",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
       "id": "school_swimsuit",
       "name": "school swimsuit",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "stage_mini_dress",
-      "name": "stage mini-dress",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "summer_dresses",
-      "name": "Summer Dresses",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "summer_festival_yukata",
-      "name": "Summer Festival Yukata",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "summer_yukata",
-      "name": "summer yukata",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "sundresses",
-      "name": "sundresses",
       "body_part": "full_body",
       "aliases": []
     },
@@ -972,36 +809,6 @@
     {
       "id": "tactical_bodysuit",
       "name": "tactical bodysuit",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "track_suits",
-      "name": "track suits",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "western_white_dress",
-      "name": "western white dress",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "white_kimono",
-      "name": "white kimono",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "witch_dress",
-      "name": "witch dress",
-      "body_part": "full_body",
-      "aliases": []
-    },
-    {
-      "id": "yukata",
-      "name": "yukata",
       "body_part": "full_body",
       "aliases": []
     },
@@ -2279,6 +2086,456 @@
       "name": "striped thigh-high socks",
       "body_part": "legs",
       "aliases": []
+    },
+    {
+      "id": "crown",
+      "name": "crown",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "hair_ribbon",
+      "name": "hair ribbon",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "headband",
+      "name": "headband",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "hair_flower",
+      "name": "hair flower",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "mini_top_hat",
+      "name": "mini top hat",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "sun_hat",
+      "name": "sun hat",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "mob_cap",
+      "name": "mob cap",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "baseball_cap",
+      "name": "baseball cap",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "bucket_hat",
+      "name": "bucket hat",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "cowboy_hat",
+      "name": "cowboy hat",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "military_hat",
+      "name": "military hat",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "sailor_hat",
+      "name": "sailor hat",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "rice_hat",
+      "name": "rice hat",
+      "body_part": "head",
+      "aliases": [
+        "kasa"
+      ]
+    },
+    {
+      "id": "nightcap",
+      "name": "nightcap",
+      "body_part": "head",
+      "aliases": []
+    },
+    {
+      "id": "hair_pins",
+      "name": "hair pins",
+      "body_part": "head",
+      "aliases": [
+        "kanzashi"
+      ]
+    },
+    {
+      "id": "necklace",
+      "name": "necklace",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "pendant",
+      "name": "pendant",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "collar",
+      "name": "collar",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "chain_necklace",
+      "name": "chain necklace",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "neck_bell",
+      "name": "neck bell",
+      "body_part": "neck",
+      "aliases": [
+        "bell collar"
+      ]
+    },
+    {
+      "id": "feather_boa",
+      "name": "feather boa",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "locket",
+      "name": "locket",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "dog_collar",
+      "name": "dog collar",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "spiked_collar",
+      "name": "spiked collar",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "flower_necklace",
+      "name": "flower necklace",
+      "body_part": "neck",
+      "aliases": [
+        "lei"
+      ]
+    },
+    {
+      "id": "goggles_around_neck",
+      "name": "goggles around neck",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "headphones_around_neck",
+      "name": "headphones around neck",
+      "body_part": "neck",
+      "aliases": []
+    },
+    {
+      "id": "waist_sash",
+      "name": "waist sash",
+      "body_part": "waist",
+      "aliases": []
+    },
+    {
+      "id": "suspenders",
+      "name": "suspenders",
+      "body_part": "waist",
+      "aliases": []
+    },
+    {
+      "id": "fanny_pack",
+      "name": "fanny pack",
+      "body_part": "waist",
+      "aliases": [
+        "waist bag"
+      ]
+    },
+    {
+      "id": "chain_belt",
+      "name": "chain belt",
+      "body_part": "waist",
+      "aliases": []
+    },
+    {
+      "id": "corset_belt",
+      "name": "corset belt",
+      "body_part": "waist",
+      "aliases": [
+        "waist cincher"
+      ]
+    },
+    {
+      "id": "rope_belt",
+      "name": "rope belt",
+      "body_part": "waist",
+      "aliases": []
+    },
+    {
+      "id": "ribbon_belt",
+      "name": "ribbon belt",
+      "body_part": "waist",
+      "aliases": []
+    },
+    {
+      "id": "sash",
+      "name": "sash",
+      "body_part": "waist",
+      "aliases": []
+    },
+    {
+      "id": "hip_chain",
+      "name": "hip chain",
+      "body_part": "waist",
+      "aliases": [
+        "belly chain"
+      ]
+    },
+    {
+      "id": "waist_pouch",
+      "name": "waist pouch",
+      "body_part": "waist",
+      "aliases": []
+    },
+    {
+      "id": "waist_cape",
+      "name": "waist cape",
+      "body_part": "waist",
+      "aliases": []
+    },
+    {
+      "id": "ammunition_belt",
+      "name": "ammunition belt",
+      "body_part": "waist",
+      "aliases": [
+        "ammo belt"
+      ]
+    },
+    {
+      "id": "cloak",
+      "name": "cloak",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "denim_jacket",
+      "name": "denim jacket",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "bomber_jacket",
+      "name": "bomber jacket",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "fur_coat",
+      "name": "fur coat",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "duster_coat",
+      "name": "duster coat",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "overcoat",
+      "name": "overcoat",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "fur_trimmed_coat",
+      "name": "fur-trimmed coat",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "military_jacket",
+      "name": "military jacket",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "cropped_jacket",
+      "name": "cropped jacket",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "hoodie_jacket",
+      "name": "hoodie jacket",
+      "body_part": "outerwear",
+      "aliases": []
+    },
+    {
+      "id": "elbow_gloves",
+      "name": "elbow gloves",
+      "body_part": "hands",
+      "aliases": []
+    },
+    {
+      "id": "half_gloves",
+      "name": "half gloves",
+      "body_part": "hands",
+      "aliases": []
+    },
+    {
+      "id": "fur_trimmed_gloves",
+      "name": "fur-trimmed gloves",
+      "body_part": "hands",
+      "aliases": []
+    },
+    {
+      "id": "frilled_gloves",
+      "name": "frilled gloves",
+      "body_part": "hands",
+      "aliases": []
+    },
+    {
+      "id": "latex_gloves",
+      "name": "latex gloves",
+      "body_part": "hands",
+      "aliases": []
+    },
+    {
+      "id": "single_glove",
+      "name": "single glove",
+      "body_part": "hands",
+      "aliases": []
+    },
+    {
+      "id": "bridal_gauntlets",
+      "name": "bridal gauntlets",
+      "body_part": "hands",
+      "aliases": []
+    },
+    {
+      "id": "wristband",
+      "name": "wristband",
+      "body_part": "hands",
+      "aliases": []
+    },
+    {
+      "id": "bracelet",
+      "name": "bracelet",
+      "body_part": "hands",
+      "aliases": []
+    },
+    {
+      "id": "striped_thigh_highs",
+      "name": "striped thigh-highs",
+      "body_part": "legs",
+      "aliases": []
+    },
+    {
+      "id": "torn_stockings",
+      "name": "torn stockings",
+      "body_part": "legs",
+      "aliases": []
+    },
+    {
+      "id": "lace_stockings",
+      "name": "lace stockings",
+      "body_part": "legs",
+      "aliases": []
+    },
+    {
+      "id": "striped_stockings",
+      "name": "striped stockings",
+      "body_part": "legs",
+      "aliases": []
+    },
+    {
+      "id": "garter_straps",
+      "name": "garter straps",
+      "body_part": "legs",
+      "aliases": []
+    },
+    {
+      "id": "bandaged_leg",
+      "name": "bandaged leg",
+      "body_part": "legs",
+      "aliases": []
+    },
+    {
+      "id": "over_knee_socks",
+      "name": "over-knee socks",
+      "body_part": "legs",
+      "aliases": []
+    },
+    {
+      "id": "slippers",
+      "name": "slippers",
+      "body_part": "feet",
+      "aliases": []
+    },
+    {
+      "id": "pumps",
+      "name": "pumps",
+      "body_part": "feet",
+      "aliases": []
+    },
+    {
+      "id": "combat_boots",
+      "name": "combat boots",
+      "body_part": "feet",
+      "aliases": []
+    },
+    {
+      "id": "wedge_heels",
+      "name": "wedge heels",
+      "body_part": "feet",
+      "aliases": [
+        "wedges"
+      ]
+    },
+    {
+      "id": "lace_up_boots",
+      "name": "lace-up boots",
+      "body_part": "feet",
+      "aliases": []
+    },
+    {
+      "id": "flip_flops",
+      "name": "flip flops",
+      "body_part": "feet",
+      "aliases": []
+    },
+    {
+      "id": "high_heels",
+      "name": "high heels",
+      "body_part": "feet",
+      "aliases": []
     }
   ],
   "index_by_body_part": {
@@ -2309,6 +2566,11 @@
       "sailor_collar",
       "sailor_uniform_top",
       "scrub_top",
+      "nurse_top",
+      "police_top",
+      "office_lady_blouse",
+      "waitress_top",
+      "idol_stage_top",
       "sports_bra",
       "sports_jersey",
       "tank_tops",
@@ -2370,7 +2632,14 @@
       "sabatons",
       "setta_sandals",
       "thigh_high_boots",
-      "waraji_sandals"
+      "waraji_sandals",
+      "slippers",
+      "pumps",
+      "combat_boots",
+      "wedge_heels",
+      "lace_up_boots",
+      "flip_flops",
+      "high_heels"
     ],
     "neck": [
       "bowtie",
@@ -2392,7 +2661,19 @@
       "ribbon_choker",
       "frilled_collar",
       "corsage_neckpiece",
-      "gemstone_choker"
+      "gemstone_choker",
+      "necklace",
+      "pendant",
+      "collar",
+      "chain_necklace",
+      "neck_bell",
+      "feather_boa",
+      "locket",
+      "dog_collar",
+      "spiked_collar",
+      "flower_necklace",
+      "goggles_around_neck",
+      "headphones_around_neck"
     ],
     "head": [
       "beanie",
@@ -2427,7 +2708,22 @@
       "mail_coif",
       "mengu_armored_mask",
       "scrunchie",
-      "veil"
+      "veil",
+      "crown",
+      "hair_ribbon",
+      "headband",
+      "hair_flower",
+      "mini_top_hat",
+      "sun_hat",
+      "mob_cap",
+      "baseball_cap",
+      "bucket_hat",
+      "cowboy_hat",
+      "military_hat",
+      "sailor_hat",
+      "rice_hat",
+      "nightcap",
+      "hair_pins"
     ],
     "accessory": [
       "backpack",
@@ -2504,7 +2800,19 @@
       "obimakura_obi_pillow",
       "tassets",
       "utility_belt",
-      "waist_cincher"
+      "waist_cincher",
+      "waist_sash",
+      "suspenders",
+      "fanny_pack",
+      "chain_belt",
+      "corset_belt",
+      "rope_belt",
+      "ribbon_belt",
+      "sash",
+      "hip_chain",
+      "waist_pouch",
+      "waist_cape",
+      "ammunition_belt"
     ],
     "hands": [
       "fingerless_gloves",
@@ -2526,61 +2834,33 @@
       "frilled_wrist_cuffs",
       "lace_wrist_cuffs",
       "paw_gloves",
-      "silk_gloves"
+      "silk_gloves",
+      "elbow_gloves",
+      "half_gloves",
+      "fur_trimmed_gloves",
+      "frilled_gloves",
+      "latex_gloves",
+      "single_glove",
+      "bridal_gauntlets",
+      "wristband",
+      "bracelet"
     ],
     "full_body": [
-      "ball_gown",
       "battle_suit_bodysuit",
       "bunny_leotard",
-      "characters_dressing_up",
-      "cloth_mage_robes",
-      "colored_kimono",
-      "dress",
-      "elven_dresses",
       "eva_suit",
-      "evening_dress_cocktail_dress",
-      "festival_costume",
       "flight_suit",
-      "gothic_dresses_victorian_inspired",
-      "hotel_yukata",
       "interface_suit",
       "jumpsuit",
       "kigurumi_onesie",
-      "kimono",
-      "kunoichi_outfit",
-      "lolita_dress",
-      "mage_witch_robes",
-      "mage_robe",
-      "magical_girl_dress",
-      "maid_dress",
       "mecha_pilot_suit",
-      "modern_yukata",
-      "new_year_kimono",
-      "nightgowns",
-      "nurse_dress",
       "one_piece_swimsuit",
       "pilot_suit",
       "power_armor_exosuit",
       "power_suit",
-      "priestess_robes",
-      "princess_dress",
-      "princess_gowns",
-      "ritual_robe",
-      "robes",
-      "santa_dress",
       "school_swimsuit",
-      "stage_mini_dress",
-      "summer_dresses",
-      "summer_festival_yukata",
-      "summer_yukata",
-      "sundresses",
       "swimsuit",
-      "tactical_bodysuit",
-      "track_suits",
-      "western_white_dress",
-      "white_kimono",
-      "witch_dress",
-      "yukata"
+      "tactical_bodysuit"
     ],
     "outerwear": [
       "business_suit_jacket",
@@ -2609,7 +2889,17 @@
       "shrug",
       "stole",
       "trench_coat",
-      "uchikake"
+      "uchikake",
+      "cloak",
+      "denim_jacket",
+      "bomber_jacket",
+      "fur_coat",
+      "duster_coat",
+      "overcoat",
+      "fur_trimmed_coat",
+      "military_jacket",
+      "cropped_jacket",
+      "hoodie_jacket"
     ],
     "legs": [
       "ankle_socks",
@@ -2631,7 +2921,14 @@
       "patterned_tights",
       "leg_warmers",
       "garter_stockings",
-      "striped_thigh_high_socks"
+      "striped_thigh_high_socks",
+      "striped_thigh_highs",
+      "torn_stockings",
+      "lace_stockings",
+      "striped_stockings",
+      "garter_straps",
+      "bandaged_leg",
+      "over_knee_socks"
     ]
   }
 }

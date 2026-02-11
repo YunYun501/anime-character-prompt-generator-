@@ -9,6 +9,11 @@ import { clearPromptOutput, generateAndDisplay, getPromptOutputText, setPromptOu
 /** Reference to all slot DOM components, keyed by slot name. */
 let allSlotComponents = {};
 
+/** Slots toggled OFF once when full-body specific outfit is enabled. */
+const FULL_BODY_MODE_ONE_SHOT_DISABLE_SLOTS = ["upper_body", "waist", "lower_body", "hands", "legs"];
+/** Slots auto-disabled by full-body specific outfit in the latest enable cycle. */
+const fullBodyModeAutoDisabledSlots = new Set();
+
 /** Slots toggled OFF once when upper-body mode is enabled. */
 const UPPER_BODY_MODE_ONE_SHOT_DISABLE_SLOTS = ["waist", "lower_body", "full_body", "legs", "feet"];
 /** Slots auto-disabled by upper-body mode in the latest enable cycle. */
@@ -185,7 +190,14 @@ export function wireGlobalEvents() {
   });
 
   document.getElementById("full-body-mode").addEventListener("change", (e) => {
+    const wasEnabled = state.fullBodyMode;
     state.fullBodyMode = e.target.checked;
+    if (!wasEnabled && state.fullBodyMode) {
+      applyFullBodyModeOneShotDisable();
+    } else if (wasEnabled && !state.fullBodyMode) {
+      restoreFullBodyModeOneShotDisabledSlots();
+    }
+    applySlotConstraints();
     generateAndDisplay();
   });
 
@@ -352,6 +364,45 @@ function maybeDisableHandActionsForPoseUsage() {
 
   handActionsState.enabled = false;
   renderSlotEnabledState("gesture", handActionsComps);
+}
+
+function applyFullBodyModeOneShotDisable() {
+  fullBodyModeAutoDisabledSlots.clear();
+  for (const slotName of FULL_BODY_MODE_ONE_SHOT_DISABLE_SLOTS) {
+    const slotState = state.slots[slotName];
+    const c = allSlotComponents[slotName];
+    if (!slotState || !c) continue;
+    if (slotState.enabled) {
+      fullBodyModeAutoDisabledSlots.add(slotName);
+    }
+    slotState.enabled = false;
+    renderSlotEnabledState(slotName, c);
+  }
+  // Turn on the full_body slot
+  const fbState = state.slots.full_body;
+  const fbComps = allSlotComponents.full_body;
+  if (fbState && fbComps && !fbState.enabled) {
+    fbState.enabled = true;
+    renderSlotEnabledState("full_body", fbComps);
+  }
+}
+
+function restoreFullBodyModeOneShotDisabledSlots() {
+  for (const slotName of fullBodyModeAutoDisabledSlots) {
+    const slotState = state.slots[slotName];
+    const c = allSlotComponents[slotName];
+    if (!slotState || !c) continue;
+    slotState.enabled = true;
+    renderSlotEnabledState(slotName, c);
+  }
+  fullBodyModeAutoDisabledSlots.clear();
+  // Turn off the full_body slot
+  const fbState = state.slots.full_body;
+  const fbComps = allSlotComponents.full_body;
+  if (fbState && fbComps && fbState.enabled) {
+    fbState.enabled = false;
+    renderSlotEnabledState("full_body", fbComps);
+  }
 }
 
 function applyUpperBodyModeOneShotDisable() {
