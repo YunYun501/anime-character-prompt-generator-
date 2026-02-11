@@ -108,7 +108,8 @@ Each slot row contains these controls in order:
 
 | Setting | Options | Behavior |
 |---|---|---|
-| **Full-body mode** | Checkbox (default: on) | When on and `full_body` slot has a value, `upper_body` and `lower_body` are cleared during randomization and excluded from prompt. |
+| **Full-body mode** | Checkbox (default: off) | When on and `full_body` slot has a value, `upper_body` and `lower_body` are cleared during randomization and excluded from prompt. |
+| **Upper-body mode** | Checkbox (default: off) | When on, `waist`, `lower_body`, and `legs` are force-disabled and excluded from randomization/prompt. |
 | **Color mode** | None / Palette / Random | Controls how colors are assigned during randomization. None=no colors. Palette=from selected palette. Random=from individual_colors list. |
 | **Palette selector** | Dropdown of palettes from color_palettes.json | On change: auto-switches to Palette mode, applies palette colors to all `has_color` slots that have a current value, and regenerates prompt immediately. |
 
@@ -143,6 +144,14 @@ Same as Randomize All but only for slots within that section.
   - `lower_body` value → null
 - User can still manually set upper/lower body after randomization
 
+### Lower-Body Leg Coverage Rule
+- `lower_body` items include `covers_legs` metadata in `clothing/clothing_list.json`
+- If selected lower-body item has `covers_legs == true`:
+  - `legs` slot is force-disabled in UI
+  - `legs` is excluded from prompt output
+- If lower-body changes to `covers_legs == false` item:
+  - `legs` is re-enabled (restoring previous on/off state)
+
 ---
 
 ## 7. Prompt Building
@@ -168,6 +177,7 @@ background
 - Always starts with `1girl`
 - Skip slots where `enabled == false` or `value == null`
 - If full-body mode on and `full_body` has a value, skip `upper_body` and `lower_body`
+- If selected `lower_body` has `covers_legs == true`, skip `legs`
 - Color prefix: if color is set → `"{color} {value}"` (e.g., "blue skirt")
 - Weight syntax: if weight != 1.0 → `"({part}:{weight})"` (e.g., "(blue skirt:1.3)")
 - Join all parts with `, `
@@ -215,25 +225,25 @@ background
 ## 9. API Contract
 
 ### GET /api/slots
-Response: `{ slots: { [name]: { category, has_color, options: string[] } }, sections: { [key]: { label, icon, slots, columns? } } }`
+Response: `{ slots: { [name]: { category, has_color, options: string[] } }, sections: { [key]: { label, icon, slots, columns? } }, lower_body_covers_legs_by_name: { [lower_body_name]: boolean } }`
 
 ### GET /api/palettes
 Response: `{ palettes: [{ id, name, colors: string[] }], individual_colors: string[] }`
 
 ### POST /api/randomize
-Body: `{ slot_names, locked, color_mode, palette_id, full_body_mode, current_values }`
+Body: `{ slot_names, locked, color_mode, palette_id, full_body_mode, upper_body_mode, current_values }`
 Response: `{ results: { [name]: { value, color } } }`
 
 ### POST /api/randomize-all
-Body: `{ locked, color_mode, palette_id, full_body_mode }`
+Body: `{ locked, color_mode, palette_id, full_body_mode, upper_body_mode }`
 Response: `{ results: { [name]: { value, color } } }`
 
 ### POST /api/generate-prompt
-Body: `{ slots: { [name]: { enabled, value, color, weight } }, full_body_mode }`
+Body: `{ slots: { [name]: { enabled, value, color, weight } }, full_body_mode, upper_body_mode }`
 Response: `{ prompt: string }`
 
 ### POST /api/apply-palette
-Body: `{ palette_id, slots: { [name]: { enabled, value, color, weight } }, full_body_mode }`
+Body: `{ palette_id, slots: { [name]: { enabled, value, color, weight } }, full_body_mode, upper_body_mode }`
 Response: `{ colors: { [name]: string }, prompt: string }`
 
 ### GET /api/configs

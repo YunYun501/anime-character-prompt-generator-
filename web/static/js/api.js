@@ -29,41 +29,45 @@ export function fetchPalettes() {
 }
 
 /** Randomize specific slots. */
-export function randomizeSlots(slotNames, locked, colorMode, paletteId, fullBodyMode, currentValues) {
+export function randomizeSlots(slotNames, locked, colorMode, paletteId, fullBodyMode, upperBodyMode, currentValues) {
   return post("/api/randomize", {
     slot_names: slotNames,
     locked,
     color_mode: colorMode,
     palette_id: paletteId,
     full_body_mode: fullBodyMode,
+    upper_body_mode: upperBodyMode,
     current_values: currentValues,
   });
 }
 
 /** Randomize all slots. */
-export function randomizeAll(locked, colorMode, paletteId, fullBodyMode) {
+export function randomizeAll(locked, colorMode, paletteId, fullBodyMode, upperBodyMode) {
   return post("/api/randomize-all", {
     locked,
     color_mode: colorMode,
     palette_id: paletteId,
     full_body_mode: fullBodyMode,
+    upper_body_mode: upperBodyMode,
   });
 }
 
 /** Generate prompt string from slot state. */
-export function generatePrompt(slots, fullBodyMode) {
+export function generatePrompt(slots, fullBodyMode, upperBodyMode) {
   return post("/api/generate-prompt", {
     slots,
     full_body_mode: fullBodyMode,
+    upper_body_mode: upperBodyMode,
   });
 }
 
 /** Apply palette colors and get new prompt. */
-export function applyPalette(paletteId, slots, fullBodyMode) {
+export function applyPalette(paletteId, slots, fullBodyMode, upperBodyMode) {
   return post("/api/apply-palette", {
     palette_id: paletteId,
     slots,
     full_body_mode: fullBodyMode,
+    upper_body_mode: upperBodyMode,
   });
 }
 

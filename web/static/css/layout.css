@@ -25,6 +25,30 @@ hr {
 /* ===== Prompt Output Section ===== */
 #prompt-section { margin-bottom: 12px; }
 
+#prompt-prefix-wrap {
+  margin-bottom: 8px;
+}
+
+#prompt-prefix-wrap label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+#prompt-prefix {
+  width: 100%;
+  background: var(--bg-surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 8px 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  resize: vertical;
+}
+
 #prompt-output {
   width: 100%;
   background: var(--bg-surface);
@@ -67,6 +91,115 @@ hr {
 .setting-label {
   color: var(--text-muted);
   font-weight: 500;
+}
+
+.setting-palette {
+  min-width: 360px;
+}
+
+.palette-picker {
+  position: relative;
+  min-width: 280px;
+}
+
+.palette-picker-btn {
+  width: 100%;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.palette-picker-btn:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+#palette-picker-name {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.palette-picker-caret {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.palette-picker-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  max-height: 260px;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+  z-index: 40;
+  display: none;
+}
+
+.palette-picker-menu.open {
+  display: block;
+}
+
+.palette-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 12px;
+}
+
+.palette-option:last-child {
+  border-bottom: none;
+}
+
+.palette-option:hover {
+  background: var(--bg-slot-hover);
+}
+
+.palette-option.active {
+  background: var(--blue-bg);
+}
+
+.palette-swatches {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.palette-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  flex: 0 0 auto;
+}
+
+.palette-select-hidden {
+  display: none;
 }
 
 /* ===== Sections Container ===== */

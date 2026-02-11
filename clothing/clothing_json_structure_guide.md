@@ -2,7 +2,7 @@
 
 This document explains the structure of the clothing catalog JSON file:
 
-- **Catalog file:** `combined_anime_female_clothing_by_bodypart_expanded.json`
+- **Catalog file used by app:** `clothing/clothing_list.json`
 - **Purpose:** Provide an AI agent with a predictable schema so it can randomly sample clothing items by *body-part slot*.
 
 Generated: 2026-02-10T23:49:08Z
@@ -38,7 +38,7 @@ Each item represents a *single wearable component* (e.g., â€œsailor uniform topâ
 Common fields present across the dataset:
 
 ```text
-['aliases', 'alt_body_parts', 'body_part', 'id', 'name']
+['aliases', 'alt_body_parts', 'body_part', 'covers_legs', 'id', 'name']
 ```
 
 ### 2.2 Field definitions
@@ -80,6 +80,14 @@ Synonyms / alternative names an agent may match on.
 
 Example: `["seifuku top", "sailor blouse"]`
 
+#### `covers_legs` (boolean, optional; lower_body only)
+Whether this lower-body item already covers the leg area enough that `legs`
+slot items (e.g., tights/stockings) should be force-disabled.
+
+Guideline:
+- `true` for long pants / hakama-style items
+- `false` for skirts, shorts, bloomers, bikini bottoms
+
 > Note: You previously requested removing `sources`. This catalog contains **no `sources` field**.
 
 ### 2.3 Example item
@@ -90,6 +98,18 @@ Example: `["seifuku top", "sailor blouse"]`
   "name": "barrette",
   "body_part": "head",
   "aliases": []
+}
+```
+
+Lower-body example:
+
+```json
+{
+  "id": "jeans",
+  "name": "jeans",
+  "body_part": "lower_body",
+  "aliases": [],
+  "covers_legs": true
 }
 ```
 
@@ -123,7 +143,7 @@ Python-like pseudocode:
 ```python
 import json, random
 
-with open("combined_anime_female_clothing_by_bodypart_expanded.json", "r", encoding="utf-8") as f:
+with open("clothing/clothing_list.json", "r", encoding="utf-8") as f:
     catalog = json.load(f)
 
 items = catalog["items"]

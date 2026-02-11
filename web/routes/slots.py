@@ -51,7 +51,11 @@ async def get_slots():
             "has_color": defn.get("has_color", False),
             "options": options,
         }
-    return {"slots": slots, "sections": SECTION_LAYOUT}
+    return {
+        "slots": slots,
+        "sections": SECTION_LAYOUT,
+        "lower_body_covers_legs_by_name": gen.get_lower_body_covers_legs_by_name(),
+    }
 
 
 class RandomizeRequest(BaseModel):
@@ -60,6 +64,7 @@ class RandomizeRequest(BaseModel):
     color_mode: str = "none"           # "none" | "palette" | "random"
     palette_id: Optional[str] = None
     full_body_mode: bool = True
+    upper_body_mode: bool = False
     current_values: Dict[str, Optional[str]] = {}
 
 
@@ -68,11 +73,19 @@ async def randomize_slots(req: RandomizeRequest):
     """Randomize specific slots. Returns {slot_name: {value, color}}."""
     results = {}
     full_body_value = req.current_values.get("full_body")
+    lower_body_value = req.current_values.get("lower_body")
+    lower_body_covers_legs = gen.lower_body_value_covers_legs(lower_body_value)
 
     for name in req.slot_names:
         if name not in gen.SLOT_DEFINITIONS:
             continue
         if req.locked.get(name, False):
+            continue
+        if req.upper_body_mode and name in ("waist", "lower_body", "legs"):
+            continue
+        if (name == "legs" and lower_body_covers_legs
+                and not (req.full_body_mode and full_body_value)):
+            results[name] = {"value": None, "color": None}
             continue
 
         item = gen.sample_slot(name)
@@ -80,6 +93,10 @@ async def randomize_slots(req: RandomizeRequest):
 
         if name == "full_body":
             full_body_value = value
+            if req.full_body_mode and full_body_value:
+                lower_body_covers_legs = False
+        if name == "lower_body":
+            lower_body_covers_legs = gen.lower_body_item_covers_legs(item)
 
         # Full-body override
         if (req.full_body_mode and name in ("upper_body", "lower_body")
@@ -95,6 +112,12 @@ async def randomize_slots(req: RandomizeRequest):
 
         results[name] = {"value": value, "color": color}
 
+    # If lower body covers legs, enforce empty legs result.
+    if (not req.upper_body_mode and lower_body_covers_legs
+            and not (req.full_body_mode and full_body_value)
+            and not req.locked.get("legs", False)):
+        results["legs"] = {"value": None, "color": None}
+
     return {"results": results}
 
 
@@ -103,6 +126,7 @@ class RandomizeAllRequest(BaseModel):
     color_mode: str = "none"
     palette_id: Optional[str] = None
     full_body_mode: bool = True
+    upper_body_mode: bool = False
 
 
 @router.post("/randomize-all")
@@ -110,9 +134,16 @@ async def randomize_all(req: RandomizeAllRequest):
     """Randomize every non-locked slot. Returns full state."""
     results = {}
     full_body_value = None
+    lower_body_covers_legs = False
 
     for name in gen.SLOT_DEFINITIONS:
         if req.locked.get(name, False):
+            continue
+        if req.upper_body_mode and name in ("waist", "lower_body", "legs"):
+            continue
+        if (name == "legs" and lower_body_covers_legs
+                and not (req.full_body_mode and full_body_value)):
+            results[name] = {"value": None, "color": None}
             continue
 
         item = gen.sample_slot(name)
@@ -120,6 +151,10 @@ async def randomize_all(req: RandomizeAllRequest):
 
         if name == "full_body":
             full_body_value = value
+            if req.full_body_mode and full_body_value:
+                lower_body_covers_legs = False
+        if name == "lower_body":
+            lower_body_covers_legs = gen.lower_body_item_covers_legs(item)
 
         color = None
         if gen.SLOT_DEFINITIONS[name].get("has_color", False):
@@ -135,5 +170,11 @@ async def randomize_all(req: RandomizeAllRequest):
         for name in ("upper_body", "lower_body"):
             if name in results and not req.locked.get(name, False):
                 results[name]["value"] = None
+
+    # Lower-body coverage override for legs.
+    if (not req.upper_body_mode and lower_body_covers_legs
+            and not (req.full_body_mode and full_body_value)
+            and not req.locked.get("legs", False)):
+        results["legs"] = {"value": None, "color": None}
 
     return {"results": results}

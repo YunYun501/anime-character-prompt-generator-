@@ -217,6 +217,32 @@ class PromptGenerator:
         """Get list of option names for dropdown display."""
         options = self.get_slot_options(slot_name)
         return [opt.get("name", opt.get("id", "")) for opt in options]
+
+    def get_lower_body_covers_legs_by_name(self) -> Dict[str, bool]:
+        """
+        Return a map of lower_body item name -> whether it covers legs.
+        Missing flag defaults to False for backward compatibility.
+        """
+        mapping: Dict[str, bool] = {}
+        for item in self.get_slot_options("lower_body"):
+            name = item.get("name")
+            if not name:
+                continue
+            mapping[name] = bool(item.get("covers_legs", False))
+        return mapping
+
+    def lower_body_item_covers_legs(self, item: Optional[dict]) -> bool:
+        """Check coverage flag on a sampled lower_body item dict."""
+        if not item:
+            return False
+        return bool(item.get("covers_legs", False))
+
+    def lower_body_value_covers_legs(self, value: Optional[str]) -> bool:
+        """Check whether a selected lower_body display value covers legs."""
+        if not value:
+            return False
+        mapping = self.get_lower_body_covers_legs_by_name()
+        return bool(mapping.get(value, False))
     
     def sample_slot(self, slot_name: str) -> Optional[dict]:
         """Randomly sample an item for a slot."""
@@ -309,6 +335,7 @@ class PromptGenerator:
         # Handle full_body logic
         if config.full_body_mode:
             self._apply_full_body_logic(config)
+        self._apply_lower_body_leg_logic(config)
     
     def _apply_full_body_logic(self, config: GeneratorConfig) -> None:
         """Apply full_body override logic - if full_body is set, clear upper/lower."""
@@ -319,6 +346,20 @@ class PromptGenerator:
                 if slot_name in config.slots and not config.slots[slot_name].locked:
                     config.slots[slot_name].value = None
                     config.slots[slot_name].value_id = None
+
+    def _apply_lower_body_leg_logic(self, config: GeneratorConfig) -> None:
+        """
+        If lower_body is an item that covers legs, clear legs slot value.
+        """
+        lower = config.slots.get("lower_body")
+        legs = config.slots.get("legs")
+        if not lower or not legs:
+            return
+        if not lower.enabled or not lower.value:
+            return
+        if self.lower_body_value_covers_legs(lower.value):
+            legs.value = None
+            legs.value_id = None
     
     def build_prompt(self, config: GeneratorConfig) -> str:
         """Build the final prompt string from configuration."""
@@ -344,6 +385,11 @@ class PromptGenerator:
             # Background
             "background"
         ]
+
+        lower_body_covers_legs = False
+        lower_body_slot = config.slots.get("lower_body")
+        if lower_body_slot and lower_body_slot.enabled and lower_body_slot.value:
+            lower_body_covers_legs = self.lower_body_value_covers_legs(lower_body_slot.value)
         
         for slot_name in slot_order:
             if slot_name not in config.slots:
@@ -359,6 +405,10 @@ class PromptGenerator:
                 if full_body_slot and full_body_slot.enabled and full_body_slot.value:
                     # Skip if not explicitly overridden
                     continue
+
+            # If lower body covers legs, skip legs slot to avoid overlap.
+            if slot_name == "legs" and lower_body_covers_legs:
+                continue
             
             # Build the prompt part
             prompt_part = ""

@@ -14,14 +14,23 @@ export const state = {
   /** @type {string|null} */
   activePaletteId: null,
 
+  /** Keep palette unchanged during Randomize All when true. */
+  paletteLocked: false,
+
   /** @type {boolean} */
   fullBodyMode: false,
+
+  /** @type {boolean} */
+  upperBodyMode: false,
 
   /** Slot definitions from API (options, has_color, category) */
   slotDefs: {},
 
   /** Section layout from API */
   sections: {},
+
+  /** lower_body display name -> covers_legs bool */
+  lowerBodyCoversLegsByName: {},
 
   /** Palette list from API */
   palettes: [],
@@ -35,6 +44,7 @@ const DEFAULT_DISABLED_SLOTS = new Set([
   "special_features",
   "full_body",
   "eye_style",
+  "hands",
 ]);
 
 /** Initialize slot state for all known slots. */

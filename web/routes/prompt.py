@@ -34,6 +34,7 @@ class SlotState(BaseModel):
 class GenerateRequest(BaseModel):
     slots: Dict[str, SlotState]
     full_body_mode: bool = True
+    upper_body_mode: bool = False
 
 
 @router.post("/generate-prompt")
@@ -46,13 +47,28 @@ async def generate_prompt(req: GenerateRequest):
     if fb and fb.enabled and fb.value:
         full_body_val = fb.value
 
+    lower_body_covers_legs = False
+    lower = req.slots.get("lower_body")
+    if lower and lower.enabled and lower.value:
+        lower_body_covers_legs = gen.lower_body_value_covers_legs(lower.value)
+    if req.full_body_mode and full_body_val:
+        lower_body_covers_legs = False
+
     for name in SLOT_ORDER:
         slot = req.slots.get(name)
         if not slot or not slot.enabled or not slot.value:
             continue
 
+        # Skip lower-body slots if upper-body mode is active
+        if req.upper_body_mode and name in ("waist", "lower_body", "legs"):
+            continue
+
         # Skip upper/lower if full_body active
         if req.full_body_mode and name in ("upper_body", "lower_body") and full_body_val:
+            continue
+
+        # Skip legs if lower-body item already covers legs.
+        if name == "legs" and lower_body_covers_legs:
             continue
 
         part = f"{slot.color} {slot.value}" if slot.color else slot.value
@@ -69,6 +85,7 @@ class ApplyPaletteRequest(BaseModel):
     palette_id: str
     slots: Dict[str, SlotState]
     full_body_mode: bool = True
+    upper_body_mode: bool = False
 
 
 @router.post("/apply-palette")
@@ -76,8 +93,23 @@ async def apply_palette(req: ApplyPaletteRequest):
     """Apply palette colors to all has_color slots that have a value, then regenerate prompt."""
     new_colors = {}
 
+    lower_body_covers_legs = False
+    lower = req.slots.get("lower_body")
+    if lower and lower.enabled and lower.value:
+        lower_body_covers_legs = gen.lower_body_value_covers_legs(lower.value)
+    full_body_active = False
+    fb = req.slots.get("full_body")
+    if fb and fb.enabled and fb.value and req.full_body_mode:
+        full_body_active = True
+    if full_body_active:
+        lower_body_covers_legs = False
+
     for name, defn in gen.SLOT_DEFINITIONS.items():
         if not defn.get("has_color", False):
+            continue
+        if req.upper_body_mode and name in ("waist", "lower_body", "legs"):
+            continue
+        if name == "legs" and lower_body_covers_legs:
             continue
         slot = req.slots.get(name)
         if slot and slot.value:
@@ -88,7 +120,11 @@ async def apply_palette(req: ApplyPaletteRequest):
                 req.slots[name].color = color
 
     # Regenerate prompt with new colors
-    gen_req = GenerateRequest(slots=req.slots, full_body_mode=req.full_body_mode)
+    gen_req = GenerateRequest(
+        slots=req.slots,
+        full_body_mode=req.full_body_mode,
+        upper_body_mode=req.upper_body_mode,
+    )
     prompt_result = await generate_prompt(gen_req)
 
     return {"colors": new_colors, "prompt": prompt_result["prompt"]}

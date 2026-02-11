@@ -1,7 +1,13 @@
 /**
- * app.js — Entry point. Fetches data, builds UI, wires all events.
+ * app.js - Entry point. Fetches data, builds UI, wires all events.
+ *
+ * Change log (2026-02-11):
+ * - Added default-off settings and default-disabled slot behavior
+ *   (`full_body_mode`, `special_features`, `full_body`, `eye_style`, `hands`).
+ * - Added constant prompt prefix support in output generation.
+ * - Added upper-body mode flow that suppresses `waist`, `lower_body`, `legs`.
+ * - Added lower-body `covers_legs` constraints and backend/frontend enforcement.
  */
-
 import { state, initSlotState } from "./state.js";
 import * as api from "./api.js";
 import { createSection } from "./components.js";
@@ -16,6 +22,7 @@ async function init() {
 
   // 2. Store data in state
   state.sections = slotsData.sections;
+  state.lowerBodyCoversLegsByName = slotsData.lower_body_covers_legs_by_name || {};
   state.individualColors = palettesData.individual_colors || [];
   state.palettes = palettesData.palettes || [];
   initSlotState(slotsData.slots);
@@ -61,3 +68,4 @@ async function init() {
 }
 
 init();
+

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "title": "Combined female anime clothing pieces categorized by body coverage",
-  "generated_utc": "2026-02-11T00:00:00Z",
+  "generated_utc": "2026-02-11T00:30:00Z",
   "source_files": [
     "gpt.json",
     "grok.json",
@@ -468,175 +468,204 @@
       "id": "andon_hakama",
       "name": "Andon Hakama",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "armor_skirt",
       "name": "armor skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "bikini_bottoms",
       "name": "bikini bottoms",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "bloomers",
       "name": "bloomers",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "business_suit_trousers",
       "name": "business suit trousers",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "camo_pants",
       "name": "camo pants",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "cheerleader_skirt",
       "name": "cheerleader skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "club_uniform_bottom",
       "name": "club uniform bottom",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "gi_pants",
       "name": "gi pants",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "gym_shorts",
       "name": "gym shorts",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "jeans",
       "name": "jeans",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "martial_arts_hakama",
       "name": "Martial Arts Hakama",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "mini_skirt",
       "name": "mini skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "officer_skirt",
       "name": "officer skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "pants",
       "name": "pants",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "petticoat",
       "name": "petticoat",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "pleated_skirt",
       "name": "pleated skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "police_skirt",
       "name": "police skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "red_hakama",
       "name": "red hakama",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "sailor_uniform_skirt",
       "name": "sailor uniform skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "scrub_pants",
       "name": "scrub pants",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "shorts",
       "name": "shorts",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "skirt_armor",
       "name": "skirt armor",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "tennis_skirt",
       "name": "tennis skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "top_skirt",
       "name": "top + skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "tracksuit_pants",
       "name": "tracksuit pants",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "tutu_skirt",
       "name": "tutu skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "umanori_hakama",
       "name": "Umanori Hakama",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": true
     },
     {
       "id": "uniform_skirt",
       "name": "uniform skirt",
       "body_part": "lower_body",
-      "aliases": []
+      "aliases": [],
+      "covers_legs": false
     },
     {
       "id": "ball_gown",

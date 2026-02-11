@@ -16,6 +16,10 @@
 
   <!-- Prompt Output -->
   <section id="prompt-section">
+    <div id="prompt-prefix-wrap">
+      <label for="prompt-prefix">Always Include (Stable Diffusion Prefix)</label>
+      <textarea id="prompt-prefix" rows="2">(masterpiece),(best quality),(ultra-detailed),(best illustration),(absurdres),(very aesthetic),(newest),detailed eyes, detailed face</textarea>
+    </div>
     <textarea id="prompt-output" rows="3" placeholder="Generated prompt will appear here..."></textarea>
     <div id="prompt-buttons">
       <button id="btn-generate" class="btn btn-primary">Generate Prompt</button>
@@ -31,15 +35,28 @@
       <input type="checkbox" id="full-body-mode">
       <span>Full-body mode</span>
     </label>
+    <label class="setting">
+      <input type="checkbox" id="upper-body-mode">
+      <span>Upper-body mode</span>
+    </label>
     <div class="setting">
       <span class="setting-label">Color Mode:</span>
       <label><input type="radio" name="color-mode" value="none" checked> None</label>
       <label><input type="radio" name="color-mode" value="palette"> Palette</label>
       <label><input type="radio" name="color-mode" value="random"> Random</label>
     </div>
-    <div class="setting">
-      <label for="palette-select">Palette:</label>
-      <select id="palette-select">
+    <div class="setting setting-palette">
+      <label for="palette-picker-btn">Palette:</label>
+      <div id="palette-picker" class="palette-picker">
+        <button id="palette-picker-btn" type="button" class="palette-picker-btn" aria-haspopup="listbox" aria-expanded="false">
+          <span id="palette-picker-name">(None)</span>
+          <span id="palette-picker-swatches" class="palette-swatches"></span>
+          <span class="palette-picker-caret">▼</span>
+        </button>
+        <div id="palette-picker-menu" class="palette-picker-menu" role="listbox" aria-label="Palette options"></div>
+      </div>
+      <button id="btn-palette-lock" type="button" class="btn-lock" title="Lock palette during Randomize All">🔓</button>
+      <select id="palette-select" class="palette-select-hidden" aria-hidden="true" tabindex="-1">
         <option value="">(None)</option>
       </select>
     </div>
