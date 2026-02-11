@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "title": "Art-Proven Color Palettes for Anime Characters",
-  "generated_utc": "2026-02-11T17:10:00Z",
+  "generated_utc": "2026-02-11T17:45:00Z",
   "palettes": [
     {"id": "complementary_blue_orange", "name": "Blue & Orange Harmony", "type": "harmony", "colors": ["blue", "orange", "white", "cream"], "description": "Classic complementary contrast"},
     {"id": "complementary_red_green", "name": "Red & Green Classic", "type": "harmony", "colors": ["red", "green", "white", "gold"], "description": "Traditional complementary pair"},
@@ -99,7 +99,15 @@
     {"id": "jjk_megumi_schemecolor", "name": "Megumi (JJK)", "type": "anime_classic", "colors": ["navy blue", "gold", "peach", "blue", "dark blue"], "description": "Character palette inspired by SchemeColor's Megumi (Jujutsu Kaisen)"},
     {"id": "triad_orange_blue_colorhex", "name": "Orange Blue Triad", "type": "harmony", "colors": ["orange", "blue", "mint", "purple", "white"], "description": "Triadic/complementary palette derived from Color-Hex schemes for #ff8200"},
     {"id": "pastel_anime_colorhex", "name": "Pastel Anime", "type": "theme", "colors": ["light green", "light yellow", "light blue", "light purple", "rose"], "description": "Pastel anime palette inspired by Color-Hex"},
-    {"id": "kawaii_anime_pastelcolorpalettes", "name": "Kawaii Anime Pastels", "type": "theme", "colors": ["light blue", "sky blue", "ivory", "light pink", "light yellow"], "description": "Kawaii anime pastel palette inspired by PastelColorPalettes"}
+    {"id": "kawaii_anime_pastelcolorpalettes", "name": "Kawaii Anime Pastels", "type": "theme", "colors": ["light blue", "sky blue", "ivory", "light pink", "light yellow"], "description": "Kawaii anime pastel palette inspired by PastelColorPalettes"},
+    {"id": "fate_saber_animecolors", "name": "Saber (Fate) Classic", "type": "anime_classic", "colors": ["blue", "dark blue", "navy blue", "gold", "light yellow", "peach", "white"], "description": "Female character palette inspired by Anime-Colors' Saber profile"},
+    {"id": "rezero_rem_animecolors", "name": "Rem (Re:Zero)", "type": "anime_classic", "colors": ["sky blue", "blue", "light blue", "purple", "violet", "light pink", "white", "dark grey"], "description": "Female character palette inspired by Anime-Colors' Rem profile"},
+    {"id": "rezero_emilia_animecolors", "name": "Emilia (Re:Zero)", "type": "anime_classic", "colors": ["mint", "light purple", "lavender", "violet", "white", "light grey", "peach"], "description": "Female character palette inspired by Anime-Colors' Emilia profile"},
+    {"id": "rezero_ram_animecolors", "name": "Ram (Re:Zero)", "type": "anime_classic", "colors": ["lavender", "light purple", "purple", "pink", "light pink", "light grey", "dark grey"], "description": "Female character palette inspired by Anime-Colors' Ram profile"},
+    {"id": "akame_esdeath_animecolors", "name": "Esdeath (Akame ga Kill)", "type": "anime_classic", "colors": ["light blue", "sky blue", "blue", "dark blue", "silver", "white", "brown"], "description": "Female character palette inspired by Anime-Colors' Esdeath profile"},
+    {"id": "akame_najenda_animecolors", "name": "Najenda (Akame ga Kill)", "type": "anime_classic", "colors": ["blue", "dark blue", "lavender", "light purple", "light blue", "tan", "peach", "green", "white"], "description": "Female character palette inspired by Anime-Colors' Najenda profile"},
+    {"id": "codegeass_sakuya_sumeragi_animecolors", "name": "Sakuya Sumeragi (Code Geass)", "type": "anime_classic", "colors": ["aqua", "teal", "light green", "gold", "pink", "rose", "yellow", "white", "indigo"], "description": "Female character palette inspired by Anime-Colors' Sakuya Sumeragi profile"},
+    {"id": "akame_akame_animecolors", "name": "Akame (Akame ga Kill)", "type": "anime_classic", "colors": ["dark grey", "dark blue", "crimson", "peach", "light grey", "navy blue", "white"], "description": "Female character palette inspired by Anime-Colors' Akame profile"}
   ],
   "individual_colors": [
     "white", "black", "grey", "light grey", "dark grey", "silver",
@@ -145,7 +153,9 @@
       "elf_forest", "demon_classic", "angel_classic",
       "idol_pink", "idol_blue", "idol_rainbow",
       "naruto_sakura_schemecolor", "naruto_akatsuki_schemecolor", "naruto_shikamaru_schemecolor", "naruto_uzumaki_schemecolor",
-      "jjk_nobara_schemecolor", "jjk_gojo_schemecolor", "jjk_megumi_schemecolor"
+      "jjk_nobara_schemecolor", "jjk_gojo_schemecolor", "jjk_megumi_schemecolor",
+      "fate_saber_animecolors", "rezero_rem_animecolors", "rezero_emilia_animecolors", "rezero_ram_animecolors",
+      "akame_esdeath_animecolors", "akame_najenda_animecolors", "codegeass_sakuya_sumeragi_animecolors", "akame_akame_animecolors"
     ],
     "seasonal": [
       "spring_sakura", "spring_fresh",

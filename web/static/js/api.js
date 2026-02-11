@@ -29,11 +29,11 @@ export function fetchPalettes() {
 }
 
 /** Randomize specific slots. */
-export function randomizeSlots(slotNames, locked, colorMode, paletteId, fullBodyMode, upperBodyMode, currentValues) {
+export function randomizeSlots(slotNames, locked, paletteEnabled, paletteId, fullBodyMode, upperBodyMode, currentValues) {
   return post("/api/randomize", {
     slot_names: slotNames,
     locked,
-    color_mode: colorMode,
+    palette_enabled: paletteEnabled,
     palette_id: paletteId,
     full_body_mode: fullBodyMode,
     upper_body_mode: upperBodyMode,
@@ -42,10 +42,10 @@ export function randomizeSlots(slotNames, locked, colorMode, paletteId, fullBody
 }
 
 /** Randomize all slots. */
-export function randomizeAll(locked, colorMode, paletteId, fullBodyMode, upperBodyMode) {
+export function randomizeAll(locked, paletteEnabled, paletteId, fullBodyMode, upperBodyMode) {
   return post("/api/randomize-all", {
     locked,
-    color_mode: colorMode,
+    palette_enabled: paletteEnabled,
     palette_id: paletteId,
     full_body_mode: fullBodyMode,
     upper_body_mode: upperBodyMode,

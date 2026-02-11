@@ -11,7 +11,7 @@ Quick-reference for finding the right file for any edit.
 | Prompt building logic (weight syntax, color prefix) | `web/routes/prompt.py` | `generate_prompt()` |
 | Randomization logic | `web/routes/slots.py` | `randomize_slots()`, `randomize_all()` |
 | Full-body override behavior | `web/routes/slots.py` | Bottom of `randomize_all()` |
-| Lower-body coverage -> legs disable behavior | `web/routes/slots.py`, `web/routes/prompt.py` | Uses `covers_legs` metadata |
+| Lower-body coverage -> legs one-shot off behavior | `web/static/js/handlers.js` | `maybeDisableLegsForLowerBodyCoverage()` using `covers_legs` metadata |
 | Palette auto-apply logic | `web/routes/prompt.py` | `apply_palette()` |
 | Section layout (which slots in which section) | `web/routes/slots.py` | `SECTION_LAYOUT` dict |
 | Save/Load config format | `web/routes/configs.py` | `save_config()`, `load_config()` |
@@ -35,7 +35,7 @@ Quick-reference for finding the right file for any edit.
 | Randomize All, Reset, Copy | `web/static/js/handlers.js` | `wireGlobalEvents()` |
 | Section Random/All On/All Off | `web/static/js/handlers.js` | `wireSectionEvents()` |
 | Palette auto-apply on select | `web/static/js/handlers.js` | Inside `wireGlobalEvents()` palette listener |
-| Slot constraint engine (lower-body leg coverage + upper-body one-shot disable trigger) | `web/static/js/handlers.js` | `applySlotConstraints()`, `applyUpperBodyModeOneShotDisable()` |
+| Slot one-shot disable helpers | `web/static/js/handlers.js` | `applyUpperBodyModeOneShotDisable()`, `maybeDisableLegsForLowerBodyCoverage()` |
 | Save/Load config UI | `web/static/js/handlers.js` | `wireSaveLoadEvents()` |
 | Prompt generation display | `web/static/js/prompt.js` | `generateAndDisplay()` |
 | Colorized prompt output rendering | `web/static/js/prompt.js`, `web/static/index.html` | `setPromptOutput()`, `renderPromptOutput()` |

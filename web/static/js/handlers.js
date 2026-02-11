@@ -12,12 +12,6 @@ let allSlotComponents = {};
 /** Slots toggled OFF once when upper-body mode is enabled. */
 const UPPER_BODY_MODE_ONE_SHOT_DISABLE_SLOTS = ["waist", "lower_body", "full_body", "legs", "feet"];
 
-/** Slots affected by any constraint logic. */
-const CONSTRAINT_AFFECTED_SLOTS = ["legs"];
-
-/** Snapshot of each slot's enabled value before a force-disable starts. */
-const forcedDisabledPrevEnabled = {};
-
 /** Cache for deterministic swatch color conversion. */
 const paletteColorCache = new Map();
 
@@ -32,15 +26,14 @@ export function wireSlotEvents(slotName, comps) {
   const { onoffBtn, lockBtn, randomBtn, colorRandomBtn, dropdown, colorSelect, weightInput } = comps;
 
   onoffBtn.addEventListener("click", () => {
-    if (isSlotForcedDisabled(slotName)) return;
-
     const s = state.slots[slotName];
     s.enabled = !s.enabled;
     renderSlotEnabledState(slotName, comps);
 
     if (slotName === "lower_body") {
-      applySlotConstraints();
+      maybeDisableLegsForLowerBodyCoverage();
     }
+    generateAndDisplay();
   });
 
   lockBtn.addEventListener("click", () => {
@@ -52,26 +45,26 @@ export function wireSlotEvents(slotName, comps) {
   });
 
   randomBtn.addEventListener("click", async () => {
-    if (isSlotForcedDisabled(slotName)) return;
-
     const currentValues = {};
     for (const [n, sl] of Object.entries(state.slots)) {
       if (sl.enabled && sl.value) currentValues[n] = sl.value;
     }
 
     const data = await api.randomizeSlots(
-      [slotName], getLockedMap(), state.colorMode, state.activePaletteId,
+      [slotName], getLockedMap(), state.paletteEnabled, state.activePaletteId,
       state.fullBodyMode, state.upperBodyMode, currentValues
     );
     applyResults(data.results);
+    generateAndDisplay();
   });
 
   colorRandomBtn.addEventListener("click", async () => {
     const def = state.slotDefs[slotName];
     if (!def || !def.has_color) return;
+    if (!state.paletteEnabled || !state.activePaletteId) return;
 
     const data = await api.randomizeSlots(
-      [slotName], {}, state.colorMode, state.activePaletteId,
+      [slotName], {}, state.paletteEnabled, state.activePaletteId,
       state.fullBodyMode, state.upperBodyMode, {}
     );
 
@@ -79,22 +72,26 @@ export function wireSlotEvents(slotName, comps) {
       const color = data.results[slotName].color;
       state.slots[slotName].color = color;
       colorSelect.value = color || "";
+      generateAndDisplay();
     }
   });
 
   dropdown.addEventListener("change", () => {
     state.slots[slotName].value = dropdown.value || null;
     if (slotName === "lower_body") {
-      applySlotConstraints();
+      maybeDisableLegsForLowerBodyCoverage();
     }
+    generateAndDisplay();
   });
 
   colorSelect.addEventListener("change", () => {
     state.slots[slotName].color = colorSelect.value || null;
+    generateAndDisplay();
   });
 
   weightInput.addEventListener("change", () => {
     state.slots[slotName].weight = parseFloat(weightInput.value) || 1.0;
+    generateAndDisplay();
   });
 }
 
@@ -110,7 +107,7 @@ export function wireSectionEvents(sectionData) {
     }
 
     const data = await api.randomizeSlots(
-      slotNames, getLockedMap(), state.colorMode, state.activePaletteId,
+      slotNames, getLockedMap(), state.paletteEnabled, state.activePaletteId,
       state.fullBodyMode, state.upperBodyMode, currentValues
     );
     applyResults(data.results);
@@ -119,22 +116,22 @@ export function wireSectionEvents(sectionData) {
 
   allOnBtn.addEventListener("click", () => {
     for (const name of slotNames) {
-      if (isSlotForcedDisabled(name)) continue;
       state.slots[name].enabled = true;
       const c = allSlotComponents[name];
       if (c) renderSlotEnabledState(name, c);
     }
     applySlotConstraints();
+    generateAndDisplay();
   });
 
   allOffBtn.addEventListener("click", () => {
     for (const name of slotNames) {
-      if (isSlotForcedDisabled(name)) continue;
       state.slots[name].enabled = false;
       const c = allSlotComponents[name];
       if (c) renderSlotEnabledState(name, c);
     }
     applySlotConstraints();
+    generateAndDisplay();
   });
 }
 
@@ -143,13 +140,14 @@ export function wireSectionEvents(sectionData) {
 export function wireGlobalEvents() {
   document.getElementById("full-body-mode").checked = state.fullBodyMode;
   document.getElementById("upper-body-mode").checked = state.upperBodyMode;
+  document.getElementById("palette-enabled").checked = state.paletteEnabled;
   initPalettePicker();
   applySlotConstraints();
 
   document.getElementById("btn-randomize-all").addEventListener("click", async () => {
     maybeRandomizePaletteForRandomizeAll();
     const data = await api.randomizeAll(
-      getLockedMap(), state.colorMode, state.activePaletteId, state.fullBodyMode, state.upperBodyMode
+      getLockedMap(), state.paletteEnabled, state.activePaletteId, state.fullBodyMode, state.upperBodyMode
     );
     applyResults(data.results);
     generateAndDisplay();
@@ -182,6 +180,7 @@ export function wireGlobalEvents() {
 
   document.getElementById("full-body-mode").addEventListener("change", (e) => {
     state.fullBodyMode = e.target.checked;
+    generateAndDisplay();
   });
 
   document.getElementById("upper-body-mode").addEventListener("change", (e) => {
@@ -194,10 +193,13 @@ export function wireGlobalEvents() {
     generateAndDisplay();
   });
 
-  document.querySelectorAll('input[name="color-mode"]').forEach((radio) => {
-    radio.addEventListener("change", (e) => {
-      state.colorMode = e.target.value;
-    });
+  document.getElementById("palette-enabled").addEventListener("change", async (e) => {
+    state.paletteEnabled = e.target.checked;
+    if (state.paletteEnabled && state.activePaletteId) {
+      await applyActivePaletteToCurrentSlots(state.activePaletteId);
+      return;
+    }
+    generateAndDisplay();
   });
 }
 
@@ -290,6 +292,9 @@ function applyResults(results) {
     c.dropdown.value = res.value || "";
     c.colorSelect.value = res.color || "";
   }
+  if (Object.prototype.hasOwnProperty.call(results, "lower_body")) {
+    maybeDisableLegsForLowerBodyCoverage();
+  }
   applySlotConstraints();
 }
 
@@ -306,9 +311,16 @@ function isLowerBodyCoveringLegs() {
   return !!state.lowerBodyCoversLegsByName[lower.value];
 }
 
-function isSlotForcedDisabled(slotName) {
-  if (slotName === "legs" && isLowerBodyCoveringLegs()) return true;
-  return false;
+function maybeDisableLegsForLowerBodyCoverage() {
+  if (!isLowerBodyCoveringLegs()) return;
+
+  const legsState = state.slots.legs;
+  const legsComps = allSlotComponents.legs;
+  if (!legsState || !legsComps) return;
+  if (!legsState.enabled) return;
+
+  legsState.enabled = false;
+  renderSlotEnabledState("legs", legsComps);
 }
 
 function applyUpperBodyModeOneShotDisable() {
@@ -322,38 +334,7 @@ function applyUpperBodyModeOneShotDisable() {
 }
 
 function applySlotConstraints() {
-  for (const slotName of CONSTRAINT_AFFECTED_SLOTS) {
-    const slotState = state.slots[slotName];
-    const c = allSlotComponents[slotName];
-    if (!slotState || !c) continue;
-
-    const forced = isSlotForcedDisabled(slotName);
-    if (forced) {
-      if (forcedDisabledPrevEnabled[slotName] === undefined) {
-        forcedDisabledPrevEnabled[slotName] = slotState.enabled;
-      }
-      slotState.enabled = false;
-      c.onoffBtn.disabled = true;
-      c.randomBtn.disabled = true;
-      c.dropdown.disabled = true;
-      c.colorSelect.disabled = true;
-      c.colorRandomBtn.disabled = true;
-      renderSlotEnabledState(slotName, c);
-      continue;
-    }
-
-    const restoreEnabled = forcedDisabledPrevEnabled[slotName];
-    if (restoreEnabled !== undefined) {
-      slotState.enabled = restoreEnabled;
-      delete forcedDisabledPrevEnabled[slotName];
-    }
-    c.onoffBtn.disabled = false;
-    c.randomBtn.disabled = false;
-    c.dropdown.disabled = false;
-    c.colorSelect.disabled = false;
-    c.colorRandomBtn.disabled = false;
-    renderSlotEnabledState(slotName, c);
-  }
+  // No persistent force-disable constraints currently.
 }
 
 // Palette UI and behavior
@@ -443,11 +424,12 @@ function createPaletteOptionButton(paletteId, label, colors) {
 async function onPaletteSelected(paletteId, applyPaletteColors) {
   setPaletteSelection(paletteId);
 
-  if (!paletteId || !applyPaletteColors) return;
+  if (!paletteId || !applyPaletteColors || !state.paletteEnabled) return;
+  await applyActivePaletteToCurrentSlots(paletteId);
+}
 
-  state.colorMode = "palette";
-  const paletteRadio = document.querySelector('input[name="color-mode"][value="palette"]');
-  if (paletteRadio) paletteRadio.checked = true;
+async function applyActivePaletteToCurrentSlots(paletteId) {
+  if (!paletteId) return;
 
   const slotsForAPI = getSlotStateForAPI();
   const data = await api.applyPalette(paletteId, slotsForAPI, state.fullBodyMode, state.upperBodyMode);
@@ -460,6 +442,8 @@ async function onPaletteSelected(paletteId, applyPaletteColors) {
 
   if (data.prompt) {
     setPromptOutput(data.prompt);
+  } else {
+    generateAndDisplay();
   }
 }
 
@@ -496,6 +480,7 @@ function renderPaletteLockButton() {
 }
 
 function maybeRandomizePaletteForRandomizeAll() {
+  if (!state.paletteEnabled) return;
   if (state.paletteLocked) return;
 
   const paletteId = pickRandomPaletteId(state.activePaletteId);

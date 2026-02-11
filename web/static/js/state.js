@@ -8,8 +8,8 @@ export const state = {
   /** @type {Object<string, {enabled: boolean, locked: boolean, value: string|null, color: string|null, weight: number}>} */
   slots: {},
 
-  /** @type {"none"|"palette"|"random"} */
-  colorMode: "none",
+  /** Whether randomization should assign colors from the active palette. */
+  paletteEnabled: true,
 
   /** @type {string|null} */
   activePaletteId: null,

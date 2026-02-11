@@ -47,13 +47,6 @@ async def generate_prompt(req: GenerateRequest):
     if fb and fb.enabled and fb.value:
         full_body_val = fb.value
 
-    lower_body_covers_legs = False
-    lower = req.slots.get("lower_body")
-    if lower and lower.enabled and lower.value:
-        lower_body_covers_legs = gen.lower_body_value_covers_legs(lower.value)
-    if req.full_body_mode and full_body_val:
-        lower_body_covers_legs = False
-
     for name in SLOT_ORDER:
         slot = req.slots.get(name)
         if not slot or not slot.enabled or not slot.value:
@@ -61,10 +54,6 @@ async def generate_prompt(req: GenerateRequest):
 
         # Skip upper/lower if full_body active
         if req.full_body_mode and name in ("upper_body", "lower_body") and full_body_val:
-            continue
-
-        # Skip legs if lower-body item already covers legs.
-        if name == "legs" and lower_body_covers_legs:
             continue
 
         part = f"{slot.color} {slot.value}" if slot.color else slot.value
@@ -89,21 +78,8 @@ async def apply_palette(req: ApplyPaletteRequest):
     """Apply palette colors to all has_color slots that have a value, then regenerate prompt."""
     new_colors = {}
 
-    lower_body_covers_legs = False
-    lower = req.slots.get("lower_body")
-    if lower and lower.enabled and lower.value:
-        lower_body_covers_legs = gen.lower_body_value_covers_legs(lower.value)
-    full_body_active = False
-    fb = req.slots.get("full_body")
-    if fb and fb.enabled and fb.value and req.full_body_mode:
-        full_body_active = True
-    if full_body_active:
-        lower_body_covers_legs = False
-
     for name, defn in gen.SLOT_DEFINITIONS.items():
         if not defn.get("has_color", False):
-            continue
-        if name == "legs" and lower_body_covers_legs:
             continue
         slot = req.slots.get(name)
         if slot and slot.value:

@@ -20,6 +20,7 @@ const PROMPT_SLOT_ORDER = [
 
 const outputColorCache = new Map();
 let lastGeneratedPromptCore = "";
+let generateRequestSeq = 0;
 
 function getPromptPrefix() {
   const el = document.getElementById("prompt-prefix");
@@ -175,8 +176,10 @@ export function clearPromptOutput() {
 }
 
 export async function generateAndDisplay() {
+  const requestSeq = ++generateRequestSeq;
   const slotsForAPI = getSlotStateForAPI();
   const data = await api.generatePrompt(slotsForAPI, state.fullBodyMode, state.upperBodyMode);
+  if (requestSeq !== generateRequestSeq) return;
   setPromptOutput(data.prompt || "");
 }
 

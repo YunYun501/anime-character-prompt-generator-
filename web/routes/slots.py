@@ -2,7 +2,6 @@
 Slot-related API routes: definitions, options, randomization.
 """
 
-import random
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Dict, List, Optional
@@ -61,7 +60,7 @@ async def get_slots():
 class RandomizeRequest(BaseModel):
     slot_names: List[str]
     locked: Dict[str, bool] = {}
-    color_mode: str = "none"           # "none" | "palette" | "random"
+    palette_enabled: bool = True
     palette_id: Optional[str] = None
     full_body_mode: bool = True
     upper_body_mode: bool = False
@@ -73,17 +72,11 @@ async def randomize_slots(req: RandomizeRequest):
     """Randomize specific slots. Returns {slot_name: {value, color}}."""
     results = {}
     full_body_value = req.current_values.get("full_body")
-    lower_body_value = req.current_values.get("lower_body")
-    lower_body_covers_legs = gen.lower_body_value_covers_legs(lower_body_value)
 
     for name in req.slot_names:
         if name not in gen.SLOT_DEFINITIONS:
             continue
         if req.locked.get(name, False):
-            continue
-        if (name == "legs" and lower_body_covers_legs
-                and not (req.full_body_mode and full_body_value)):
-            results[name] = {"value": None, "color": None}
             continue
 
         item = gen.sample_slot(name)
@@ -91,10 +84,6 @@ async def randomize_slots(req: RandomizeRequest):
 
         if name == "full_body":
             full_body_value = value
-            if req.full_body_mode and full_body_value:
-                lower_body_covers_legs = False
-        if name == "lower_body":
-            lower_body_covers_legs = gen.lower_body_item_covers_legs(item)
 
         # Full-body override
         if (req.full_body_mode and name in ("upper_body", "lower_body")
@@ -103,25 +92,17 @@ async def randomize_slots(req: RandomizeRequest):
 
         color = None
         if gen.SLOT_DEFINITIONS[name].get("has_color", False):
-            if req.color_mode == "palette" and req.palette_id:
+            if req.palette_enabled and req.palette_id:
                 color = gen.sample_color_from_palette(req.palette_id)
-            elif req.color_mode == "random":
-                color = gen.sample_random_color()
 
         results[name] = {"value": value, "color": color}
-
-    # If lower body covers legs, enforce empty legs result.
-    if (lower_body_covers_legs
-            and not (req.full_body_mode and full_body_value)
-            and not req.locked.get("legs", False)):
-        results["legs"] = {"value": None, "color": None}
 
     return {"results": results}
 
 
 class RandomizeAllRequest(BaseModel):
     locked: Dict[str, bool] = {}
-    color_mode: str = "none"
+    palette_enabled: bool = True
     palette_id: Optional[str] = None
     full_body_mode: bool = True
     upper_body_mode: bool = False
@@ -132,14 +113,9 @@ async def randomize_all(req: RandomizeAllRequest):
     """Randomize every non-locked slot. Returns full state."""
     results = {}
     full_body_value = None
-    lower_body_covers_legs = False
 
     for name in gen.SLOT_DEFINITIONS:
         if req.locked.get(name, False):
-            continue
-        if (name == "legs" and lower_body_covers_legs
-                and not (req.full_body_mode and full_body_value)):
-            results[name] = {"value": None, "color": None}
             continue
 
         item = gen.sample_slot(name)
@@ -147,17 +123,11 @@ async def randomize_all(req: RandomizeAllRequest):
 
         if name == "full_body":
             full_body_value = value
-            if req.full_body_mode and full_body_value:
-                lower_body_covers_legs = False
-        if name == "lower_body":
-            lower_body_covers_legs = gen.lower_body_item_covers_legs(item)
 
         color = None
         if gen.SLOT_DEFINITIONS[name].get("has_color", False):
-            if req.color_mode == "palette" and req.palette_id:
+            if req.palette_enabled and req.palette_id:
                 color = gen.sample_color_from_palette(req.palette_id)
-            elif req.color_mode == "random":
-                color = gen.sample_random_color()
 
         results[name] = {"value": value, "color": color}
 
@@ -166,11 +136,5 @@ async def randomize_all(req: RandomizeAllRequest):
         for name in ("upper_body", "lower_body"):
             if name in results and not req.locked.get(name, False):
                 results[name]["value"] = None
-
-    # Lower-body coverage override for legs.
-    if (lower_body_covers_legs
-            and not (req.full_body_mode and full_body_value)
-            and not req.locked.get("legs", False)):
-        results["legs"] = {"value": None, "color": None}
 
     return {"results": results}

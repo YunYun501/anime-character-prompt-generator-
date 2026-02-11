@@ -9,6 +9,9 @@
  * - Added lower-body `covers_legs` constraints and backend/frontend enforcement.
  * - Changed "Always Include" prefix to default empty and added selectable legacy SD preset.
  * - Added toggleable colorized prompt output (default on) with high-contrast output styling.
+ * - Enabled live prompt auto-refresh on slot toggle, dropdown, color, weight, and per-slot random.
+ * - Removed color mode selection; randomization color assignment now uses palette toggle only.
+ * - Changed lower-body leg coverage to one-shot OFF behavior; legs can be manually re-enabled.
  */
 import { state, initSlotState } from "./state.js";
 import * as api from "./api.js";

@@ -86,9 +86,9 @@ Each slot row contains these controls in order:
 | **Lock button** | Toggles `locked`. Unlocked=🔓, Locked=🔒. Locked slots are skipped by Randomize All and Section Random. |
 | **Label** | Display name (slot_name with underscores replaced by spaces, title-cased). |
 | **Dropdown** | Select from slot options or "(None)". Options come from the JSON data catalogs. |
-| **Random button** 🎲 | Randomize just this slot's value (and color if color mode is active). |
+| **Random button** 🎲 | Randomize just this slot's value (and color if palette coloring is enabled). |
 | **Color dropdown** | Only visible for `has_color` slots. Select a color or "(No Color)". Colors from `color_palettes.json → individual_colors`. |
-| **Color Random button** 🎨 | Only visible for `has_color` slots. Randomize just this slot's color (from palette or random). |
+| **Color Random button** 🎨 | Only visible for `has_color` slots. Randomize just this slot's color from the active palette (when palette coloring is enabled). |
 | **Weight input** | Number input 0.1–2.0 step 0.1. Default 1.0. Affects prompt weight syntax. |
 
 ---
@@ -98,6 +98,7 @@ Each slot row contains these controls in order:
 | Control | Behavior |
 |---|---|
 | **Generate Prompt** | Build prompt string from all enabled slots and display it. |
+| **Live Prompt Sync** | Prompt auto-refreshes on slot on/off, dropdown selection, color change, weight change, and per-slot randomize. |
 | **Randomize All** | Randomize every non-locked slot, then auto-generate the prompt. |
 | **Copy** | Copy the prompt text to clipboard. |
 | **Reset** | Clear all slot values, colors, weights to defaults. Clear prompt output. |
@@ -113,8 +114,8 @@ Each slot row contains these controls in order:
 |---|---|---|
 | **Full-body mode** | Checkbox (default: off) | When on and `full_body` slot has a value, `upper_body` and `lower_body` are cleared during randomization and excluded from prompt. |
 | **Upper-body mode** | Checkbox (default: off) | One-shot disabler: when turned on, it toggles `waist`, `lower_body`, `full_body`, `legs`, and `feet` to Off once. User can manually turn any of them back on immediately. |
-| **Color mode** | None / Palette / Random | Controls how colors are assigned during randomization. None=no colors. Palette=from selected palette. Random=from individual_colors list. |
-| **Palette selector** | Dropdown of palettes from color_palettes.json | On change: auto-switches to Palette mode, applies palette colors to all `has_color` slots that have a current value, and regenerates prompt immediately. |
+| **Use Palette Colors** | Checkbox (default: on) | When on, randomization assigns colors from the active palette. When off, randomization does not auto-assign colors. |
+| **Palette selector** | Dropdown of palettes from color_palettes.json | Selects the active palette. If **Use Palette Colors** is on, changing palette applies it to current colored slots and regenerates prompt immediately. |
 
 ---
 
@@ -124,8 +125,8 @@ Each slot row contains these controls in order:
 1. For each slot: skip if `locked`
 2. Sample a random item from the slot's options
 3. If `full_body_mode` is on and `full_body` got a value, clear `upper_body` and `lower_body`
-4. If color mode is "palette", sample color from active palette for each `has_color` slot
-5. If color mode is "random", sample from individual_colors
+4. If **Use Palette Colors** is on, sample color from active palette for each `has_color` slot
+5. If **Use Palette Colors** is off, do not auto-assign colors
 6. Update all dropdowns and color selectors
 7. Auto-generate prompt
 
@@ -134,7 +135,7 @@ Same as Randomize All but only for slots within that section.
 
 ### Palette Auto-Apply
 1. User selects a palette
-2. Color mode switches to "palette"
+2. If **Use Palette Colors** is on
 3. For each slot where `has_color == true` AND the slot has a current value:
    - Sample a random color from the selected palette
    - Update the color dropdown
@@ -158,10 +159,9 @@ Same as Randomize All but only for slots within that section.
 ### Lower-Body Leg Coverage Rule
 - `lower_body` items include `covers_legs` metadata in `clothing/clothing_list.json`
 - If selected lower-body item has `covers_legs == true`:
-  - `legs` slot is force-disabled in UI
-  - `legs` is excluded from prompt output
-- If lower-body changes to `covers_legs == false` item:
-  - `legs` is re-enabled (restoring previous on/off state)
+  - `legs` slot is toggled Off once
+  - user can manually toggle `legs` back On immediately (no lock)
+- Prompt generation follows the current `legs.enabled` state only.
 
 ---
 
@@ -188,7 +188,6 @@ background
 - Always starts with `1girl`
 - Skip slots where `enabled == false` or `value == null`
 - If full-body mode on and `full_body` has a value, skip `upper_body` and `lower_body`
-- If selected `lower_body` has `covers_legs == true`, skip `legs`
 - Color prefix: if color is set → `"{color} {value}"` (e.g., "blue skirt")
 - Weight syntax: if weight != 1.0 → `"({part}:{weight})"` (e.g., "(blue skirt:1.3)")
 - Join all parts with `, `
@@ -242,12 +241,12 @@ Response: `{ slots: { [name]: { category, has_color, options: string[] } }, sect
 Response: `{ palettes: [{ id, name, colors: string[] }], individual_colors: string[] }`
 
 ### POST /api/randomize
-Body: `{ slot_names, locked, color_mode, palette_id, full_body_mode, upper_body_mode, current_values }`
+Body: `{ slot_names, locked, palette_enabled, palette_id, full_body_mode, upper_body_mode, current_values }`
 Note: `upper_body_mode` is accepted for compatibility but not used as a backend hard-disable.
 Response: `{ results: { [name]: { value, color } } }`
 
 ### POST /api/randomize-all
-Body: `{ locked, color_mode, palette_id, full_body_mode, upper_body_mode }`
+Body: `{ locked, palette_enabled, palette_id, full_body_mode, upper_body_mode }`
 Note: `upper_body_mode` is accepted for compatibility but not used as a backend hard-disable.
 Response: `{ results: { [name]: { value, color } } }`
 
@@ -270,3 +269,4 @@ Response: `{ name, data: { slots: { ... } } }`
 ### POST /api/configs/{name}
 Body: `{ name, data: { slots: { ... } } }`
 Response: `{ status: "ok", name }`
+
