@@ -1,0 +1,247 @@
+{
+  "schema_version": "1.0",
+  "title": "Anime Camera View Angles and Shot Framing",
+  "generated_utc": "2026-02-12T00:00:00Z",
+  "items": [
+    {
+      "id": "eye_level_shot",
+      "name": "eye-level shot",
+      "category": "camera_height",
+      "aliases": []
+    },
+    {
+      "id": "high_angle_shot",
+      "name": "high-angle shot",
+      "category": "camera_height",
+      "aliases": [
+        "high shot"
+      ]
+    },
+    {
+      "id": "low_angle_shot",
+      "name": "low-angle shot",
+      "category": "camera_height",
+      "aliases": [
+        "low shot"
+      ]
+    },
+    {
+      "id": "birds_eye_view",
+      "name": "bird's-eye view",
+      "category": "camera_height",
+      "aliases": [
+        "overhead view",
+        "top-down view"
+      ]
+    },
+    {
+      "id": "worms_eye_view",
+      "name": "worm's-eye view",
+      "category": "camera_height",
+      "aliases": [
+        "extreme low angle"
+      ]
+    },
+    {
+      "id": "front_view",
+      "name": "front view",
+      "category": "view_direction",
+      "aliases": []
+    },
+    {
+      "id": "side_view",
+      "name": "side view",
+      "category": "view_direction",
+      "aliases": [
+        "profile view"
+      ]
+    },
+    {
+      "id": "back_view",
+      "name": "back view",
+      "category": "view_direction",
+      "aliases": [
+        "rear view"
+      ]
+    },
+    {
+      "id": "three_quarter_view",
+      "name": "three-quarter view",
+      "category": "view_direction",
+      "aliases": [
+        "3/4 view"
+      ]
+    },
+    {
+      "id": "over_the_shoulder",
+      "name": "over-the-shoulder shot",
+      "category": "view_direction",
+      "aliases": [
+        "OTS shot"
+      ]
+    },
+    {
+      "id": "dutch_angle",
+      "name": "dutch angle",
+      "category": "tilt_style",
+      "aliases": [
+        "canted shot"
+      ]
+    },
+    {
+      "id": "straight_horizon",
+      "name": "straight horizon",
+      "category": "tilt_style",
+      "aliases": []
+    },
+    {
+      "id": "close_up_shot",
+      "name": "close-up shot",
+      "category": "framing",
+      "aliases": []
+    },
+    {
+      "id": "extreme_close_up",
+      "name": "extreme close-up",
+      "category": "framing",
+      "aliases": []
+    },
+    {
+      "id": "medium_close_up",
+      "name": "medium close-up",
+      "category": "framing",
+      "aliases": []
+    },
+    {
+      "id": "medium_shot",
+      "name": "medium shot",
+      "category": "framing",
+      "aliases": []
+    },
+    {
+      "id": "medium_full_shot",
+      "name": "medium full shot",
+      "category": "framing",
+      "aliases": [
+        "knee shot"
+      ]
+    },
+    {
+      "id": "cowboy_shot",
+      "name": "cowboy shot",
+      "category": "framing",
+      "aliases": []
+    },
+    {
+      "id": "full_body_shot",
+      "name": "full-body shot",
+      "category": "framing",
+      "aliases": [
+        "full shot"
+      ]
+    },
+    {
+      "id": "wide_shot",
+      "name": "wide shot",
+      "category": "framing",
+      "aliases": []
+    },
+    {
+      "id": "establishing_shot",
+      "name": "establishing shot",
+      "category": "framing",
+      "aliases": []
+    },
+    {
+      "id": "foreshortened_perspective",
+      "name": "foreshortened perspective",
+      "category": "lens_perspective",
+      "aliases": []
+    },
+    {
+      "id": "dynamic_perspective",
+      "name": "dynamic perspective",
+      "category": "lens_perspective",
+      "aliases": [
+        "dramatic perspective"
+      ]
+    },
+    {
+      "id": "long_lens_compression",
+      "name": "long-lens compression",
+      "category": "lens_perspective",
+      "aliases": [
+        "compressed perspective"
+      ]
+    }
+  ],
+  "index_by_category": {
+    "camera_height": [
+      "eye_level_shot",
+      "high_angle_shot",
+      "low_angle_shot",
+      "birds_eye_view",
+      "worms_eye_view"
+    ],
+    "view_direction": [
+      "front_view",
+      "side_view",
+      "back_view",
+      "three_quarter_view",
+      "over_the_shoulder"
+    ],
+    "tilt_style": [
+      "dutch_angle",
+      "straight_horizon"
+    ],
+    "framing": [
+      "close_up_shot",
+      "extreme_close_up",
+      "medium_close_up",
+      "medium_shot",
+      "medium_full_shot",
+      "cowboy_shot",
+      "full_body_shot",
+      "wide_shot",
+      "establishing_shot"
+    ],
+    "lens_perspective": [
+      "foreshortened_perspective",
+      "dynamic_perspective",
+      "long_lens_compression"
+    ]
+  },
+  "categories": [
+    {
+      "id": "camera_height",
+      "name": "Camera Height",
+      "description": "Relative vertical placement of the camera."
+    },
+    {
+      "id": "view_direction",
+      "name": "View Direction",
+      "description": "Direction or orientation of the character toward the camera."
+    },
+    {
+      "id": "tilt_style",
+      "name": "Tilt Style",
+      "description": "Horizontal tilt behavior for composition."
+    },
+    {
+      "id": "framing",
+      "name": "Shot Framing",
+      "description": "How much of the subject is visible in frame."
+    },
+    {
+      "id": "lens_perspective",
+      "name": "Lens/Perspective",
+      "description": "Perspective and lens-style composition traits."
+    }
+  ],
+  "meta": {
+    "notes": [
+      "These terms are intended as camera/composition descriptors, not body pose descriptors.",
+      "Can be combined with pose and gesture slots for richer prompt composition."
+    ]
+  }
+}

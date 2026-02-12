@@ -6,7 +6,8 @@
       "WebFetch(domain:danbooru.donmai.us)",
       "WebSearch",
       "WebFetch(domain:civitai.com)",
-      "WebFetch(domain:gigazine.net)"
+      "WebFetch(domain:gigazine.net)",
+      "Bash(python:*)"
     ]
   }
 }

@@ -2,7 +2,7 @@
 import json
 
 # ===== 1. HAIR CATALOG =====
-with open("hair/hair_catalog.json", "r", encoding="utf-8") as f:
+with open("prompt data/hair/hair_catalog.json", "r", encoding="utf-8") as f:
     hair = json.load(f)
 
 new_hair = [
@@ -34,12 +34,12 @@ for item in new_hair:
         hair["index_by_category"][item["category"]].append(item["id"])
         added += 1
 
-with open("hair/hair_catalog.json", "w", encoding="utf-8") as f:
+with open("prompt data/hair/hair_catalog.json", "w", encoding="utf-8") as f:
     json.dump(hair, f, indent=2, ensure_ascii=False)
 print(f"Hair: added {added} items")
 
 # ===== 2. BODY FEATURES =====
-with open("body/body_features.json", "r", encoding="utf-8") as f:
+with open("prompt data/body/body_features.json", "r", encoding="utf-8") as f:
     body = json.load(f)
 
 new_body = [
@@ -90,12 +90,12 @@ for item in new_body:
         body["index_by_category"][item["category"]].append(item["id"])
         added += 1
 
-with open("body/body_features.json", "w", encoding="utf-8") as f:
+with open("prompt data/body/body_features.json", "w", encoding="utf-8") as f:
     json.dump(body, f, indent=2, ensure_ascii=False)
 print(f"Body: added {added} items")
 
 # ===== 3. CLOTHING =====
-with open("clothing/clothing_list.json", "r", encoding="utf-8") as f:
+with open("prompt data/clothing/clothing_list.json", "r", encoding="utf-8") as f:
     clothing = json.load(f)
 
 new_clothing = [
@@ -221,6 +221,6 @@ for item in new_clothing:
         clothing["index_by_body_part"][bp].append(item["id"])
         added += 1
 
-with open("clothing/clothing_list.json", "w", encoding="utf-8") as f:
+with open("prompt data/clothing/clothing_list.json", "w", encoding="utf-8") as f:
     json.dump(clothing, f, indent=2, ensure_ascii=False)
 print(f"Clothing: added {added} items")

@@ -11,8 +11,8 @@ from datetime import datetime
 
 router = APIRouter()
 
-CONFIGS_DIR = Path(__file__).parent.parent.parent / "configs"
-CONFIGS_DIR.mkdir(exist_ok=True)
+CONFIGS_DIR = Path(__file__).parent.parent.parent / "prompt data" / "configs"
+CONFIGS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class SaveConfigRequest(BaseModel):

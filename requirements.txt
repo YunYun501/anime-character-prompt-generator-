@@ -1,9 +1,6 @@
-# Random Character Prompt Generator for Stable Diffusion
+﻿# Random Character Prompt Generator for Stable Diffusion
 # Required dependencies
 
-# FastAPI version (run_Fastapi.py) — recommended
+# FastAPI version (run_Fastapi.py) - recommended
 fastapi>=0.100.0
 uvicorn>=0.20.0
-
-# Reflex version (run_reflex.py) - experimental
-reflex>=0.5.0

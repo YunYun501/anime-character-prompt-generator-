@@ -19,7 +19,7 @@ SLOT_ORDER = [
     "expression",
     "full_body", "head", "neck", "upper_body", "waist", "lower_body",
     "outerwear", "hands", "legs", "feet", "accessory",
-    "pose", "gesture",
+    "view_angle", "pose", "gesture",
     "background",
 ]
 

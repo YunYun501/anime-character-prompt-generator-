@@ -51,17 +51,17 @@ Quick-reference for finding the right file for any edit.
 
 | What to change | File |
 |---|---|
-| Hair options | `hair/hair_catalog.json` |
-| Eye options | `eyes/eye_catalog.json` |
-| Body features | `body/body_features.json` |
-| Expressions | `expressions/female_expressions.json` |
-| Clothing items | `clothing/clothing_list.json` |
-| Lower-body leg-coverage flags | `clothing/clothing_list.json` | `covers_legs` on `body_part == lower_body` items |
-| Poses | `poses/poses.json` |
-| Pose `uses_hands` metadata | `poses/poses.json` | item-level flag for pose->hand-actions one-shot disable |
-| Backgrounds | `backgrounds/backgrounds.json` |
-| Color palettes + individual colors | `colors/color_palettes.json` |
-| Saved character presets | `configs/*.json` |
+| Hair options | `prompt data/hair/hair_catalog.json` |
+| Eye options | `prompt data/eyes/eye_catalog.json` |
+| Body features | `prompt data/body/body_features.json` |
+| Expressions | `prompt data/expressions/female_expressions.json` |
+| Clothing items | `prompt data/clothing/clothing_list.json` |
+| Lower-body leg-coverage flags | `prompt data/clothing/clothing_list.json` | `covers_legs` on `body_part == lower_body` items |
+| Poses | `prompt data/poses/poses.json` |
+| Pose `uses_hands` metadata | `prompt data/poses/poses.json` | item-level flag for pose->hand-actions one-shot disable |
+| Backgrounds | `prompt data/backgrounds/backgrounds.json` |
+| Color palettes + individual colors | `prompt data/colors/color_palettes.json` |
+| Saved character presets | `prompt data/configs/*.json` |
 
 ## Entry Points
 

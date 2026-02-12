@@ -14,47 +14,49 @@ A **slot** is one aspect of the character (e.g., hair style, upper body clothing
 | locked | bool | false | If true, Randomize All / Section Random skip this slot |
 | value | string? | null | Currently selected item name (or null for none) |
 | color | string? | null | Color modifier prefix (only for has_color slots) |
-| weight | float | 1.0 | Prompt emphasis weight (range 0.1–2.0) |
+| weight | float | 1.0 | Prompt emphasis weight (range 0.1-2.0) |
 
 ### All 26 Slots
 
 **Appearance** (6 slots):
 | Slot | has_color | Data source |
 |---|---|---|
-| hair_style | no | hair/hair_catalog.json → index_by_category.style |
-| hair_length | no | hair/hair_catalog.json → index_by_category.length |
-| hair_color | no | hair/hair_catalog.json → index_by_category.color |
-| hair_texture | no | hair/hair_catalog.json → index_by_category.texture |
-| eye_color | no | eyes/eye_catalog.json → index_by_category.color |
-| eye_style | no | eyes/eye_catalog.json → index_by_category.style |
+| hair_style | no | prompt data/hair/hair_catalog.json -> index_by_category.style |
+| hair_length | no | prompt data/hair/hair_catalog.json -> index_by_category.length |
+| hair_color | no | prompt data/hair/hair_catalog.json -> index_by_category.color |
+| hair_texture | no | prompt data/hair/hair_catalog.json -> index_by_category.texture |
+| eye_color | no | prompt data/eyes/eye_catalog.json -> index_by_category.color |
+| eye_style | no | prompt data/eyes/eye_catalog.json -> index_by_category.style |
 
 **Body / Expression / Pose** (8 slots):
 | Slot | has_color | Data source |
 |---|---|---|
-| body_type | no | body/body_features.json → index_by_category.body_type |
-| height | no | body/body_features.json → index_by_category.height |
-| skin | no | body/body_features.json → index_by_category.skin |
-| age_appearance | no | body/body_features.json → index_by_category.age_appearance |
-| special_features | no | body/body_features.json → index_by_category.special_features |
-| expression | no | expressions/female_expressions.json → items |
-| pose | no | poses/poses.json → items |
-| gesture (label: hand actions) | no | poses/poses.json → index_by_category.gesture |
+| body_type | no | prompt data/body/body_features.json -> index_by_category.body_type |
+| height | no | prompt data/body/body_features.json -> index_by_category.height |
+| skin | no | prompt data/body/body_features.json -> index_by_category.skin |
+| age_appearance | no | prompt data/body/body_features.json -> index_by_category.age_appearance |
+| special_features | no | prompt data/body/body_features.json -> index_by_category.special_features |
+| expression | no | prompt data/expressions/female_expressions.json -> items |
+| pose | no | prompt data/poses/poses.json -> items |
+| gesture (label: hand actions) | no | prompt data/poses/poses.json -> index_by_category.gesture |
 
 **Clothing & Background** (12 slots):
 | Slot | has_color | Data source |
 |---|---|---|
-| head | yes | clothing/clothing_list.json → index_by_body_part.head |
-| neck | yes | clothing/clothing_list.json → index_by_body_part.neck |
-| upper_body | yes | clothing/clothing_list.json → index_by_body_part.upper_body |
-| waist | yes | clothing/clothing_list.json → index_by_body_part.waist |
-| lower_body | yes | clothing/clothing_list.json → index_by_body_part.lower_body |
-| full_body | yes | clothing/clothing_list.json → index_by_body_part.full_body |
-| outerwear | yes | clothing/clothing_list.json → index_by_body_part.outerwear |
-| hands | yes | clothing/clothing_list.json → index_by_body_part.hands |
-| legs | yes | clothing/clothing_list.json → index_by_body_part.legs |
-| feet | yes | clothing/clothing_list.json → index_by_body_part.feet |
-| accessory | yes | clothing/clothing_list.json → index_by_body_part.accessory |
-| background | no | backgrounds/backgrounds.json → items |
+| head | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.head |
+| neck | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.neck |
+| upper_body | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.upper_body |
+| waist | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.waist |
+| lower_body | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.lower_body |
+| full_body | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.full_body (curated one-piece/suit entries only) |
+| outerwear | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.outerwear |
+| hands | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.hands |
+| legs | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.legs |
+| feet | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.feet |
+| accessory | yes | prompt data/clothing/clothing_list.json -> index_by_body_part.accessory |
+| background | no | prompt data/backgrounds/backgrounds.json -> items |
+
+`upper_body` includes additional occupational/feminine top variants such as `nurse top`, `police top`, `office lady blouse`, `waitress top`, and `idol stage top`.
 
 ---
 
@@ -70,26 +72,31 @@ Slots are grouped into 3 visual sections. Each section has: Random, All On, All 
 
 The 3 sections are displayed in a horizontal flex row that wraps on smaller screens.
 
+### Full-Body Catalog Policy
+
+- `full_body` is reserved for non-decomposable one-piece or suit-like outfits (for example: `eva suit`, `mecha pilot suit`, `power armor / exosuit`, `tactical bodysuit`).
+- Decomposable garments (for example dresses, robes, kimono/yukata style entries) are intentionally excluded from `full_body`.
+- Those decomposable outfits should be represented via `upper_body` + `lower_body` combinations.
+
 ---
 
 ## 3. Per-Slot UI Controls
-
 Each slot row contains these controls in order:
 
 ```
-[On/Off] [Lock] [Label] [Dropdown --------] [Random] [Color ▼] [Color Random] [Weight]
+[On/Off] [Lock] [Label] [Dropdown --------] [Random] [Color v] [Color Random] [Weight]
 ```
 
 | Control | Behavior |
 |---|---|
 | **On/Off button** | Toggles `enabled`. Green="On", Red="Off". Disabled slots are dimmed and excluded from prompt. |
-| **Lock button** | Toggles `locked`. Unlocked=🔓, Locked=🔒. Locked slots are skipped by Randomize All and Section Random. |
+| **Lock button** | Toggles `locked`. Unlocked icon = open lock, Locked icon = closed lock. Locked slots are skipped by Randomize All and Section Random. |
 | **Label** | Display name (slot_name with underscores replaced by spaces, title-cased). `gesture` is shown as `hand actions`. |
 | **Dropdown** | Select from slot options or "(None)". Options come from the JSON data catalogs. |
-| **Random button** 🎲 | Randomize just this slot's value (and color if palette coloring is enabled). |
-| **Color dropdown** | Only visible for `has_color` slots. Select a color or "(No Color)". Colors from `color_palettes.json → individual_colors`. |
-| **Color Random button** 🎨 | Only visible for `has_color` slots. Randomize just this slot's color from the active palette (when palette coloring is enabled). |
-| **Weight input** | Number input 0.1–2.0 step 0.1. Default 1.0. Affects prompt weight syntax. |
+| **Random button** | Randomize just this slot's value (and color if palette coloring is enabled). |
+| **Color dropdown** | Only visible for `has_color` slots. Select a color or "(No Color)". Colors from `prompt data/colors/color_palettes.json -> individual_colors`. |
+| **Color Random button** | Only visible for `has_color` slots. Randomize just this slot's color from the active palette (when palette coloring is enabled). |
+| **Weight input** | Number input 0.1-2.0 step 0.1. Default 1.0. Affects prompt weight syntax. |
 
 ---
 
@@ -155,8 +162,8 @@ Same as Randomize All but only for slots within that section.
 ### Full-Body Randomization Override
 - Only during randomization (not manual selection)
 - If `full_body` slot has a value AND `full_body_mode` is on:
-  - `upper_body` value → null
-  - `lower_body` value → null
+  - `upper_body` value -> null
+  - `lower_body` value -> null
 - User can still manually set upper/lower body after randomization
 
 ### Upper-Body One-Shot Disable
@@ -171,14 +178,14 @@ Same as Randomize All but only for slots within that section.
   - Prompt generation and randomization follow the current on/off state only
 
 ### Lower-Body Leg Coverage Rule
-- `lower_body` items include `covers_legs` metadata in `clothing/clothing_list.json`
+- `lower_body` items include `covers_legs` metadata in `prompt data/clothing/clothing_list.json`
 - If selected lower-body item has `covers_legs == true`:
   - `legs` slot is toggled Off once
   - user can manually toggle `legs` back On immediately (no lock)
 - Prompt generation follows the current `legs.enabled` state only.
 
 ### Pose Hand-Usage Rule
-- `poses/poses.json` items include `uses_hands` metadata.
+- `prompt data/poses/poses.json` items include `uses_hands` metadata.
 - If selected `pose` item has `uses_hands == true`:
   - `gesture` slot (shown as `hand actions`) is toggled Off once
   - user can manually toggle `gesture` back On immediately (no lock)
@@ -209,23 +216,23 @@ background
 - Always starts with `1girl`
 - Skip slots where `enabled == false` or `value == null`
 - If full-body mode on and `full_body` has a value, skip `upper_body` and `lower_body`
-- Color prefix: if color is set → `"{color} {value}"` (e.g., "blue skirt")
-- Weight syntax: if weight != 1.0 → `"({part}:{weight})"` (e.g., "(blue skirt:1.3)")
+- `full_body` values are intentionally limited to one-piece/suit-style options; decomposable outfits should come from `upper_body` + `lower_body`
+- Color prefix: if color is set -> `"{color} {value}"` (e.g., "blue skirt")
+- Weight syntax: if weight != 1.0 -> `"({part}:{weight})"` (e.g., "(blue skirt:1.3)")
 - Join all parts with `, `
 
 ### Example Output
 ```
-1girl, black hair, long hair, ponytail, blue eyes, slim, (red dress:1.3), white gloves, standing, park background
+1girl, black hair, long hair, ponytail, blue eyes, slim, (white tactical bodysuit:1.3), white gloves, standing, park background
 ```
 
 ---
 
 ## 8. Save / Load System
-
 ### Save
 - User enters a config name
 - All slot states (enabled, locked, value, color, weight) are serialized to JSON
-- Saved to `configs/{name}.json`
+- Saved to `prompt data/configs/{name}.json`
 
 ### Load
 - User selects from saved configs dropdown

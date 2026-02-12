@@ -440,6 +440,7 @@ function initPalettePicker() {
   const pickerBtn = document.getElementById("palette-picker-btn");
   const pickerMenu = document.getElementById("palette-picker-menu");
   const pickerWrap = document.getElementById("palette-picker");
+  const randomBtn = document.getElementById("btn-palette-random");
   const lockBtn = document.getElementById("btn-palette-lock");
   const nativeSelect = document.getElementById("palette-select");
 
@@ -453,6 +454,12 @@ function initPalettePicker() {
     e.stopPropagation();
     togglePaletteMenu(!pickerMenu.classList.contains("open"));
   });
+
+  if (randomBtn) {
+    randomBtn.addEventListener("click", async () => {
+      await randomizeActivePalette(true);
+    });
+  }
 
   lockBtn.addEventListener("click", () => {
     state.paletteLocked = !state.paletteLocked;
@@ -583,6 +590,12 @@ function maybeRandomizePaletteForRandomizeAll() {
   const paletteId = pickRandomPaletteId(state.activePaletteId);
   if (!paletteId) return;
   setPaletteSelection(paletteId);
+}
+
+async function randomizeActivePalette(applyPaletteColors) {
+  const paletteId = pickRandomPaletteId(state.activePaletteId);
+  if (!paletteId) return;
+  await onPaletteSelected(paletteId, applyPaletteColors);
 }
 
 function pickRandomPaletteId(currentId) {

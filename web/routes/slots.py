@@ -23,7 +23,7 @@ SECTION_LAYOUT = {
         "label": "Body / Expression / Pose",
         "icon": "\U0001f9cd",
         "slots": ["body_type", "height", "skin", "age_appearance",
-                  "special_features", "expression", "pose", "gesture"],
+                  "special_features", "expression", "view_angle", "pose", "gesture"],
     },
     "clothing": {
         "label": "Clothing & Background",
@@ -44,11 +44,14 @@ async def get_slots():
     """Return slot definitions, per-slot options, and section layout."""
     slots = {}
     for name, defn in gen.SLOT_DEFINITIONS.items():
-        options = gen.get_slot_option_names(name)
+        full_options = gen.get_slot_options(name)
+        option_names = [opt.get("name", opt.get("id", "")) for opt in full_options]
+        option_ids = [opt.get("id", "") for opt in full_options]
         slots[name] = {
             "category": defn["category"],
             "has_color": defn.get("has_color", False),
-            "options": options,
+            "options": option_names,
+            "option_ids": option_ids,
         }
     return {
         "slots": slots,

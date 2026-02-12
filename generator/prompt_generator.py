@@ -81,6 +81,7 @@ class GeneratorConfig:
 
 class PromptGenerator:
     """Main prompt generator class."""
+    DEFAULT_DATA_DIRNAME = "prompt data"
     
     # Define all available slots and their categories
     SLOT_DEFINITIONS = {
@@ -118,6 +119,7 @@ class PromptGenerator:
         # Pose
         "pose": {"category": "pose", "catalog": "poses", "index_key": None, "has_color": False},
         "gesture": {"category": "pose", "catalog": "poses", "index_key": "gesture", "has_color": False},
+        "view_angle": {"category": "pose", "catalog": "view_angles", "index_key": None, "has_color": False},
         
         # Background
         "background": {"category": "background", "catalog": "backgrounds", "index_key": None, "has_color": False},
@@ -129,8 +131,8 @@ class PromptGenerator:
     def __init__(self, data_dir: Optional[Path] = None):
         """Initialize the generator with data directory."""
         if data_dir is None:
-            # Default to parent of generator folder
-            data_dir = Path(__file__).parent.parent
+            # Default to catalog root under project root.
+            data_dir = Path(__file__).parent.parent / self.DEFAULT_DATA_DIRNAME
         self.data_dir = Path(data_dir)
         
         # Loaded catalogs
@@ -155,6 +157,7 @@ class PromptGenerator:
             "eyes": self.data_dir / "eyes" / "eye_catalog.json",
             "body": self.data_dir / "body" / "body_features.json",
             "poses": self.data_dir / "poses" / "poses.json",
+            "view_angles": self.data_dir / "view_angles" / "view_angles.json",
             "backgrounds": self.data_dir / "backgrounds" / "backgrounds.json",
             "colors": self.data_dir / "colors" / "color_palettes.json",
         }
@@ -394,7 +397,7 @@ class PromptGenerator:
             "full_body", "head", "neck", "upper_body", "waist", "lower_body",
             "outerwear", "hands", "legs", "feet", "accessory",
             # Pose
-            "pose", "gesture",
+            "view_angle", "pose", "gesture",
             # Background
             "background"
         ]
