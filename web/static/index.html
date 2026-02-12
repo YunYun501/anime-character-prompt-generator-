@@ -42,6 +42,24 @@
     </div>
   </details>
 
+  <details id="shortcuts-section">
+    <summary id="shortcuts-summary">Keyboard Shortcuts</summary>
+    <div id="shortcuts-content">
+      <table id="shortcuts-table">
+        <thead>
+          <tr>
+            <th id="shortcuts-col-action">Action</th>
+            <th id="shortcuts-col-shortcut">Shortcut</th>
+            <th id="shortcuts-col-change">Change</th>
+          </tr>
+        </thead>
+        <tbody id="shortcuts-list">
+          <!-- Populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </details>
+
   <section id="prompt-section">
     <div id="prompt-prefix-wrap">
       <label for="prompt-prefix" id="prompt-prefix-label">Always Include (Stable Diffusion Prefix)</label>
@@ -68,6 +86,7 @@
       <button id="btn-copy" class="btn">Copy</button>
       <button id="btn-reset" class="btn">Reset</button>
       <button id="btn-parse" class="btn" title="Parse prompt text back to slot settings">Parse to Slots</button>
+      <button id="btn-save-parsed" class="btn btn-parsed hidden" title="Save parsed result as a configuration">Save Parsed Config</button>
     </div>
 
     <details id="history-section">
@@ -113,6 +132,12 @@
         <option value="">(None)</option>
       </select>
     </div>
+
+    <label class="setting">
+      <input type="checkbox" id="click-scroll-enabled" checked>
+      <span id="setting-click-scroll">Click-to-scroll</span>
+      <kbd id="click-scroll-shortcut" class="shortcut-key" title="Click to change shortcut">Ctrl+J</kbd>
+    </label>
   </section>
 
   <hr>

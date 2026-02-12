@@ -54,6 +54,16 @@
   font-weight: 600;
 }
 
+/* Flash animation for click-to-scroll */
+@keyframes slot-flash {
+  0% { background: rgba(245, 158, 11, 0.5); box-shadow: 0 0 12px rgba(245, 158, 11, 0.6); }
+  100% { background: inherit; box-shadow: none; }
+}
+
+.slot-row.flash {
+  animation: slot-flash 1s ease-out;
+}
+
 /* ===== Slot Label ===== */
 .slot-label {
   width: 90px;

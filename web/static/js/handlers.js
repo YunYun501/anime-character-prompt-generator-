@@ -12,6 +12,7 @@ import {
 } from "./state.js";
 import * as api from "./api.js";
 import { clearPromptOutput, commitGeneratedPrompt, generateAndDisplay, getPromptOutputText, setPromptOutput, setParsedPromptHighlight, clearParsedPromptHighlight } from "./prompt.js";
+import { onShortcut } from "./shortcuts.js";
 import { t } from "./i18n.js";
 
 const LOCKED_ICON = "\uD83D\uDD12";
@@ -192,6 +193,7 @@ export function wireGlobalEvents() {
   document.getElementById("btn-randomize-all").addEventListener("click", async () => {
     clearAllParsedHighlights();
     clearParsedPromptHighlight();
+    document.getElementById("btn-save-parsed").classList.add("hidden");
     maybeRandomizePaletteForRandomizeAll();
     const data = await api.randomizeAll(
       getLockedMap(),
@@ -217,6 +219,7 @@ export function wireGlobalEvents() {
 
   document.getElementById("btn-reset").addEventListener("click", () => {
     clearAllParsedHighlights();
+    document.getElementById("btn-save-parsed").classList.add("hidden");
     for (const [name, s] of Object.entries(state.slots)) {
       s.value_id = null;
       s.color = null;
@@ -248,7 +251,8 @@ export function wireGlobalEvents() {
       const result = await api.parsePrompt(text);
       applyParsedSlots(result.slots);
       // Highlight matched tokens in prompt output (orange for matched, normal for unmatched)
-      setParsedPromptHighlight(text, result.unmatched);
+      // Pass parsed slots for click-to-scroll functionality
+      setParsedPromptHighlight(text, result.unmatched, result.slots);
 
       const msg = t("parse_result", {
         matched: result.matched_count,
@@ -257,6 +261,9 @@ export function wireGlobalEvents() {
       });
       setStatus(msg);
 
+      // Show "Save Parsed Config" button after successful parse
+      document.getElementById("btn-save-parsed").classList.remove("hidden");
+
       if (result.unmatched.length > 0) {
         console.log("Unmatched tokens:", result.unmatched);
       }
@@ -264,6 +271,34 @@ export function wireGlobalEvents() {
       console.error("Parse error:", err);
       setStatus(t("parse_error"));
     }
+  });
+
+  document.getElementById("btn-save-parsed").addEventListener("click", async () => {
+    // Generate default name with timestamp
+    const now = new Date();
+    const timestamp = now.toISOString().slice(0, 16).replace(/[:-]/g, "").replace("T", "_");
+    const defaultName = `parsed_${timestamp}`;
+
+    const name = prompt(t("save_parsed_prompt") || "Enter config name:", defaultName);
+    if (!name || !name.trim()) return;
+
+    const data = { slots: {} };
+    for (const [slotName, s] of Object.entries(state.slots)) {
+      data.slots[slotName] = {
+        enabled: s.enabled,
+        locked: s.locked,
+        value_id: s.value_id,
+        color: s.color,
+        weight: s.weight,
+      };
+    }
+    await api.saveConfig(name.trim(), data);
+    setStatus(t("status_saved", { name: name.trim() }));
+    await refreshConfigList();
+    document.getElementById("config-select").value = name.trim();
+    document.getElementById("config-name").value = name.trim();
+    // Hide button after saving
+    document.getElementById("btn-save-parsed").classList.add("hidden");
   });
 
   document.getElementById("full-body-mode").addEventListener("change", (e) => {
@@ -297,6 +332,27 @@ export function wireGlobalEvents() {
       return;
     }
     generateAndDisplay();
+  });
+
+  // Register keyboard shortcut callbacks
+  onShortcut("generate", () => {
+    document.getElementById("btn-generate").click();
+  });
+
+  onShortcut("randomizeAll", () => {
+    document.getElementById("btn-randomize-all").click();
+  });
+
+  onShortcut("copy", () => {
+    document.getElementById("btn-copy").click();
+  });
+
+  onShortcut("reset", () => {
+    document.getElementById("btn-reset").click();
+  });
+
+  onShortcut("parse", () => {
+    document.getElementById("btn-parse").click();
   });
 }
 

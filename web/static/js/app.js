@@ -36,6 +36,7 @@ import {
   downloadExport,
   triggerImport,
 } from "./history.js";
+import { loadShortcuts, wireShortcutEvents, renderShortcutsTable } from "./shortcuts.js";
 
 function populateLocaleSelector(selectEl, selected) {
   if (!selectEl) return;
@@ -70,9 +71,12 @@ function applyStaticTranslations() {
   setText("btn-randomize-all", "btn_randomize_all");
   setText("btn-copy", "btn_copy");
   setText("btn-reset", "btn_reset");
+  setText("btn-parse", "btn_parse");
+  setText("btn-save-parsed", "btn_save_parsed");
   setText("setting-full-body", "setting_full_body");
   setText("setting-upper-body", "setting_upper_body");
   setText("setting-palette", "setting_palette");
+  setText("setting-click-scroll", "setting_click_scroll");
   setText("palette-label", "palette_label");
   setText("btn-palette-random", "btn_palette_random");
   setText("save-load-summary", "save_load_summary");
@@ -82,6 +86,13 @@ function applyStaticTranslations() {
   setText("btn-export", "btn_export");
   setText("btn-import", "btn_import");
   setText("btn-clear-history", "history_clear_all");
+  setText("shortcuts-summary", "shortcuts_summary");
+  setText("shortcuts-col-action", "shortcuts_col_action");
+  setText("shortcuts-col-shortcut", "shortcuts_col_shortcut");
+  setText("shortcuts-col-change", "shortcuts_col_change");
+
+  // Re-render shortcuts table with updated translations
+  renderShortcutsTable();
 
   // Update history summary with count
   const historySummary = document.getElementById("history-summary");
@@ -306,6 +317,8 @@ async function init() {
   wireSaveLoadEvents();
   wireHistoryEvents();
   wirePromptPrefixPreset();
+  loadShortcuts();
+  wireShortcutEvents();
   refreshLocalizedDynamicUi();
   renderHistoryList();
   await refreshConfigList();

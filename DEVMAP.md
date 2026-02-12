@@ -54,6 +54,9 @@ Quick-reference for finding the right file for any edit.
 | History state management | `web/static/js/history.js` | `addToHistory()`, `getHistory()`, `removeFromHistory()`, `clearHistory()` |
 | History export/import | `web/static/js/history.js` | `exportUserData()`, `importUserData()`, `downloadExport()`, `triggerImport()` |
 | History restoration | `web/static/js/handlers.js` | `restoreFromHistory()` - restores full slot state from history entry |
+| Click-to-scroll (parsed token -> slot) | `web/static/js/prompt.js` | `scrollToSlot()`, `buildTokenToSlotMap()` |
+| Keyboard shortcuts & user-configurable bindings | `web/static/js/shortcuts.js` | `features.clickScrollEnabled`, `loadShortcuts()`, `wireShortcutEvents()` |
+| Save parsed config | `web/static/js/handlers.js` | Button appears after parsing, saves slot state with timestamp name |
 | UI translation bundles | `web/static/i18n/en.json`, `web/static/i18n/zh.json` | UI copy, slot labels, section labels, history strings |
 
 ## Data (JSON catalogs)

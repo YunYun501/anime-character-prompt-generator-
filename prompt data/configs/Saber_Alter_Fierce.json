@@ -1,39 +1,39 @@
 {
-  "name": "Saber Default",
-  "created_at": "2026-02-12T23:09:16.163071",
+  "name": "Saber_Alter_Fierce",
+  "created_at": "2026-02-12T22:45:43.472594",
   "slots": {
     "hair_style": {
       "enabled": true,
       "locked": false,
-      "value_id": "loose_hair",
+      "value_id": "drill_hair",
       "color": null,
       "weight": 1
     },
     "hair_length": {
       "enabled": true,
       "locked": false,
-      "value_id": "absurdly_long_hair",
+      "value_id": "long_hair",
       "color": null,
       "weight": 1
     },
     "hair_color": {
       "enabled": true,
       "locked": true,
-      "value_id": "blonde_hair",
+      "value_id": "ash_blonde",
       "color": null,
       "weight": 1
     },
     "hair_texture": {
       "enabled": true,
       "locked": false,
-      "value_id": "disheveled_hair",
+      "value_id": "messy_hair",
       "color": null,
       "weight": 1
     },
     "eye_color": {
       "enabled": true,
       "locked": true,
-      "value_id": "green_eyes",
+      "value_id": "yellow_eyes",
       "color": null,
       "weight": 1
     },
@@ -47,28 +47,28 @@
     "eye_shape": {
       "enabled": false,
       "locked": false,
-      "value_id": "big_eyes",
+      "value_id": "narrow_eyes",
       "color": null,
       "weight": 1
     },
     "eye_pupil_state": {
       "enabled": false,
       "locked": false,
-      "value_id": "symbol_shaped_pupils",
+      "value_id": "star_shaped_pupils",
       "color": null,
       "weight": 1
     },
     "eye_state": {
       "enabled": false,
       "locked": false,
-      "value_id": "closed_eyes",
+      "value_id": "looking_at_viewer",
       "color": null,
       "weight": 1
     },
     "eye_accessories": {
       "enabled": false,
       "locked": false,
-      "value_id": "round_glasses",
+      "value_id": "glasses",
       "color": null,
       "weight": 1
     },
@@ -82,140 +82,140 @@
     "height": {
       "enabled": true,
       "locked": true,
-      "value_id": "tall",
+      "value_id": "average_height",
       "color": null,
       "weight": 1
     },
     "skin": {
       "enabled": false,
       "locked": false,
-      "value_id": "white_skin",
+      "value_id": "rosy_skin",
       "color": null,
       "weight": 1
     },
     "age_appearance": {
       "enabled": true,
       "locked": true,
-      "value_id": "mature",
+      "value_id": "ojou_sama",
       "color": null,
       "weight": 1
     },
     "special_features": {
       "enabled": false,
       "locked": false,
-      "value_id": "vampire_fangs",
+      "value_id": "demon_horns",
       "color": null,
       "weight": 1
     },
     "expression": {
       "enabled": true,
       "locked": false,
-      "value_id": "pain_strain_sickness__pain_wince",
+      "value_id": "surprise_shock__surprised_wide_eyes_small_mouth",
       "color": null,
       "weight": 1
     },
     "head": {
       "enabled": true,
       "locked": false,
-      "value_id": "bunny_ears_headband",
-      "color": "pink",
+      "value_id": "mengu_armored_mask",
+      "color": "lavender",
       "weight": 1
     },
     "neck": {
       "enabled": true,
       "locked": false,
-      "value_id": "ruff_collar",
-      "color": "gold",
+      "value_id": "necklace",
+      "color": "violet",
       "weight": 1
     },
     "upper_body": {
       "enabled": true,
       "locked": false,
-      "value_id": "sports_jersey",
-      "color": "white",
+      "value_id": "magical_barrier_armor",
+      "color": "purple",
       "weight": 1
     },
     "waist": {
-      "enabled": false,
+      "enabled": true,
       "locked": false,
-      "value_id": null,
-      "color": null,
+      "value_id": "holsters",
+      "color": "violet",
       "weight": 1
     },
     "lower_body": {
-      "enabled": false,
+      "enabled": true,
       "locked": false,
-      "value_id": null,
-      "color": null,
+      "value_id": "cheerleader_skirt",
+      "color": "violet",
       "weight": 1
     },
     "full_body": {
       "enabled": false,
       "locked": false,
-      "value_id": "bunny_leotard",
-      "color": "blue",
+      "value_id": "swimsuit",
+      "color": "white",
       "weight": 1
     },
     "outerwear": {
       "enabled": true,
       "locked": false,
-      "value_id": "bolero",
-      "color": "blue",
+      "value_id": "fur_coat",
+      "color": "light purple",
       "weight": 1
     },
     "hands": {
-      "enabled": true,
+      "enabled": false,
       "locked": false,
-      "value_id": "silk_gloves",
-      "color": "pink",
+      "value_id": "wrist_cuffs",
+      "color": "lavender",
       "weight": 1
     },
     "legs": {
       "enabled": false,
       "locked": false,
-      "value_id": null,
-      "color": null,
+      "value_id": "loose_socks",
+      "color": "lavender",
       "weight": 1
     },
     "feet": {
-      "enabled": false,
+      "enabled": true,
       "locked": false,
-      "value_id": "setta_sandals",
-      "color": "pink",
+      "value_id": "okobo_geta",
+      "color": "violet",
       "weight": 1
     },
     "accessory": {
       "enabled": true,
       "locked": false,
-      "value_id": null,
-      "color": "yellow",
+      "value_id": "clutch_bag",
+      "color": "violet",
       "weight": 1
     },
     "pose": {
       "enabled": true,
       "locked": false,
-      "value_id": "sitting_on_bed",
+      "value_id": "aiming",
       "color": null,
       "weight": 1
     },
     "gesture": {
-      "enabled": true,
+      "enabled": false,
       "locked": false,
-      "value_id": "double_peace_sign",
+      "value_id": "fist_raised",
       "color": null,
       "weight": 1
     },
     "view_angle": {
       "enabled": true,
       "locked": false,
-      "value_id": "medium_full_shot",
+      "value_id": "eye_level_shot",
       "color": null,
       "weight": 1
     },
     "background": {
       "enabled": true,
       "locked": false,
-      "value_id": "school_gym",
+      "value_id": "clouds",
       "color": null,
       "weight": 1
     }

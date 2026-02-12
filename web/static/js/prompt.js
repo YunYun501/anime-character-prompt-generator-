@@ -5,6 +5,7 @@
 import { state, getColorLabel, getSlotOptionLabel, getSlotStateForAPI } from "./state.js";
 import * as api from "./api.js";
 import { addToHistory } from "./history.js";
+import { features } from "./shortcuts.js";
 
 const PREFIX_PRESET_VALUE = "sd_quality_v1";
 const PREFIX_PRESET_TEXT = "(masterpiece),(best quality),(ultra-detailed),(best illustration),(absurdres),(very aesthetic),(newest),detailed eyes, detailed face";
@@ -30,6 +31,8 @@ const GENERATE_DEBOUNCE_MS = 150;
 /** Set of unmatched tokens from last parse (used for highlighting). */
 let parsedUnmatchedTokens = new Set();
 let isParsedHighlightActive = false;
+/** Mapping of parsed slots for click-to-scroll. */
+let parsedSlotsMapping = {};
 
 function getPromptPrefix() {
   const el = document.getElementById("prompt-prefix");
@@ -224,10 +227,55 @@ function normalizeTokenForMatch(token) {
 }
 
 /**
- * Render prompt output with parsed token highlighting.
- * Matched tokens (not in unmatched list) are shown in orange.
+ * Build reverse mapping from token text to slot name.
+ * Uses the parsed slots and current locale to match tokens.
  */
-function renderParsedPromptOutput(promptText, unmatchedList) {
+function buildTokenToSlotMap(parsedSlots, locale) {
+  const map = new Map();
+  for (const [slotName, parsed] of Object.entries(parsedSlots)) {
+    if (!parsed.value_id) continue;
+    const valueLabel = getSlotOptionLabel(slotName, parsed.value_id, locale);
+    if (!valueLabel) continue;
+
+    let tokenText;
+    if (parsed.color) {
+      tokenText = `${getColorLabel(parsed.color, locale)} ${valueLabel}`;
+    } else {
+      tokenText = valueLabel;
+    }
+
+    const weight = Number(parsed.weight);
+    if (Number.isFinite(weight) && Math.abs(weight - 1.0) > 1e-9) {
+      tokenText = `(${tokenText}:${weight.toFixed(1)})`;
+    }
+
+    map.set(normalizeTokenForMatch(tokenText), slotName);
+  }
+  return map;
+}
+
+/**
+ * Scroll to and flash a slot row.
+ */
+function scrollToSlot(slotName) {
+  // Check if click-to-scroll is enabled
+  if (!features.clickScrollEnabled) return;
+
+  const row = document.querySelector(`.slot-row[data-slot="${slotName}"]`);
+  if (!row) return;
+
+  row.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  // Flash animation
+  row.classList.add("flash");
+  setTimeout(() => row.classList.remove("flash"), 1000);
+}
+
+/**
+ * Render prompt output with parsed token highlighting.
+ * Matched tokens (not in unmatched list) are shown in orange and clickable.
+ */
+function renderParsedPromptOutput(promptText, unmatchedList, parsedSlots) {
   const outputEl = document.getElementById("prompt-output");
   if (!outputEl) return;
 
@@ -238,6 +286,9 @@ function renderParsedPromptOutput(promptText, unmatchedList) {
   const unmatchedSet = new Set(
     unmatchedList.map((t) => normalizeTokenForMatch(t))
   );
+
+  // Build token-to-slot mapping for click-to-scroll
+  const tokenToSlot = buildTokenToSlotMap(parsedSlots || {}, state.promptLocale);
 
   const tokens = promptText
     .split(",")
@@ -258,6 +309,16 @@ function renderParsedPromptOutput(promptText, unmatchedList) {
       span.style.color = "#f59e0b";
       span.style.fontWeight = "600";
       span.textContent = token;
+
+      // Add click-to-scroll if we know the slot
+      const slotName = tokenToSlot.get(normalized);
+      if (slotName) {
+        span.style.cursor = "pointer";
+        span.title = `Click to scroll to ${slotName}`;
+        span.dataset.slot = slotName;
+        span.addEventListener("click", () => scrollToSlot(slotName));
+      }
+
       outputEl.appendChild(span);
     } else {
       outputEl.appendChild(document.createTextNode(token));
@@ -267,11 +328,15 @@ function renderParsedPromptOutput(promptText, unmatchedList) {
 
 /**
  * Activate parsed prompt highlighting with the given unmatched tokens.
+ * @param {string} promptText - The prompt text to highlight
+ * @param {string[]} unmatchedList - List of unmatched tokens
+ * @param {Object} parsedSlots - Parsed slot mappings for click-to-scroll
  */
-export function setParsedPromptHighlight(promptText, unmatchedList) {
+export function setParsedPromptHighlight(promptText, unmatchedList, parsedSlots) {
   parsedUnmatchedTokens = new Set(unmatchedList || []);
+  parsedSlotsMapping = parsedSlots || {};
   isParsedHighlightActive = true;
-  renderParsedPromptOutput(promptText, unmatchedList || []);
+  renderParsedPromptOutput(promptText, unmatchedList || [], parsedSlots || {});
 }
 
 /**

@@ -32,6 +32,21 @@
   font-size: 12px;
 }
 
+.btn-parsed {
+  background: #f59e0b;
+  border-color: #d97706;
+  color: #fff;
+  font-weight: 500;
+}
+
+.btn-parsed:hover {
+  background: #d97706;
+}
+
+.hidden {
+  display: none !important;
+}
+
 /* ===== Slot Toggle Buttons ===== */
 .btn-onoff {
   width: 32px;
@@ -128,4 +143,60 @@ select:focus, input:focus, textarea:focus {
 input[type="checkbox"],
 input[type="radio"] {
   accent-color: var(--primary);
+}
+
+/* ===== Keyboard Shortcut Keys ===== */
+.shortcut-key {
+  display: inline-block;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-left: 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.shortcut-key:hover {
+  background: var(--bg-slot-hover);
+  border-color: var(--primary);
+  color: var(--text);
+}
+
+.shortcut-key.recording {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: #f59e0b;
+  color: #f59e0b;
+  animation: pulse-border 1s infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% { border-color: #f59e0b; }
+  50% { border-color: #fbbf24; }
+}
+
+/* ===== Shortcut Feedback Toast ===== */
+.shortcut-feedback {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+
+.shortcut-feedback.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
