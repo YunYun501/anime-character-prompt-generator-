@@ -3,31 +3,46 @@
  */
 
 import { state } from "./state.js";
-import { t } from "./i18n.js";
 
 const HISTORY_KEY = "prompt_history";
 const MAX_HISTORY = 50;
 
 const historyChangeListeners = [];
+let historyCache = null;
+
+function loadHistoryFromStorage() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(HISTORY_KEY));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function getHistoryCache() {
+  if (!Array.isArray(historyCache)) {
+    historyCache = loadHistoryFromStorage();
+  }
+  return historyCache;
+}
 
 /**
  * Get all history entries.
  * @returns {Array} History entries, newest first.
  */
 export function getHistory() {
-  try {
-    return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
-  } catch {
-    return [];
-  }
+  return getHistoryCache().slice();
 }
 
 /**
  * Save history to localStorage.
  */
 function saveHistory(history) {
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  for (const fn of historyChangeListeners) fn(history);
+  const next = Array.isArray(history) ? history : [];
+  historyCache = next;
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+  const snapshot = next.slice();
+  for (const fn of historyChangeListeners) fn(snapshot);
 }
 
 /**
@@ -37,7 +52,7 @@ function saveHistory(history) {
 export function addToHistory(prompt, prefix) {
   if (!prompt || !prompt.trim()) return;
 
-  const history = getHistory();
+  const history = getHistoryCache().slice();
 
   // Skip duplicate of last entry
   if (history.length > 0 && history[0].prompt === prompt && history[0].prefix === prefix) {
@@ -82,7 +97,7 @@ export function addToHistory(prompt, prefix) {
  * Remove a single history entry by ID.
  */
 export function removeFromHistory(entryId) {
-  const history = getHistory();
+  const history = getHistoryCache();
   const filtered = history.filter((e) => e.id !== entryId);
   saveHistory(filtered);
 }
@@ -105,7 +120,7 @@ export function onHistoryChange(fn) {
  * Get a single history entry by ID.
  */
 export function getHistoryEntry(entryId) {
-  const history = getHistory();
+  const history = getHistoryCache();
   return history.find((e) => e.id === entryId) || null;
 }
 
@@ -144,6 +159,9 @@ export function importUserData(data) {
     const validHistory = data.history.filter(
       (e) => e && typeof e.id === "string" && typeof e.prompt === "string"
     );
+    if (validHistory.length > MAX_HISTORY) {
+      validHistory.length = MAX_HISTORY;
+    }
     saveHistory(validHistory);
   }
 

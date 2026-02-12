@@ -11,7 +11,7 @@ import {
   getPaletteLabel,
 } from "./state.js";
 import * as api from "./api.js";
-import { clearPromptOutput, generateAndDisplay, getPromptOutputText, setPromptOutput } from "./prompt.js";
+import { clearPromptOutput, commitGeneratedPrompt, generateAndDisplay, getPromptOutputText, setPromptOutput } from "./prompt.js";
 import { t } from "./i18n.js";
 
 const LOCKED_ICON = "\uD83D\uDD12";
@@ -69,9 +69,16 @@ export function wireSlotEvents(slotName, comps) {
       state.fullBodyMode,
       state.upperBodyMode,
       getCurrentValueIds(),
+      getSlotStateForAPI(),
+      true,
+      state.promptLocale,
     );
     applyResults(data.results);
-    generateAndDisplay();
+    if (typeof data.prompt === "string") {
+      commitGeneratedPrompt(data.prompt, state.promptLocale);
+    } else {
+      generateAndDisplay();
+    }
   });
 
   colorRandomBtn.addEventListener("click", async () => {
@@ -87,6 +94,9 @@ export function wireSlotEvents(slotName, comps) {
       state.fullBodyMode,
       state.upperBodyMode,
       {},
+      {},
+      false,
+      state.promptLocale,
     );
 
     if (data.results[slotName]) {
@@ -130,9 +140,16 @@ export function wireSectionEvents(sectionData) {
       state.fullBodyMode,
       state.upperBodyMode,
       getCurrentValueIds(),
+      getSlotStateForAPI(),
+      true,
+      state.promptLocale,
     );
     applyResults(data.results);
-    generateAndDisplay();
+    if (typeof data.prompt === "string") {
+      commitGeneratedPrompt(data.prompt, state.promptLocale);
+    } else {
+      generateAndDisplay();
+    }
   });
 
   allOnBtn.addEventListener("click", () => {
@@ -171,13 +188,20 @@ export function wireGlobalEvents() {
       state.activePaletteId,
       state.fullBodyMode,
       state.upperBodyMode,
+      getSlotStateForAPI(),
+      true,
+      state.promptLocale,
     );
     applyResults(data.results);
-    generateAndDisplay();
+    if (typeof data.prompt === "string") {
+      commitGeneratedPrompt(data.prompt, state.promptLocale);
+    } else {
+      generateAndDisplay();
+    }
   });
 
   document.getElementById("btn-generate").addEventListener("click", () => {
-    generateAndDisplay();
+    generateAndDisplay(false, { immediate: true });
   });
 
   document.getElementById("btn-reset").addEventListener("click", () => {

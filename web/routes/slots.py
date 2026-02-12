@@ -6,10 +6,10 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Dict, List, Optional
 
-from generator.prompt_generator import PromptGenerator
+from .deps import gen
+from .prompt import SlotState, GenerateRequest, build_prompt_string
 
 router = APIRouter()
-gen = PromptGenerator()
 
 # Section layout sent to frontend so it can build the UI dynamically
 SECTION_LAYOUT = {
@@ -77,6 +77,9 @@ class RandomizeRequest(BaseModel):
     full_body_mode: bool = False
     upper_body_mode: bool = False
     current_values: Dict[str, Optional[str]] = {}
+    slots: Dict[str, SlotState] = {}
+    include_prompt: bool = False
+    output_language: str = "en"
 
 
 @router.post("/randomize")
@@ -111,7 +114,26 @@ async def randomize_slots(req: RandomizeRequest):
 
         results[name] = {"value_id": value_id, "value": value, "color": color}
 
-    return {"results": results}
+    payload = {"results": results}
+    if req.include_prompt:
+        for name, res in results.items():
+            slot = req.slots.get(name)
+            if not slot:
+                slot = SlotState()
+                req.slots[name] = slot
+            slot.value_id = res["value_id"]
+            slot.value = res["value"]
+            slot.color = res["color"]
+        prompt = build_prompt_string(
+            GenerateRequest(
+                slots=req.slots,
+                full_body_mode=req.full_body_mode,
+                upper_body_mode=req.upper_body_mode,
+                output_language=req.output_language,
+            )
+        )
+        payload["prompt"] = prompt
+    return payload
 
 
 class RandomizeAllRequest(BaseModel):
@@ -120,6 +142,9 @@ class RandomizeAllRequest(BaseModel):
     palette_id: Optional[str] = None
     full_body_mode: bool = False
     upper_body_mode: bool = False
+    slots: Dict[str, SlotState] = {}
+    include_prompt: bool = False
+    output_language: str = "en"
 
 
 @router.post("/randomize-all")
@@ -153,4 +178,23 @@ async def randomize_all(req: RandomizeAllRequest):
                 results[name]["value_id"] = None
                 results[name]["value"] = None
 
-    return {"results": results}
+    payload = {"results": results}
+    if req.include_prompt:
+        for name, res in results.items():
+            slot = req.slots.get(name)
+            if not slot:
+                slot = SlotState()
+                req.slots[name] = slot
+            slot.value_id = res["value_id"]
+            slot.value = res["value"]
+            slot.color = res["color"]
+        prompt = build_prompt_string(
+            GenerateRequest(
+                slots=req.slots,
+                full_body_mode=req.full_body_mode,
+                upper_body_mode=req.upper_body_mode,
+                output_language=req.output_language,
+            )
+        )
+        payload["prompt"] = prompt
+    return payload

@@ -6,10 +6,9 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Dict, List, Optional
 
-from generator.prompt_generator import PromptGenerator
+from .deps import gen
 
 router = APIRouter()
-gen = PromptGenerator()
 
 # Canonical slot order for prompt building (matches prompt_generator.py)
 SLOT_ORDER = [
@@ -43,6 +42,11 @@ class GenerateRequest(BaseModel):
 @router.post("/generate-prompt")
 async def generate_prompt(req: GenerateRequest):
     """Build the prompt string from provided slot state."""
+    return {"prompt": build_prompt_string(req)}
+
+
+def build_prompt_string(req: GenerateRequest) -> str:
+    """Build prompt text from slot state; shared by randomize routes."""
     parts = ["1girl"]
 
     output_language = req.output_language
@@ -91,7 +95,7 @@ async def generate_prompt(req: GenerateRequest):
 
         parts.append(part)
 
-    return {"prompt": ", ".join(parts)}
+    return ", ".join(parts)
 
 
 class ApplyPaletteRequest(BaseModel):
@@ -125,9 +129,9 @@ async def apply_palette(req: ApplyPaletteRequest):
         upper_body_mode=req.upper_body_mode,
         output_language=req.output_language,
     )
-    prompt_result = await generate_prompt(gen_req)
+    prompt = build_prompt_string(gen_req)
 
-    return {"colors": new_colors, "prompt": prompt_result["prompt"]}
+    return {"colors": new_colors, "prompt": prompt}
 
 
 @router.get("/palettes")

@@ -24,6 +24,8 @@ const outputColorCache = new Map();
 let lastGeneratedPromptCore = "";
 let lastGeneratedLocale = "en";
 let generateRequestSeq = 0;
+let generateTimer = null;
+const GENERATE_DEBOUNCE_MS = 150;
 
 function getPromptPrefix() {
   const el = document.getElementById("prompt-prefix");
@@ -183,18 +185,26 @@ export function setPromptOutput(generatedPrompt, locale) {
   renderPromptOutput(lastGeneratedPromptCore);
 }
 
+export function commitGeneratedPrompt(generatedPrompt, locale, skipHistory = false) {
+  const normalized = (generatedPrompt || "").trim();
+  const prefix = getPromptPrefix();
+  setPromptOutput(normalized, locale);
+  if (!skipHistory && normalized) {
+    addToHistory(combinePrompt(prefix, normalized), prefix);
+  }
+}
+
 export function clearPromptOutput() {
   lastGeneratedPromptCore = "";
   const outputEl = document.getElementById("prompt-output");
   if (outputEl) outputEl.innerHTML = "";
 }
 
-export async function generateAndDisplay(skipHistory = false) {
+async function generateAndDisplayNow(skipHistory = false) {
   const requestSeq = ++generateRequestSeq;
   const slotsForAPI = getSlotStateForAPI();
   // Capture locale and prefix at call time for consistency
   const promptLocale = state.promptLocale;
-  const prefix = getPromptPrefix();
   const data = await api.generatePrompt(
     slotsForAPI,
     state.fullBodyMode,
@@ -202,12 +212,26 @@ export async function generateAndDisplay(skipHistory = false) {
     promptLocale,
   );
   if (requestSeq !== generateRequestSeq) return;
-  setPromptOutput(data.prompt || "", promptLocale);
+  commitGeneratedPrompt(data.prompt || "", promptLocale, skipHistory);
+}
 
-  // Add to history (skip for restore operations to avoid duplicates)
-  if (!skipHistory && data.prompt) {
-    addToHistory(combinePrompt(prefix, data.prompt), prefix);
+export function generateAndDisplay(skipHistory = false, options = {}) {
+  const immediate = !!options.immediate;
+  if (immediate) {
+    if (generateTimer) {
+      clearTimeout(generateTimer);
+      generateTimer = null;
+    }
+    return generateAndDisplayNow(skipHistory);
   }
+  if (generateTimer) {
+    clearTimeout(generateTimer);
+  }
+  generateTimer = setTimeout(() => {
+    generateTimer = null;
+    void generateAndDisplayNow(skipHistory);
+  }, GENERATE_DEBOUNCE_MS);
+  return Promise.resolve();
 }
 
 export function wirePromptPrefixPreset() {

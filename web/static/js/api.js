@@ -29,7 +29,18 @@ export function fetchPalettes() {
 }
 
 /** Randomize specific slots. */
-export function randomizeSlots(slotNames, locked, paletteEnabled, paletteId, fullBodyMode, upperBodyMode, currentValues) {
+export function randomizeSlots(
+  slotNames,
+  locked,
+  paletteEnabled,
+  paletteId,
+  fullBodyMode,
+  upperBodyMode,
+  currentValues,
+  slots = {},
+  includePrompt = false,
+  outputLanguage = "en",
+) {
   return post("/api/randomize", {
     slot_names: slotNames,
     locked,
@@ -38,17 +49,32 @@ export function randomizeSlots(slotNames, locked, paletteEnabled, paletteId, ful
     full_body_mode: fullBodyMode,
     upper_body_mode: upperBodyMode,
     current_values: currentValues,
+    slots,
+    include_prompt: includePrompt,
+    output_language: outputLanguage,
   });
 }
 
 /** Randomize all slots. */
-export function randomizeAll(locked, paletteEnabled, paletteId, fullBodyMode, upperBodyMode) {
+export function randomizeAll(
+  locked,
+  paletteEnabled,
+  paletteId,
+  fullBodyMode,
+  upperBodyMode,
+  slots = {},
+  includePrompt = false,
+  outputLanguage = "en",
+) {
   return post("/api/randomize-all", {
     locked,
     palette_enabled: paletteEnabled,
     palette_id: paletteId,
     full_body_mode: fullBodyMode,
     upper_body_mode: upperBodyMode,
+    slots,
+    include_prompt: includePrompt,
+    output_language: outputLanguage,
   });
 }
 

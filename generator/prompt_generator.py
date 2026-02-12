@@ -153,10 +153,18 @@ class PromptGenerator:
         self.item_id_by_name: Dict[str, Dict[str, str]] = {}
         # Color token localization map (color -> {lang: localized_text})
         self.color_i18n: Dict[str, Dict[str, str]] = {}
+
+        # Runtime caches for static catalog-derived lookups.
+        self._slot_options_cache: Dict[str, List[dict]] = {}
+        self._slot_options_localized_cache: Dict[tuple, List[dict]] = {}
+        self._lower_body_covers_legs_by_name_cache: Optional[Dict[str, bool]] = None
+        self._lower_body_covers_legs_by_id_cache: Optional[Dict[str, bool]] = None
+        self._pose_uses_hands_by_name_cache: Optional[Dict[str, bool]] = None
+        self._pose_uses_hands_by_id_cache: Optional[Dict[str, bool]] = None
         
         # Load all data
         self._load_catalogs()
-    
+
     def _load_catalogs(self):
         """Load all catalog JSON files."""
         catalog_paths = {
@@ -195,6 +203,16 @@ class PromptGenerator:
                         }
                         self.individual_colors = data.get("individual_colors", [])
                         self.color_i18n = data.get("individual_colors_i18n", {})
+        self._reset_runtime_caches()
+
+    def _reset_runtime_caches(self) -> None:
+        """Clear derived caches after catalog reload."""
+        self._slot_options_cache.clear()
+        self._slot_options_localized_cache.clear()
+        self._lower_body_covers_legs_by_name_cache = None
+        self._lower_body_covers_legs_by_id_cache = None
+        self._pose_uses_hands_by_name_cache = None
+        self._pose_uses_hands_by_id_cache = None
 
     @classmethod
     def normalize_language(cls, language: Optional[str]) -> str:
@@ -288,6 +306,10 @@ class PromptGenerator:
     
     def get_slot_options(self, slot_name: str) -> List[dict]:
         """Get all available options for a slot."""
+        cached = self._slot_options_cache.get(slot_name)
+        if cached is not None:
+            return cached
+
         if slot_name not in self.SLOT_DEFINITIONS:
             return []
         
@@ -302,14 +324,19 @@ class PromptGenerator:
         
         # Handle expressions (uses index_by_emotion_family)
         if catalog_name == "expressions":
-            return catalog.get("items", [])
+            result = catalog.get("items", [])
+            self._slot_options_cache[slot_name] = result
+            return result
         
         # Handle poses/backgrounds (may have multiple indices)
         if index_key is None:
             items = catalog.get("items", [])
             # Keep pose slot focused on body poses; hand actions live in gesture slot.
             if catalog_name == "poses" and slot_name == "pose":
-                return [item for item in items if item.get("category") != "gesture"]
+                result = [item for item in items if item.get("category") != "gesture"]
+                self._slot_options_cache[slot_name] = result
+                return result
+            self._slot_options_cache[slot_name] = items
             return items
         
         # Handle clothing (uses index_by_body_part)
@@ -317,18 +344,27 @@ class PromptGenerator:
             index = catalog.get("index_by_body_part", {})
             item_ids = index.get(index_key, [])
             items_map = self.items_by_id.get(catalog_name, {})
-            return [items_map[id] for id in item_ids if id in items_map]
+            result = [items_map[id] for id in item_ids if id in items_map]
+            self._slot_options_cache[slot_name] = result
+            return result
         
         # Handle other catalogs (hair, eyes, body) - uses index_by_category
         index = catalog.get("index_by_category", {})
         item_ids = index.get(index_key, [])
         items_map = self.items_by_id.get(catalog_name, {})
-        return [items_map[id] for id in item_ids if id in items_map]
+        result = [items_map[id] for id in item_ids if id in items_map]
+        self._slot_options_cache[slot_name] = result
+        return result
 
     def get_slot_options_localized(self, slot_name: str, language: str = "en") -> List[dict]:
         """Get options for a slot with localized names embedded."""
-        options = self.get_slot_options(slot_name)
         lang = self.normalize_language(language)
+        cache_key = (slot_name, lang)
+        cached = self._slot_options_localized_cache.get(cache_key)
+        if cached is not None:
+            return cached
+
+        options = self.get_slot_options(slot_name)
         slot_def = self.SLOT_DEFINITIONS.get(slot_name, {})
         catalog_name = slot_def.get("catalog")
         catalog = self.catalogs.get(catalog_name, {})
@@ -388,6 +424,7 @@ class PromptGenerator:
                     "localized_group": localized_group,
                 }
             )
+        self._slot_options_localized_cache[cache_key] = result
         return result
     
     def get_slot_option_names(self, slot_name: str) -> List[str]:
@@ -400,46 +437,60 @@ class PromptGenerator:
         Return a map of lower_body item name -> whether it covers legs.
         Missing flag defaults to False for backward compatibility.
         """
-        mapping: Dict[str, bool] = {}
-        for item in self.get_slot_options("lower_body"):
-            name = item.get("name")
-            if not name:
-                continue
-            mapping[name] = bool(item.get("covers_legs", False))
-        return mapping
+        self._ensure_lower_body_coverage_caches()
+        return dict(self._lower_body_covers_legs_by_name_cache or {})
 
     def get_lower_body_covers_legs_by_id(self) -> Dict[str, bool]:
         """Return a map of lower_body item id -> whether it covers legs."""
-        mapping: Dict[str, bool] = {}
-        for item in self.get_slot_options("lower_body"):
-            item_id = item.get("id")
-            if not item_id:
-                continue
-            mapping[item_id] = bool(item.get("covers_legs", False))
-        return mapping
+        self._ensure_lower_body_coverage_caches()
+        return dict(self._lower_body_covers_legs_by_id_cache or {})
 
     def get_pose_uses_hands_by_name(self) -> Dict[str, bool]:
         """
         Return a map of pose item name -> whether it uses hands.
         Missing flag defaults to False for backward compatibility.
         """
-        mapping: Dict[str, bool] = {}
-        for item in self.get_slot_options("pose"):
-            name = item.get("name")
-            if not name:
-                continue
-            mapping[name] = bool(item.get("uses_hands", False))
-        return mapping
+        self._ensure_pose_hand_usage_caches()
+        return dict(self._pose_uses_hands_by_name_cache or {})
 
     def get_pose_uses_hands_by_id(self) -> Dict[str, bool]:
         """Return a map of pose item id -> whether it uses hands."""
-        mapping: Dict[str, bool] = {}
-        for item in self.get_slot_options("pose"):
+        self._ensure_pose_hand_usage_caches()
+        return dict(self._pose_uses_hands_by_id_cache or {})
+
+    def _ensure_lower_body_coverage_caches(self) -> None:
+        if (self._lower_body_covers_legs_by_name_cache is not None
+                and self._lower_body_covers_legs_by_id_cache is not None):
+            return
+        by_name: Dict[str, bool] = {}
+        by_id: Dict[str, bool] = {}
+        for item in self.get_slot_options("lower_body"):
+            name = item.get("name")
             item_id = item.get("id")
-            if not item_id:
-                continue
-            mapping[item_id] = bool(item.get("uses_hands", False))
-        return mapping
+            covers_legs = bool(item.get("covers_legs", False))
+            if name:
+                by_name[name] = covers_legs
+            if item_id:
+                by_id[item_id] = covers_legs
+        self._lower_body_covers_legs_by_name_cache = by_name
+        self._lower_body_covers_legs_by_id_cache = by_id
+
+    def _ensure_pose_hand_usage_caches(self) -> None:
+        if (self._pose_uses_hands_by_name_cache is not None
+                and self._pose_uses_hands_by_id_cache is not None):
+            return
+        by_name: Dict[str, bool] = {}
+        by_id: Dict[str, bool] = {}
+        for item in self.get_slot_options("pose"):
+            name = item.get("name")
+            item_id = item.get("id")
+            uses_hands = bool(item.get("uses_hands", False))
+            if name:
+                by_name[name] = uses_hands
+            if item_id:
+                by_id[item_id] = uses_hands
+        self._pose_uses_hands_by_name_cache = by_name
+        self._pose_uses_hands_by_id_cache = by_id
 
     def lower_body_item_covers_legs(self, item: Optional[dict]) -> bool:
         """Check coverage flag on a sampled lower_body item dict."""
