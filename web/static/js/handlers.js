@@ -6,6 +6,7 @@ import {
   state,
   getSlotStateForAPI,
   getLockedMap,
+  getDisabledGroupsMap,
   getCurrentValueIds,
   resolveLegacyValueToId,
   getPaletteLabel,
@@ -47,7 +48,7 @@ function clearAllParsedHighlights() {
 }
 
 export function wireSlotEvents(slotName, comps) {
-  const { onoffBtn, lockBtn, randomBtn, colorRandomBtn, dropdown, colorSelect, weightInput } = comps;
+  const { onoffBtn, lockBtn, randomBtn, colorRandomBtn, dropdown, colorSelect, weightInput, customDropdown } = comps;
 
   onoffBtn.addEventListener("click", () => {
     const s = state.slots[slotName];
@@ -82,6 +83,7 @@ export function wireSlotEvents(slotName, comps) {
       getSlotStateForAPI(),
       true,
       state.promptLocale,
+      getDisabledGroupsMap(),
     );
     applyResults(data.results);
     if (typeof data.prompt === "string") {
@@ -107,6 +109,7 @@ export function wireSlotEvents(slotName, comps) {
       {},
       false,
       state.promptLocale,
+      {},
     );
 
     if (data.results[slotName]) {
@@ -119,6 +122,10 @@ export function wireSlotEvents(slotName, comps) {
 
   dropdown.addEventListener("change", () => {
     state.slots[slotName].value_id = dropdown.value || null;
+    // Sync custom dropdown if present
+    if (customDropdown) {
+      customDropdown.updateSelection(dropdown.value || null);
+    }
     if (slotName === "lower_body") {
       maybeDisableLegsForLowerBodyCoverage();
     } else if (slotName === "pose") {
@@ -136,6 +143,179 @@ export function wireSlotEvents(slotName, comps) {
     state.slots[slotName].weight = parseFloat(weightInput.value) || 1.0;
     generateAndDisplay();
   });
+
+  // Wire custom dropdown events
+  if (customDropdown) {
+    wireCustomDropdownEvents(slotName, comps);
+  }
+}
+
+/** Wire events for custom dropdown with collapsible groups. */
+function wireCustomDropdownEvents(slotName, comps) {
+  const { customDropdown, dropdown } = comps;
+  if (!customDropdown) return;
+
+  const { container, trigger, panel } = customDropdown;
+
+  // Toggle dropdown open/close
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = container.classList.contains("open");
+    closeAllCustomDropdowns();
+    if (!isOpen) {
+      container.classList.add("open");
+    }
+  });
+
+  // Item selection
+  panel.addEventListener("click", (e) => {
+    const item = e.target.closest(".dropdown-item");
+    if (item) {
+      e.stopPropagation();
+      const valueId = item.dataset.value || null;
+      state.slots[slotName].value_id = valueId;
+      dropdown.value = valueId || "";
+      customDropdown.updateSelection(valueId);
+      container.classList.remove("open");
+
+      if (slotName === "lower_body") {
+        maybeDisableLegsForLowerBodyCoverage();
+      } else if (slotName === "pose") {
+        maybeDisableHandActionsForPoseUsage();
+      }
+      generateAndDisplay();
+    }
+  });
+
+  // Group toggle buttons
+  panel.addEventListener("click", (e) => {
+    const toggleBtn = e.target.closest(".btn-group-toggle");
+    if (toggleBtn) {
+      e.stopPropagation();
+      const groupKey = toggleBtn.dataset.groupKey;
+      const groupSection = customDropdown.getGroupSection(groupKey);
+      if (!groupSection) return;
+
+      const s = state.slots[slotName];
+      if (!s.disabledGroups) s.disabledGroups = [];
+
+      // Clear solo state when manually toggling
+      if (s.soloGroup) {
+        s.soloGroup = null;
+        s.preSoloDisabledGroups = null;
+        // Clear all solo button highlights
+        for (const solo of panel.querySelectorAll(".btn-group-solo")) {
+          solo.classList.remove("active");
+        }
+      }
+
+      const isDisabled = s.disabledGroups.includes(groupKey);
+
+      if (isDisabled) {
+        // Enable group
+        s.disabledGroups = s.disabledGroups.filter((g) => g !== groupKey);
+        toggleBtn.className = "btn-group-toggle on";
+        toggleBtn.textContent = t("slot_on");
+        groupSection.classList.remove("disabled");
+      } else {
+        // Disable group
+        s.disabledGroups.push(groupKey);
+        toggleBtn.className = "btn-group-toggle off";
+        toggleBtn.textContent = t("slot_off");
+        groupSection.classList.add("disabled");
+      }
+    }
+
+    // Solo button - enable only this group, disable all others (toggle behavior)
+    const soloBtn = e.target.closest(".btn-group-solo");
+    if (soloBtn) {
+      e.stopPropagation();
+      const soloGroupKey = soloBtn.dataset.groupKey;
+      const s = state.slots[slotName];
+
+      // Get all group keys from the panel
+      const allGroupKeys = [];
+      for (const section of panel.querySelectorAll(".dropdown-group")) {
+        allGroupKeys.push(section.dataset.groupKey);
+      }
+
+      // Check if we're clicking the same solo button again (unsolo)
+      if (s.soloGroup === soloGroupKey && s.preSoloDisabledGroups !== null) {
+        // Restore previous state
+        s.disabledGroups = [...s.preSoloDisabledGroups];
+        s.soloGroup = null;
+        s.preSoloDisabledGroups = null;
+      } else {
+        // Save current state before applying solo
+        s.preSoloDisabledGroups = [...(s.disabledGroups || [])];
+        s.soloGroup = soloGroupKey;
+        // Disable all groups except the solo one
+        s.disabledGroups = allGroupKeys.filter((g) => g !== soloGroupKey);
+      }
+
+      // Update UI for all groups
+      updateGroupToggleUI(panel, s.disabledGroups, s.soloGroup);
+    }
+  });
+
+  // Close on click outside
+  document.addEventListener("click", (e) => {
+    if (!container.contains(e.target)) {
+      container.classList.remove("open");
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      container.classList.remove("open");
+    }
+  });
+}
+
+/** Close all open custom dropdowns. */
+function closeAllCustomDropdowns() {
+  for (const dropdown of document.querySelectorAll(".custom-dropdown.open")) {
+    dropdown.classList.remove("open");
+  }
+}
+
+/** Update group toggle UI state for all groups in a panel. */
+function updateGroupToggleUI(panel, disabledGroups, soloGroup) {
+  for (const section of panel.querySelectorAll(".dropdown-group")) {
+    const gKey = section.dataset.groupKey;
+    const toggle = section.querySelector(".btn-group-toggle");
+    const solo = section.querySelector(".btn-group-solo");
+    const isDisabled = (disabledGroups || []).includes(gKey);
+
+    if (isDisabled) {
+      section.classList.add("disabled");
+      if (toggle) {
+        toggle.className = "btn-group-toggle off";
+        toggle.textContent = t("slot_off");
+      }
+    } else {
+      section.classList.remove("disabled");
+      if (toggle) {
+        toggle.className = "btn-group-toggle on";
+        toggle.textContent = t("slot_on");
+      }
+    }
+
+    // Highlight active solo button
+    if (solo) {
+      solo.classList.toggle("active", soloGroup === gKey);
+    }
+  }
+}
+
+/** Restore custom dropdown group toggle states from slot state. */
+function restoreCustomDropdownGroupStates(slotName, comps) {
+  const { customDropdown } = comps;
+  if (!customDropdown) return;
+
+  const s = state.slots[slotName];
+  updateGroupToggleUI(customDropdown.panel, s.disabledGroups, s.soloGroup);
 }
 
 export function wireSectionEvents(sectionData) {
@@ -153,6 +333,7 @@ export function wireSectionEvents(sectionData) {
       getSlotStateForAPI(),
       true,
       state.promptLocale,
+      getDisabledGroupsMap(),
     );
     applyResults(data.results);
     if (typeof data.prompt === "string") {
@@ -204,6 +385,7 @@ export function wireGlobalEvents() {
       getSlotStateForAPI(),
       true,
       state.promptLocale,
+      getDisabledGroupsMap(),
     );
     applyResults(data.results);
     if (typeof data.prompt === "string") {
@@ -290,6 +472,7 @@ export function wireGlobalEvents() {
         value_id: s.value_id,
         color: s.color,
         weight: s.weight,
+        disabledGroups: s.disabledGroups || [],
       };
     }
     await api.saveConfig(name.trim(), data);
@@ -372,6 +555,7 @@ export function wireSaveLoadEvents() {
         value_id: s.value_id,
         color: s.color,
         weight: s.weight,
+        disabledGroups: s.disabledGroups || [],
       };
     }
     await api.saveConfig(name, data);
@@ -399,6 +583,7 @@ export function wireSaveLoadEvents() {
       state.slots[slotName].value_id = nextValueId || null;
       state.slots[slotName].color = saved.color || null;
       state.slots[slotName].weight = saved.weight ?? 1.0;
+      state.slots[slotName].disabledGroups = saved.disabledGroups || [];
 
       const c = allSlotComponents[slotName];
       if (!c) continue;
@@ -408,6 +593,11 @@ export function wireSaveLoadEvents() {
       c.lockBtn.textContent = state.slots[slotName].locked ? LOCKED_ICON : UNLOCKED_ICON;
       c.lockBtn.className = "btn-lock" + (state.slots[slotName].locked ? " locked" : "");
       renderSlotEnabledState(slotName, c);
+      // Sync custom dropdown
+      if (c.customDropdown) {
+        c.customDropdown.updateSelection(state.slots[slotName].value_id);
+        restoreCustomDropdownGroupStates(slotName, c);
+      }
     }
 
     setStatus(t("status_loaded", { name }));
@@ -467,6 +657,7 @@ export function restoreFromHistory(entry) {
     state.slots[slotName].value_id = saved.value_id || null;
     state.slots[slotName].color = saved.color || null;
     state.slots[slotName].weight = saved.weight ?? 1.0;
+    state.slots[slotName].disabledGroups = saved.disabledGroups || [];
 
     const c = allSlotComponents[slotName];
     if (!c) continue;
@@ -476,6 +667,11 @@ export function restoreFromHistory(entry) {
     c.lockBtn.textContent = state.slots[slotName].locked ? LOCKED_ICON : UNLOCKED_ICON;
     c.lockBtn.className = "btn-lock" + (state.slots[slotName].locked ? " locked" : "");
     renderSlotEnabledState(slotName, c);
+    // Sync custom dropdown
+    if (c.customDropdown) {
+      c.customDropdown.updateSelection(state.slots[slotName].value_id);
+      restoreCustomDropdownGroupStates(slotName, c);
+    }
   }
 
   // Restore modes
@@ -522,6 +718,10 @@ function applyResults(results) {
     if (!c) continue;
     c.dropdown.value = state.slots[name].value_id || "";
     c.colorSelect.value = res.color || "";
+    // Sync custom dropdown if present
+    if (c.customDropdown) {
+      c.customDropdown.updateSelection(state.slots[name].value_id);
+    }
   }
   if (Object.prototype.hasOwnProperty.call(results, "lower_body")) {
     maybeDisableLegsForLowerBodyCoverage();

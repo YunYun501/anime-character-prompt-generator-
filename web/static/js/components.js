@@ -215,11 +215,170 @@ function populateColorDropdown(colorSelect, selectedColor) {
 }
 
 /**
+ * Get all unique groups for a slot's options.
+ * Returns array of [groupKey, groupLabel] sorted by display order.
+ */
+function getSlotGroups(slotName) {
+  const slotDef = state.slotDefs[slotName];
+  const options = slotDef?.options || [];
+  const groups = new Map();
+
+  for (const opt of options) {
+    const groupKey = getOptionGroupKey(opt);
+    if (groupKey && !groups.has(groupKey)) {
+      groups.set(groupKey, getOptionGroupLabel(opt));
+    }
+  }
+
+  // Sort by display order
+  return Array.from(groups.entries()).sort((a, b) => {
+    const rankDelta = getGroupDisplayRank(a[0]) - getGroupDisplayRank(b[0]);
+    if (rankDelta !== 0) return rankDelta;
+    return a[1].localeCompare(b[1]);
+  });
+}
+
+/**
+ * Create a custom dropdown with collapsible group toggles.
+ * Returns { container, trigger, panel, updateSelection, getGroupSection }.
+ */
+export function createCustomDropdown(slotName, slotDef, slotState) {
+  const options = slotDef?.options || [];
+  const hasGroups = options.some((opt) => getOptionGroupKey(opt));
+
+  // If no groups, just use native select
+  if (!hasGroups) {
+    return null;
+  }
+
+  const container = document.createElement("div");
+  container.className = "custom-dropdown";
+  container.dataset.slot = slotName;
+
+  // Trigger button showing current selection
+  const trigger = document.createElement("button");
+  trigger.type = "button";
+  trigger.className = "custom-dropdown-trigger";
+  trigger.textContent = t("slot_none");
+
+  // Dropdown panel
+  const panel = document.createElement("div");
+  panel.className = "custom-dropdown-panel";
+
+  // "(None)" option at top
+  const noneItem = document.createElement("div");
+  noneItem.className = "dropdown-item none-option";
+  noneItem.dataset.value = "";
+  noneItem.textContent = t("slot_none");
+  panel.appendChild(noneItem);
+
+  // Build groups
+  const groups = getSlotGroups(slotName);
+  const groupSections = new Map();
+
+  for (const [groupKey, groupLabel] of groups) {
+    const groupSection = document.createElement("div");
+    groupSection.className = "dropdown-group";
+    groupSection.dataset.groupKey = groupKey;
+
+    // Check if group is disabled
+    const isDisabled = (slotState.disabledGroups || []).includes(groupKey);
+    if (isDisabled) {
+      groupSection.classList.add("disabled");
+    }
+
+    // Header with toggle and solo button
+    const header = document.createElement("div");
+    header.className = "dropdown-group-header";
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "btn-group-toggle " + (isDisabled ? "off" : "on");
+    toggle.textContent = isDisabled ? t("slot_off") : t("slot_on");
+    toggle.dataset.groupKey = groupKey;
+
+    const label = document.createElement("span");
+    label.className = "dropdown-group-label";
+    label.textContent = groupLabel;
+
+    const soloBtn = document.createElement("button");
+    soloBtn.type = "button";
+    soloBtn.className = "btn-group-solo";
+    soloBtn.textContent = t("group_solo") || "Solo";
+    soloBtn.dataset.groupKey = groupKey;
+    soloBtn.title = t("group_solo_title") || "Enable only this group";
+
+    header.append(toggle, label, soloBtn);
+
+    // Items container
+    const items = document.createElement("div");
+    items.className = "dropdown-group-items";
+
+    // Populate with options in this group
+    const groupOptions = options.filter((opt) => getOptionGroupKey(opt) === groupKey);
+    for (const opt of groupOptions) {
+      const item = document.createElement("div");
+      item.className = "dropdown-item";
+      item.dataset.value = opt.id;
+      item.textContent = localizeFromI18nMap(opt.name_i18n, state.uiLocale, opt.name || opt.id || "");
+      items.appendChild(item);
+    }
+
+    groupSection.append(header, items);
+    panel.appendChild(groupSection);
+    groupSections.set(groupKey, groupSection);
+  }
+
+  // Add ungrouped options at the end
+  const ungrouped = options.filter((opt) => !getOptionGroupKey(opt));
+  if (ungrouped.length > 0) {
+    const ungroupedSection = document.createElement("div");
+    ungroupedSection.className = "dropdown-ungrouped";
+    for (const opt of ungrouped) {
+      const item = document.createElement("div");
+      item.className = "dropdown-item";
+      item.dataset.value = opt.id;
+      item.textContent = localizeFromI18nMap(opt.name_i18n, state.uiLocale, opt.name || opt.id || "");
+      ungroupedSection.appendChild(item);
+    }
+    panel.appendChild(ungroupedSection);
+  }
+
+  container.append(trigger, panel);
+
+  // Helper to update selection display
+  function updateSelection(valueId) {
+    const opt = options.find((o) => o.id === valueId);
+    if (opt) {
+      trigger.textContent = localizeFromI18nMap(opt.name_i18n, state.uiLocale, opt.name || opt.id || "");
+      trigger.classList.remove("empty");
+    } else {
+      trigger.textContent = t("slot_none");
+      trigger.classList.add("empty");
+    }
+    // Update active state on items
+    for (const item of panel.querySelectorAll(".dropdown-item")) {
+      item.classList.toggle("active", item.dataset.value === (valueId || ""));
+    }
+  }
+
+  // Helper to get group section element
+  function getGroupSection(groupKey) {
+    return groupSections.get(groupKey) || null;
+  }
+
+  // Initialize selection
+  updateSelection(slotState.value_id);
+
+  return { container, trigger, panel, updateSelection, getGroupSection };
+}
+
+/**
  * Create a single slot row element.
  * Returns row refs used by handlers.
  */
 export function createSlotRow(slotName, slotDef) {
-  const slotState = state.slots[slotName] || { enabled: true, locked: false };
+  const slotState = state.slots[slotName] || { enabled: true, locked: false, disabledGroups: [] };
   const row = document.createElement("div");
   row.className = "slot-row " + (slotState.enabled ? "enabled" : "disabled") + (slotState.locked ? " locked" : "");
   row.dataset.slot = slotName;
@@ -238,8 +397,12 @@ export function createSlotRow(slotName, slotDef) {
   label.className = "slot-label";
   label.textContent = getSlotLabel(slotName);
 
+  // Try to create custom dropdown with collapsible groups
+  const customDropdownResult = createCustomDropdown(slotName, slotDef, slotState);
+
+  // Native select (hidden when custom dropdown is used)
   const dropdown = document.createElement("select");
-  dropdown.className = "slot-dropdown";
+  dropdown.className = "slot-dropdown" + (customDropdownResult ? " hidden" : "");
   populateSlotDropdown(slotName, dropdown, slotState.value_id);
 
   const randomBtn = document.createElement("button");
@@ -265,7 +428,11 @@ export function createSlotRow(slotName, slotDef) {
   weightInput.step = "0.1";
   weightInput.title = t("slot_weight_title");
 
-  row.append(onoffBtn, lockBtn, label, dropdown, randomBtn, colorSelect, colorRandomBtn, weightInput);
+  if (customDropdownResult) {
+    row.append(onoffBtn, lockBtn, label, customDropdownResult.container, dropdown, randomBtn, colorSelect, colorRandomBtn, weightInput);
+  } else {
+    row.append(onoffBtn, lockBtn, label, dropdown, randomBtn, colorSelect, colorRandomBtn, weightInput);
+  }
 
   return {
     row,
@@ -277,6 +444,7 @@ export function createSlotRow(slotName, slotDef) {
     lockBtn,
     randomBtn,
     colorRandomBtn,
+    customDropdown: customDropdownResult,
   };
 }
 

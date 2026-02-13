@@ -183,5 +183,7 @@
   "slot_label_eye_state": "眼睛状态",
   "slot_label_eye_accessories": "眼部配件",
   "section_appearance_hair": "发型",
-  "section_appearance_eyes": "眼部"
+  "section_appearance_eyes": "眼部",
+  "group_solo": "独奏",
+  "group_solo_title": "仅启用此分组"
 }

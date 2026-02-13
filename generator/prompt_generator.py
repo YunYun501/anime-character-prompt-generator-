@@ -512,11 +512,31 @@ class PromptGenerator:
         item = self.get_slot_item_by_id("lower_body", item_id)
         return bool(item and item.get("covers_legs", False))
     
-    def sample_slot(self, slot_name: str) -> Optional[dict]:
-        """Randomly sample an item for a slot."""
+    def _get_option_group(self, option: dict) -> Optional[str]:
+        """Get the group key for an option item."""
+        group = (
+            option.get("style_group")
+            or option.get("ui_group")
+            or option.get("group")
+            or option.get("emotion_family")
+            or option.get("category")
+        )
+        if isinstance(group, str) and group.strip():
+            return group.strip()
+        return None
+
+    def sample_slot(self, slot_name: str, disabled_groups: List[str] = None) -> Optional[dict]:
+        """Randomly sample an item for a slot, excluding disabled groups."""
         options = self.get_slot_options(slot_name)
         if not options:
             return None
+
+        if disabled_groups:
+            options = [opt for opt in options
+                       if self._get_option_group(opt) not in disabled_groups]
+            if not options:
+                return None
+
         return random.choice(options)
     
     def get_palette_list(self) -> List[dict]:

@@ -3,7 +3,7 @@
  */
 
 export const state = {
-  /** @type {Object<string, {enabled: boolean, locked: boolean, value_id: string|null, color: string|null, weight: number}>} */
+  /** @type {Object<string, {enabled: boolean, locked: boolean, value_id: string|null, color: string|null, weight: number, disabledGroups: string[], soloGroup: string|null, preSoloDisabledGroups: string[]|null}>} */
   slots: {},
 
   paletteEnabled: true,
@@ -80,6 +80,9 @@ export function initSlotState(slotDefs) {
       value_id: null,
       color: null,
       weight: 1.0,
+      disabledGroups: [],
+      soloGroup: null,           // Currently soloed group key
+      preSoloDisabledGroups: null, // State before solo was activated
     };
   }
 }
@@ -164,6 +167,17 @@ export function getLockedMap() {
   const out = {};
   for (const [name, s] of Object.entries(state.slots)) {
     if (s.locked) out[name] = true;
+  }
+  return out;
+}
+
+/** Get disabled groups map for API requests. */
+export function getDisabledGroupsMap() {
+  const out = {};
+  for (const [name, s] of Object.entries(state.slots)) {
+    if (s.disabledGroups && s.disabledGroups.length > 0) {
+      out[name] = s.disabledGroups;
+    }
   }
   return out;
 }

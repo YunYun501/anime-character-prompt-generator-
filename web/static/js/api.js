@@ -40,6 +40,7 @@ export function randomizeSlots(
   slots = {},
   includePrompt = false,
   outputLanguage = "en",
+  disabledGroups = {},
 ) {
   return post("/api/randomize", {
     slot_names: slotNames,
@@ -52,6 +53,7 @@ export function randomizeSlots(
     slots,
     include_prompt: includePrompt,
     output_language: outputLanguage,
+    disabled_groups: disabledGroups,
   });
 }
 
@@ -65,6 +67,7 @@ export function randomizeAll(
   slots = {},
   includePrompt = false,
   outputLanguage = "en",
+  disabledGroups = {},
 ) {
   return post("/api/randomize-all", {
     locked,
@@ -75,6 +78,7 @@ export function randomizeAll(
     slots,
     include_prompt: includePrompt,
     output_language: outputLanguage,
+    disabled_groups: disabledGroups,
   });
 }
 

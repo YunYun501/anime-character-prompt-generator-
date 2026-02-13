@@ -9,7 +9,9 @@
       "WebFetch(domain:gigazine.net)",
       "Bash(python:*)",
       "Bash(xcopy:*)",
-      "Bash(powershell -Command:*)"
+      "Bash(powershell -Command:*)",
+      "Bash(node --check:*)",
+      "Bash(node -e:*)"
     ]
   }
 }

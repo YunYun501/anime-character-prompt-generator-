@@ -182,5 +182,7 @@
   "slot_label_eye_state": "eye state",
   "slot_label_eye_accessories": "eye accessories",
   "section_appearance_hair": "Hair",
-  "section_appearance_eyes": "Eyes"
+  "section_appearance_eyes": "Eyes",
+  "group_solo": "Solo",
+  "group_solo_title": "Enable only this group"
 }

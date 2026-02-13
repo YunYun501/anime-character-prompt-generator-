@@ -80,6 +80,7 @@ class RandomizeRequest(BaseModel):
     slots: Dict[str, SlotState] = {}
     include_prompt: bool = False
     output_language: str = "en"
+    disabled_groups: Dict[str, List[str]] = {}  # slot_name -> [group_keys]
 
 
 @router.post("/randomize")
@@ -94,7 +95,8 @@ async def randomize_slots(req: RandomizeRequest):
         if req.locked.get(name, False):
             continue
 
-        item = gen.sample_slot(name)
+        slot_disabled_groups = req.disabled_groups.get(name, [])
+        item = gen.sample_slot(name, disabled_groups=slot_disabled_groups)
         value_id = item.get("id") if item else None
         value = item.get("name") if item else None
 
@@ -145,6 +147,7 @@ class RandomizeAllRequest(BaseModel):
     slots: Dict[str, SlotState] = {}
     include_prompt: bool = False
     output_language: str = "en"
+    disabled_groups: Dict[str, List[str]] = {}  # slot_name -> [group_keys]
 
 
 @router.post("/randomize-all")
@@ -157,7 +160,8 @@ async def randomize_all(req: RandomizeAllRequest):
         if req.locked.get(name, False):
             continue
 
-        item = gen.sample_slot(name)
+        slot_disabled_groups = req.disabled_groups.get(name, [])
+        item = gen.sample_slot(name, disabled_groups=slot_disabled_groups)
         value_id = item.get("id") if item else None
         value = item.get("name") if item else None
 
