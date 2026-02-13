@@ -1,0 +1,18 @@
+# Raw tag files for review (not for public)
+All tags/
+tag_frequency.csv
+word_frequency.csv
+cleaned_word_frequency.csv
+*_frequency.csv
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Prompt catalogue (only last committed version visible)
+prompt data/
+
+# System files
+nul
+.DS_Store
+Thumbs.db
