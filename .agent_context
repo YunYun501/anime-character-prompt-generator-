@@ -1,0 +1,8 @@
+Project: Random Anime Character Prompt Generator
+Type: web
+Description: A web-based tool for generating randomized character prompts for Stable Diffusion and other AI image generators. Features a slot-based system with 30+ customizable attributes, color palettes, and full localization support.
+Tech: Python, FastAPI, JavaScript, HTML, CSS, JSON, pytest, black, flake8, mypy
+Last Updated: 2026-02-14 16:58
+
+Last Session: Completed task 'What further optimization can you make' with issues in 30 iterations
+Total Sessions: 5

@@ -1,0 +1,58 @@
+{
+  "project_name": "Random Anime Character Prompt Generator",
+  "description": "A web-based tool for generating randomized character prompts for Stable Diffusion and other AI image generators. Features a slot-based system with 30+ customizable attributes, color palettes, and full localization support.",
+  "project_type": "web",
+  "tech_stack": [
+    "Python",
+    "FastAPI",
+    "JavaScript",
+    "HTML",
+    "CSS",
+    "JSON",
+    "pytest",
+    "black",
+    "flake8",
+    "mypy"
+  ],
+  "directory": "C:\\Local\\Github\\Random-character-prompt-for-SD-",
+  "created_at": "2026-02-14T16:45:30.533576",
+  "updated_at": "2026-02-14T16:58:36.816456",
+  "sessions": [
+    {
+      "timestamp": "2026-02-14T16:45:30.533576",
+      "summary": "Created project configuration file to document the Random Anime Character Prompt Generator project structure and capabilities.",
+      "agent_version": "1.0"
+    },
+    {
+      "timestamp": "2026-02-14T16:45:36.813872",
+      "summary": "Completed task 'create_project_config' successfully in 5 iterations",
+      "agent_version": "1.0"
+    },
+    {
+      "timestamp": "2026-02-14T16:48:02.568298",
+      "summary": "Completed task 'h' successfully in 1 iterations",
+      "agent_version": "1.0"
+    },
+    {
+      "timestamp": "2026-02-14T16:54:31.820939",
+      "summary": "Completed task 'Hi' successfully in 1 iterations",
+      "agent_version": "1.0"
+    },
+    {
+      "timestamp": "2026-02-14T16:58:36.816456",
+      "summary": "Completed task 'What further optimization can you make' with issues in 30 iterations",
+      "agent_version": "1.0"
+    }
+  ],
+  "tags": [
+    "web-app",
+    "prompt-generator",
+    "character-design",
+    "anime",
+    "ai",
+    "fastapi",
+    "stable-diffusion",
+    "auto-saved",
+    "javascript"
+  ]
+}
