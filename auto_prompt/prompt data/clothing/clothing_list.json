@@ -4419,7 +4419,7 @@
       "aliases": [
         "ruqun skirt"
       ],
-      "covers_legs": true,
+      "covers_legs": false,
       "name_i18n": {
         "en": "hanfu skirt",
         "zh": "????"

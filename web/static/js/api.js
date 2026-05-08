@@ -125,3 +125,13 @@ export function parsePrompt(prompt, useFuzzy = true) {
     use_fuzzy: useFuzzy,
   });
 }
+
+/** Get current catalog mode and item count. */
+export function getCatalogMode() {
+  return get("/api/catalog-mode");
+}
+
+/** Set catalog mode (lightweight or expanded). */
+export function setCatalogMode(mode) {
+  return post("/api/catalog-mode", { mode });
+}

@@ -11,6 +11,7 @@ export const state = {
   paletteLocked: false,
   fullBodyMode: false,
   upperBodyMode: false,
+  expandedMode: false,
 
   /** Slot definitions from API. */
   slotDefs: {},

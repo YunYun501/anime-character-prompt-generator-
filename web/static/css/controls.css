@@ -200,3 +200,40 @@ input[type="radio"] {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* ===== Expanded Mode Badge ===== */
+.badge {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.setting-expanded {
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), transparent);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border-left: 3px solid var(--primary);
+}
+
+.setting-expanded input:checked + span {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.setting-expanded .badge {
+  transition: background 0.3s;
+}
+
+.setting-expanded input:checked ~ .badge {
+  background: #22c55e;
+}
+
+.setting-expanded input:disabled + span {
+  opacity: 0.5;
+}

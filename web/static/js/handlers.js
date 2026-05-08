@@ -370,6 +370,7 @@ export function wireGlobalEvents() {
   document.getElementById("upper-body-mode").checked = state.upperBodyMode;
   document.getElementById("palette-enabled").checked = state.paletteEnabled;
   initPalettePicker();
+  initExpandedModeToggle();
   applySlotConstraints();
 
   document.getElementById("btn-randomize-all").addEventListener("click", async () => {
@@ -1131,3 +1132,88 @@ function colorTokenToCss(token) {
   paletteColorCache.set(key, fallback);
   return fallback;
 }
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Expanded Mode (Heavyweight) Toggle
+// ──────────────────────────────────────────────────────────────────────────────
+
+/** Initialize expanded mode toggle and fetch current state. */
+async function initExpandedModeToggle() {
+  const toggle = document.getElementById("expanded-mode");
+  const countBadge = document.getElementById("expanded-mode-count");
+  if (!toggle) return;
+
+  // Fetch current mode from server
+  try {
+    const data = await api.getCatalogMode();
+    state.expandedMode = data.mode === "expanded";
+    toggle.checked = state.expandedMode;
+    updateExpandedModeCount(data.item_count);
+  } catch (err) {
+    console.error("Failed to fetch catalog mode:", err);
+  }
+
+  // Wire toggle change event
+  toggle.addEventListener("change", async (e) => {
+    const newMode = e.target.checked ? "expanded" : "lightweight";
+    toggle.disabled = true;
+    setStatus(t("status_switching_mode") || "Switching catalog mode...");
+
+    try {
+      const data = await api.setCatalogMode(newMode);
+      if (data.status === "ok") {
+        state.expandedMode = data.mode === "expanded";
+        updateExpandedModeCount(data.item_count);
+        setStatus(t("status_mode_switched", { mode: data.mode, count: data.item_count }) ||
+          `Switched to ${data.mode} mode (${data.item_count.toLocaleString()} items)`);
+
+        // Reload slots with new catalog data
+        await reloadSlotsAfterModeChange();
+      } else {
+        setStatus(data.message || "Failed to switch mode");
+        toggle.checked = !e.target.checked; // Revert
+      }
+    } catch (err) {
+      console.error("Failed to switch catalog mode:", err);
+      setStatus("Error switching catalog mode");
+      toggle.checked = !e.target.checked; // Revert
+    } finally {
+      toggle.disabled = false;
+    }
+  });
+}
+
+/** Update the item count badge display. */
+function updateExpandedModeCount(count) {
+  const badge = document.getElementById("expanded-mode-count");
+  if (badge) {
+    badge.textContent = count.toLocaleString();
+    badge.title = `${count.toLocaleString()} items available`;
+  }
+}
+
+/** Reload slot definitions after mode change. */
+async function reloadSlotsAfterModeChange() {
+  const slotsData = await api.fetchSlots();
+
+  // Update state with new slot definitions
+  state.sections = slotsData.sections;
+  state.lowerBodyCoversLegsById = slotsData.lower_body_covers_legs_by_id || {};
+  state.poseUsesHandsById = slotsData.pose_uses_hands_by_id || {};
+
+  // Re-init slot state with new options
+  const { initSlotState } = await import("./state.js");
+  initSlotState(slotsData.slots);
+
+  // Rebuild sections UI
+  const { buildSections } = await import("./app.js");
+  if (typeof buildSections === "function") {
+    buildSections();
+  } else {
+    // Fallback: reload the page
+    location.reload();
+  }
+}
+
+/** Export for external use. */
+export { updateExpandedModeCount, reloadSlotsAfterModeChange };

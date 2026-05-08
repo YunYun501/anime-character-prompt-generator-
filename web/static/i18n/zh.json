@@ -185,5 +185,10 @@
   "section_appearance_hair": "发型",
   "section_appearance_eyes": "眼部",
   "group_solo": "独奏",
-  "group_solo_title": "仅启用此分组"
+  "group_solo_title": "仅启用此分组",
+  "setting_expanded": "扩展模式",
+  "status_switching_mode": "正在切换目录模式...",
+  "status_mode_switched": "已切换至{mode}模式（{count}项）",
+  "group_gesture_body_touch": "身体触碰动作",
+  "group_gesture_clothing_adjust": "衣物调整动作"
 }

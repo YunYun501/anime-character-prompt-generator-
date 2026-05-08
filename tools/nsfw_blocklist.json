@@ -1,0 +1,480 @@
+{
+  "tiers": {
+    "hard_block": {
+      "label": "Tier 1 — Always Remove",
+      "description": "Terms that should always be filtered out regardless of user settings. These represent explicit sexual content, extreme fetishes, and prohibited material.",
+      "categories": {
+        "sex_acts": {
+          "label": "Sexual Acts",
+          "terms": [
+            "sex",
+            "fellatio",
+            "cunnilingus",
+            "masturbation",
+            "masturbat",
+            "handjob",
+            "fingering",
+            "doggystyle",
+            "creampie",
+            "penetration",
+            "oral sex",
+            "blowjob",
+            "blow job",
+            "deepthroat",
+            "paizuri",
+            "tittyfuck",
+            "footjob",
+            "facesitting",
+            "thigh sex",
+            "armpit sex",
+            "standing sex",
+            "slime sex",
+            "ass to mouth",
+            "anal sex"
+          ],
+          "patterns": [
+            "(?<![a-z])sex(?![a-z])",
+            "(?<![a-z])blowjob(?![a-z])",
+            "(?<![a-z])blow job(?![a-z])",
+            "(?<![a-z])ass to mouth(?![a-z])",
+            "(?<![a-z])anal sex(?![a-z])",
+            "(?<![a-z])oral sex(?![a-z])",
+            "(?<![a-z])thigh sex(?![a-z])",
+            "(?<![a-z])armpit sex(?![a-z])",
+            "(?<![a-z])standing sex(?![a-z])",
+            "(?<![a-z])slime sex(?![a-z])"
+          ]
+        },
+        "genitals": {
+          "label": "Genitals & Explicit Anatomy",
+          "terms": [
+            "penis",
+            "pussy",
+            "vagina",
+            "vaginal",
+            "anus",
+            "anal",
+            "testicles",
+            "testicle",
+            "balls",
+            "scrotum",
+            "clitoris",
+            "clit",
+            "labia",
+            "futanari",
+            "dickgirl",
+            "cuntboy",
+            "intersex",
+            "hermaphrodite"
+          ],
+          "patterns": [
+            "(?<![a-z])penis(?![a-z])",
+            "(?<![a-z])pussy(?![a-z])",
+            "(?<![a-z])vagina(?![a-z])",
+            "(?<![a-z])vaginal(?![a-z])",
+            "(?<![a-z])anus(?![a-z])",
+            "(?<![a-z])anal(?![a-z])",
+            "(?<![a-z])testicles(?![a-z])",
+            "(?<![a-z])testicle(?![a-z])",
+            "(?<![a-z])clitoris(?![a-z])",
+            "(?<![a-z])clit(?![a-z])",
+            "(?<![a-z])labia(?![a-z])",
+            "(?<![a-z])futanari(?![a-z])",
+            "(?<![a-z])dickgirl(?![a-z])",
+            "(?<![a-z])cuntboy(?![a-z])",
+            "(?<![a-z])intersex(?![a-z])",
+            "(?<![a-z])hermaphrodite(?![a-z])"
+          ]
+        },
+        "bodily_fluids": {
+          "label": "Bodily Fluids",
+          "terms": [
+            "cum",
+            "cumshot",
+            "ejaculation",
+            "semen",
+            "sperm",
+            "cumdrip",
+            "cumdump",
+            "pussy juice",
+            "squirt",
+            "squirting",
+            "precum",
+            "pre-cum",
+            "creampie"
+          ],
+          "patterns": [
+            "(?<![a-z])cum(?![a-z])",
+            "(?<![a-z])cumshot(?![a-z])",
+            "(?<![a-z])ejaculation(?![a-z])",
+            "(?<![a-z])semen(?![a-z])",
+            "(?<![a-z])sperm(?![a-z])",
+            "(?<![a-z])pussy juice(?![a-z])",
+            "(?<![a-z])squirt(?![a-z])",
+            "(?<![a-z])squirting(?![a-z])",
+            "(?<![a-z])precum(?![a-z])",
+            "(?<![a-z])pre-cum(?![a-z])"
+          ]
+        },
+        "extreme": {
+          "label": "Extreme / Guro / Horror",
+          "terms": [
+            "guro",
+            "gore",
+            "scat",
+            "vomit",
+            "dismemberment",
+            "dismember",
+            "torture",
+            "snuff",
+            "cannibalism",
+            "necrophilia",
+            "bestiality",
+            "vore"
+          ],
+          "patterns": [
+            "(?<![a-z])guro(?![a-z])",
+            "(?<![a-z])gore(?![a-z])",
+            "(?<![a-z])scat(?![a-z])",
+            "(?<![a-z])vomit(?![a-z])",
+            "(?<![a-z])dismemberment(?![a-z])",
+            "(?<![a-z])dismember(?![a-z])",
+            "(?<![a-z])torture(?![a-z])",
+            "(?<![a-z])snuff(?![a-z])",
+            "(?<![a-z])cannibalism(?![a-z])",
+            "(?<![a-z])necrophilia(?![a-z])",
+            "(?<![a-z])bestiality(?![a-z])",
+            "(?<![a-z])vore(?![a-z])"
+          ]
+        },
+        "age_related": {
+          "label": "Age-Related Prohibited Content",
+          "terms": [
+            "loli",
+            "lolicon",
+            "shota",
+            "shotacon",
+            "child",
+            "toddler"
+          ],
+          "patterns": [
+            "(?<![a-z])loli(?![a-z])",
+            "(?<![a-z])lolicon(?![a-z])",
+            "(?<![a-z])shota(?![a-z])",
+            "(?<![a-z])shotacon(?![a-z])",
+            "(?<![a-z])child(?![a-z])",
+            "(?<![a-z])toddler(?![a-z])"
+          ],
+          "notes": "Terms like 'underage', 'minor' require contextual NLP matching to avoid false positives (e.g., 'minor character', 'underage driver' in SFW context). These are handled at the application layer rather than static blocklist."
+        },
+        "non_consensual": {
+          "label": "Non-Consensual / Forced Content",
+          "terms": [
+            "rape",
+            "rapist",
+            "molest",
+            "molested",
+            "molestation",
+            "incest",
+            "coercion",
+            "coerced",
+            "drugged",
+            "unconscious"
+          ],
+          "patterns": [
+            "(?<![a-z])rape(?![a-z])",
+            "(?<![a-z])rapist(?![a-z])",
+            "(?<![a-z])molest(?![a-z])",
+            "(?<![a-z])molested(?![a-z])",
+            "(?<![a-z])molestation(?![a-z])",
+            "(?<![a-z])incest(?![a-z])",
+            "(?<![a-z])coercion(?![a-z])",
+            "(?<![a-z])coerced(?![a-z])",
+            "(?<![a-z])drugged(?![a-z])",
+            "(?<![a-z])unconscious(?![a-z])"
+          ],
+          "notes": "'unconscious' may have SFW uses (e.g., 'unconscious character', 'knocked unconscious'). Contextual filtering recommended at the application layer."
+        },
+        "fetish_hardcore": {
+          "label": "Hardcore Fetish",
+          "terms": [
+            "bondage",
+            "bdsm",
+            "tentacle",
+            "inflation",
+            "sounding",
+            "urethral",
+            "enema",
+            "watersports",
+            "piss",
+            "peeing",
+            "urination",
+            "defecation",
+            "coprophagia"
+          ],
+          "patterns": [
+            "(?<![a-z])bondage(?![a-z])",
+            "(?<![a-z])bdsm(?![a-z])",
+            "(?<![a-z])tentacle(?![a-z])",
+            "(?<![a-z])inflation(?![a-z])",
+            "(?<![a-z])sounding(?![a-z])",
+            "(?<![a-z])urethral(?![a-z])",
+            "(?<![a-z])enema(?![a-z])",
+            "(?<![a-z])watersports(?![a-z])",
+            "(?<![a-z])piss(?![a-z])",
+            "(?<![a-z])peeing(?![a-z])",
+            "(?<![a-z])urination(?![a-z])",
+            "(?<![a-z])defecation(?![a-z])",
+            "(?<![a-z])coprophagia(?![a-z])"
+          ],
+          "notes": "'tentacle' may appear in SFW monster/creature contexts (e.g., 'tentacle monster', 'tentacle hair'). Contextual filtering recommended."
+        },
+        "bodily_exposure": {
+          "label": "Full Bodily Exposure",
+          "terms": [
+            "nude",
+            "naked",
+            "topless",
+            "bottomless",
+            "exposed",
+            "flashing",
+            "exhibitionism",
+            "streaking"
+          ],
+          "patterns": [
+            "(?<![a-z])nude(?![a-z])",
+            "(?<![a-z])naked(?![a-z])",
+            "(?<![a-z])topless(?![a-z])",
+            "(?<![a-z])bottomless(?![a-z])",
+            "(?<![a-z])exposed(?![a-z])",
+            "(?<![a-z])flashing(?![a-z])",
+            "(?<![a-z])exhibitionism(?![a-z])",
+            "(?<![a-z])streaking(?![a-z])"
+          ],
+          "notes": "'exposed' may have SFW uses (e.g., 'exposed brick', 'exposed wires', 'exposed skin' in artistic context — evaluate at application layer)."
+        },
+        "sex_toys": {
+          "label": "Sex Toys & Adult Products",
+          "terms": [
+            "dildo",
+            "vibrator",
+            "buttplug",
+            "butt plug",
+            "anal beads",
+            "fleshlight",
+            "onahole",
+            "sex toy",
+            "sex toys"
+          ],
+          "patterns": [
+            "(?<![a-z])dildo(?![a-z])",
+            "(?<![a-z])vibrator(?![a-z])",
+            "(?<![a-z])buttplug(?![a-z])",
+            "(?<![a-z])butt plug(?![a-z])",
+            "(?<![a-z])anal beads(?![a-z])",
+            "(?<![a-z])fleshlight(?![a-z])",
+            "(?<![a-z])onahole(?![a-z])",
+            "(?<![a-z])sex toy(?![a-z])",
+            "(?<![a-z])sex toys(?![a-z])"
+          ]
+        }
+      }
+    },
+    "suggestive": {
+      "label": "Tier 2 — Suggestive / Configurable (Defaults OFF)",
+      "description": "Terms that are suggestive or risqué but not explicitly pornographic. Filtering these is configurable and defaults to disabled. Many of these terms overlap with legitimate artistic/character descriptor tags.",
+      "categories": {
+        "intimate_apparel": {
+          "label": "Intimate Apparel & Lingerie",
+          "terms": [
+            "panties",
+            "panty",
+            "underwear",
+            "lingerie",
+            "thong",
+            "g-string",
+            "bra",
+            "brassiere",
+            "bralette",
+            "corset",
+            "bustier",
+            "garter belt"
+          ],
+          "patterns": [
+            "(?<![a-z])panties(?![a-z])",
+            "(?<![a-z])panty(?![a-z])",
+            "(?<![a-z])underwear(?![a-z])",
+            "(?<![a-z])lingerie(?![a-z])",
+            "(?<![a-z])thong(?![a-z])",
+            "(?<![a-z])g-string(?![a-z])",
+            "(?<![a-z])brassiere(?![a-z])",
+            "(?<![a-z])bralette(?![a-z])",
+            "(?<![a-z])corset(?![a-z])",
+            "(?<![a-z])bustier(?![a-z])",
+            "(?<![a-z])garter belt(?![a-z])"
+          ],
+          "notes": "'underwear' and 'bra' are common SFW fashion terms on many platforms. Exercise caution with automatic filtering."
+        },
+        "sexual_positions": {
+          "label": "Sexual Positions",
+          "terms": [
+            "cowgirl",
+            "reverse cowgirl",
+            "missionary",
+            "doggy style",
+            "spread legs",
+            "legs spread"
+          ],
+          "patterns": [
+            "(?<![a-z])cowgirl(?![a-z])",
+            "(?<![a-z])reverse cowgirl(?![a-z])",
+            "(?<![a-z])missionary(?![a-z])",
+            "(?<![a-z])doggy style(?![a-z])",
+            "(?<![a-z])spread legs(?![a-z])",
+            "(?<![a-z])legs spread(?![a-z])"
+          ],
+          "notes": "'missionary' is a common SFW term in religious/charity contexts. 'cowgirl' may refer to Western/rodeo themes. Application-layer context checking strongly recommended."
+        },
+        "body_focus": {
+          "label": "Body-Focused / Voyeuristic",
+          "terms": [
+            "ass focus",
+            "breast focus",
+            "cameltoe",
+            "camel toe",
+            "upskirt",
+            "downblouse",
+            "underboob",
+            "sideboob",
+            "cleavage",
+            "nipple slip",
+            "wardrobe malfunction"
+          ],
+          "patterns": [
+            "(?<![a-z])ass focus(?![a-z])",
+            "(?<![a-z])breast focus(?![a-z])",
+            "(?<![a-z])cameltoe(?![a-z])",
+            "(?<![a-z])camel toe(?![a-z])",
+            "(?<![a-z])upskirt(?![a-z])",
+            "(?<![a-z])downblouse(?![a-z])",
+            "(?<![a-z])underboob(?![a-z])",
+            "(?<![a-z])sideboob(?![a-z])",
+            "(?<![a-z])cleavage(?![a-z])",
+            "(?<![a-z])nipple slip(?![a-z])",
+            "(?<![a-z])wardrobe malfunction(?![a-z])"
+          ],
+          "notes": "'cleavage' is frequently used as a legitimate fashion/anatomy descriptor. 'ass focus' and 'breast focus' are common compositional tags on art platforms."
+        },
+        "sexual_touching": {
+          "label": "Sexual Touching",
+          "terms": [
+            "groping",
+            "grope",
+            "breast grab",
+            "ass grab",
+            "fondling",
+            "fondle",
+            "breast fondle"
+          ],
+          "patterns": [
+            "(?<![a-z])groping(?![a-z])",
+            "(?<![a-z])grope(?![a-z])",
+            "(?<![a-z])breast grab(?![a-z])",
+            "(?<![a-z])ass grab(?![a-z])",
+            "(?<![a-z])fondling(?![a-z])",
+            "(?<![a-z])fondle(?![a-z])",
+            "(?<![a-z])breast fondle(?![a-z])"
+          ]
+        },
+        "sexualized_states": {
+          "label": "Sexualized States & Descriptors",
+          "terms": [
+            "aroused",
+            "erect",
+            "erection",
+            "wet",
+            "sexual",
+            "seductive",
+            "lewd",
+            "ecchi",
+            "hentai"
+          ],
+          "patterns": [
+            "(?<![a-z])aroused(?![a-z])",
+            "(?<![a-z])erect(?![a-z])",
+            "(?<![a-z])erection(?![a-z])",
+            "(?<![a-z])wet(?![a-z])",
+            "(?<![a-z])sexual(?![a-z])",
+            "(?<![a-z])seductive(?![a-z])",
+            "(?<![a-z])lewd(?![a-z])",
+            "(?<![a-z])ecchi(?![a-z])",
+            "(?<![a-z])hentai(?![a-z])"
+          ],
+          "notes": "'erect' has common SFW uses (e.g., 'erect ears', 'erect tail'). 'wet' is extremely common in SFW contexts (e.g., 'wet hair', 'wet clothes', 'wet road'). 'hentai' is a genre/platform label on many sites. Application-layer context checking essential."
+        },
+        "borderline_exposure": {
+          "label": "Borderline Exposure",
+          "terms": [
+            "see through",
+            "transparent clothing",
+            "nude beach",
+            "nude beach scene"
+          ],
+          "patterns": [
+            "(?<![a-z])see through(?![a-z])",
+            "(?<![a-z])transparent clothing(?![a-z])",
+            "(?<![a-z])nude beach(?![a-z])",
+            "(?<![a-z])nude beach scene(?![a-z])"
+          ]
+        },
+        "sexual_context": {
+          "label": "Sexual Context / Aftermath",
+          "terms": [
+            "after sex",
+            "post-coital",
+            "post coital",
+            "morning after",
+            "bed after sex"
+          ],
+          "patterns": [
+            "(?<![a-z])after sex(?![a-z])",
+            "(?<![a-z])post-coital(?![a-z])",
+            "(?<![a-z])post coital(?![a-z])",
+            "(?<![a-z])morning after(?![a-z])",
+            "(?<![a-z])bed after sex(?![a-z])"
+          ],
+          "notes": "'morning after' may be SFW in some contexts (e.g., 'morning after the party')."
+        }
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2026-05-07",
+    "source_attribution": {
+      "danbooru": "Terms commonly used as Danbooru tag categories (rating:explicit, sexual tags). Danbooru's tag classification system was referenced for identifying NSFW tags.",
+      "civitai": "Terms observed across CivitAI model metadata and prompt datasets. CivitAI's content moderation categories informed tier classification.",
+      "manual_curation": "Manual curation and cross-referencing of community-maintained blocklists, prompt engineering resources, and adult content filtering guidelines."
+    },
+    "tier_system": {
+      "hard_block": "Tier 1 — Terms that should ALWAYS be removed from catalogs. These represent explicit sexual content, extreme fetishes, prohibited content (age-related), bodily fluids, and non-consensual themes. No user toggle — always filtered.",
+      "suggestive": "Tier 2 — Terms that are sexually suggestive but may overlap with legitimate artistic/character descriptor usage. Filtering is configurable and defaults to disabled. Users may choose to enable if they want stricter content control."
+    },
+    "matching_notes": [
+      "All term matching is case-insensitive.",
+      "Terms are matched against item.name and item.id fields in CatalogCleaner.",
+      "Regex patterns use word boundary assertions ((?<![a-z])/(?![a-z])) to prevent partial matches.",
+      "Multi-word terms are provided both as exact phrases (for literal matching) and as compound regex patterns.",
+      "Some terms (marked in notes) have significant SFW overlap and may benefit from NLP/contextual disambiguation at the application layer.",
+      "This blocklist is a static wordlist — it cannot detect euphemisms, obfuscated spellings, or non-English NSFW terms.",
+      "Regular maintenance is recommended as community terminology evolves."
+    ],
+    "usage": "Loaded by CatalogCleaner which iterates over catalog items and matches item.name and item.id against these patterns. Items matching hard_block terms are automatically removed. Items matching suggestive terms are flagged or removed based on user configuration.",
+    "maintenance_notes": [
+      "Review and update quarterly to capture emerging terms and community slang.",
+      "Monitor source platforms (Danbooru, CivitAI) for tag taxonomy changes.",
+      "Consider adding non-English NSFW terms if multilingual catalog support is added.",
+      "False positive reports from users should trigger term review and potential demotion to a lower tier."
+    ]
+  }
+}

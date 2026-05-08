@@ -1,0 +1,132 @@
+# Changelog - 2026-02-15
+# Session Summary: Implemented Tag Expansion Pipeline fixes and unified node structures
+
+================================================================================
+1. FIXED EXPANDED MODE NOT SHOWING FULL OPTIONS
+================================================================================
+
+Problem:
+  - full_body slot only showed 15 options instead of 1,317 in expanded mode
+  - 246 dresses were not appearing in the UI
+
+Root Cause:
+  - _merge_expanded_catalogs() was not populating index_by_body_part for clothing
+  - Clothing slots use index_by_body_part for lookups, so expanded items weren't indexed
+
+Files Modified:
+  - C:\Local\Github\Random-character-prompt-for-SD-\generator\prompt_generator.py
+  - C:\Local\Comfy UI\custom_nodes\auto_prompt\prompt_generator.py
+
+Code Added (lines 287-305):
+  # Merge index_by_body_part for clothing catalog
+  if name == "clothing":
+      if "index_by_body_part" not in self.catalogs[name]:
+          self.catalogs[name]["index_by_body_part"] = {}
+      for item in new_items:
+          item_id = item.get("id")
+          group = item.get("group")
+          if item_id and group:
+              if group not in self.catalogs[name]["index_by_body_part"]:
+                  self.catalogs[name]["index_by_body_part"][group] = []
+              if item_id not in self.catalogs[name]["index_by_body_part"][group]:
+                  self.catalogs[name]["index_by_body_part"][group].append(item_id)
+
+Result:
+  - Lightweight mode: 15 full_body options
+  - Expanded mode: 1,317 full_body options (including 246 dresses)
+
+================================================================================
+2. REMOVED DEBUG CODE FROM API
+================================================================================
+
+File Modified:
+  - C:\Local\Github\Random-character-prompt-for-SD-\web\routes\slots.py
+
+Change:
+  - Removed _debug_full_body_opts and _debug_idx_full_body from /api/catalog-mode
+
+================================================================================
+3. UPDATED ExpandedAutoPrompterNode TO MATCH LIGHTWEIGHT STRUCTURE
+================================================================================
+
+File Modified:
+  - C:\Local\Comfy UI\custom_nodes\auto_prompt\nodes.py
+
+Changes Made:
+
+A) Added CLOTHING_GROUPS constant (lines 378-390):
+   CLOTHING_GROUPS = [
+       "uniform_service", "chinese_traditional", "japanese_traditional",
+       "modern_everyday", "formal_fashion", "sports_stage",
+       "armor_fantasy", "swimwear", "cute_themed", "props_tech",
+   ]
+
+B) Added Clothing Theme Toggles to INPUT_TYPES (lines 431-441):
+   - uniform_service, chinese_traditional, japanese_traditional
+   - modern_everyday, formal_fashion, sports_stage
+   - armor_fantasy, swimwear, cute_themed, props_tech
+
+C) Added Slot Enable/Disable Toggles (lines 442-447):
+   - enable_head, enable_eye_accessories, enable_special_features
+   - enable_hands, enable_skin
+
+D) Added Lock Options (lines 473-488):
+   - lock_body_type, lock_height, lock_age_appearance, lock_background
+
+E) Updated generate() Method Signature (lines 498-509):
+   - Added all new parameters with defaults
+
+F) Added Clothing Group Filtering Logic (lines 534-550):
+   - Builds disabled_clothing_groups list from toggle states
+
+G) Added Clothing Slots Filter Application (lines 566-587):
+   - Clothing slots now respect group filtering same as lightweight
+
+H) Added Slot Enable/Disable Logic (lines 613-623):
+   - head, eye_accessories, special_features, hands, skin toggles
+
+I) Added Full Lock Options (lines 625-640):
+   - body_type, height, age_appearance, background locks
+
+================================================================================
+FINAL STATE
+================================================================================
+
+ExpandedAutoPrompterNode Features:
+
+Gesture Toggles (Expanded-specific):
+  - gesture_body_touch
+  - gesture_clothing_adjust
+  - gesture_object_interaction
+
+Clothing Theme Toggles (Same as Lightweight):
+  - uniform_service, chinese_traditional, japanese_traditional
+  - modern_everyday, formal_fashion, sports_stage
+  - armor_fantasy, swimwear, cute_themed, props_tech
+
+Slot Enable/Disable Toggles (Same as Lightweight):
+  - enable_head, enable_eye_accessories, enable_special_features
+  - enable_hands, enable_skin
+
+Lock Options (Same as Lightweight):
+  - lock_hair_color, lock_eye_color, lock_expression
+  - lock_body_type, lock_height, lock_age_appearance, lock_background
+
+Catalog Stats in Expanded Mode:
+  clothing:     5,109 items
+  expressions:    877 items
+  hair:         1,541 items
+  eyes:           822 items
+  body:         6,637 items
+  poses:        1,885 items
+  view_angles:     97 items
+  backgrounds:  3,177 items
+  TOTAL:       20,145 items
+
+Full Body Slot Options:
+  - Lightweight: 15 options
+  - Expanded: 1,317 options (including 246 dresses)
+
+================================================================================
+END OF LOG
+================================================================================

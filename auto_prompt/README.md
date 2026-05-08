@@ -41,31 +41,23 @@ ComfyUI/
 | full_body_mode | BOOL | When enabled, full_body outfit skips upper/lower |
 | upper_body_mode | BOOL | Skip lower body, legs, feet slots |
 | prefix | STRING | Text prepended to prompt (e.g., quality tags) |
-| lock_* | STRING | Lock any of the 30 slots (hair, eyes, body, clothing, pose, background) |
+| lock_hair_color | STRING | Lock hair color (e.g., "blonde hair") |
+| lock_eye_color | STRING | Lock eye color (e.g., "blue eyes") |
+| lock_expression | STRING | Lock expression (e.g., "smile") |
+| lock_pose | STRING | Lock pose (e.g., "standing") |
+| lock_background | STRING | Lock background (e.g., "outdoor") |
 
-## Node Outputs
+## Node Output
 
 | Output | Type | Description |
 |--------|------|-------------|
-| prompt | STRING | Generated prompt text - connect to CLIP Text Encode |
-
-The generated text is also displayed on the node itself after running, so you can preview it.
+| prompt | STRING | Generated prompt, connect to CLIP Text Encode |
 
 ## Example Workflow
 
 ```
 [Random Character Prompt] → prompt → [CLIP Text Encode] → conditioning → [KSampler]
-                                            ↑
-                              [Load Checkpoint] → clip
 ```
-
-## Editing the Prompt
-
-To manually edit the generated prompt before encoding:
-1. Run the workflow to generate a prompt (text shows on the node)
-2. Copy the text you want to change
-3. Use a **Text Primitive** or **String** node to edit
-4. Connect your edited text to CLIP Text Encode instead
 
 ## Tips
 

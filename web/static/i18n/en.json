@@ -184,5 +184,10 @@
   "section_appearance_hair": "Hair",
   "section_appearance_eyes": "Eyes",
   "group_solo": "Solo",
-  "group_solo_title": "Enable only this group"
+  "group_solo_title": "Enable only this group",
+  "setting_expanded": "Expanded Mode",
+  "status_switching_mode": "Switching catalog mode...",
+  "status_mode_switched": "Switched to {mode} mode ({count} items)",
+  "group_gesture_body_touch": "Body Touch Actions",
+  "group_gesture_clothing_adjust": "Clothing Adjustments"
 }

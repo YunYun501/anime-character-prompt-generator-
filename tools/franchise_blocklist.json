@@ -1,0 +1,109 @@
+{
+  "franchises": [
+    {"term": "fate", "match": "contains", "catalog": "clothing", "count": 207, "note": "Fate series (Saber, Rin, etc.) — character-specific costumes"},
+    {"term": "blue archive", "match": "contains", "catalog": "clothing", "count": 78, "note": "Blue Archive game characters"},
+    {"term": "azur lane", "match": "contains", "catalog": "clothing", "count": 28, "note": "Azur Lane ship-girl characters"},
+    {"term": "arknights", "match": "contains", "catalog": "clothing", "count": 16, "note": "Arknights game characters"},
+    {"term": "idolmaster", "match": "contains", "catalog": "clothing", "count": 14, "note": "The iDOLM@STER franchise characters"},
+    {"term": "fire emblem", "match": "contains", "catalog": "clothing", "count": 13, "note": "Fire Emblem series characters"},
+    {"term": "genshin", "match": "contains", "catalog": "clothing", "count": 9, "note": "Genshin Impact characters"},
+    {"term": "granblue", "match": "contains", "catalog": "clothing", "count": 7, "note": "Granblue Fantasy characters"},
+    {"term": "pokemon", "match": "contains", "catalog": "clothing", "count": 6, "note": "Pokémon characters"},
+    {"term": "honkai", "match": "contains", "catalog": "clothing", "count": 5, "note": "Honkai series (Impact 3rd, Star Rail)"},
+    {"term": "hololive", "match": "contains", "catalog": "clothing", "count": 3, "note": "Hololive VTuber characters"},
+    {"term": "nijisanji", "match": "contains", "catalog": "clothing", "count": 3, "note": "Nijisanji VTuber characters"},
+    {"term": "project sekai", "match": "contains", "catalog": "clothing", "count": 3, "note": "Project SEKAI game characters"},
+    {"term": "love live", "match": "contains", "catalog": "clothing", "count": 2, "note": "Love Live! school idol franchise"},
+    {"term": "final fantasy", "match": "contains", "catalog": "clothing", "count": 2, "note": "Final Fantasy series characters"},
+    {"term": "kingdom hearts", "match": "contains", "catalog": "clothing", "count": 2, "note": "Kingdom Hearts characters"},
+    {"term": "star rail", "match": "contains", "catalog": "clothing", "count": 2, "note": "Honkai Star Rail characters"},
+    {"term": "wuthering", "match": "contains", "catalog": "clothing", "count": 2, "note": "Wuthering Waves characters"},
+    {"term": "dragon quest", "match": "contains", "catalog": "clothing", "count": 1, "note": "Dragon Quest characters"},
+    {"term": "persona", "match": "contains", "catalog": "clothing", "count": 1, "note": "Persona series characters"},
+    {"term": "elden ring", "match": "contains", "catalog": "clothing", "count": 1, "note": "Elden Ring characters"},
+    {"term": "zzz", "match": "contains", "catalog": "clothing", "count": 1, "note": "Zenless Zone Zero characters"},
+    {"term": "kancolle", "match": "contains", "catalog": "hair", "count": null, "note": "Kantai Collection ship-girl characters"},
+    {"term": "nikke", "match": "contains", "catalog": ["clothing", "hair"], "count": null, "note": "Goddess of Victory: NIKKE characters"},
+    {"term": "umamusume", "match": "contains", "catalog": "eyes", "count": null, "note": "Uma Musume horse-girl characters"},
+    {"term": "vocaloid", "match": "contains", "catalog": "clothing", "count": 10, "note": "Vocaloid characters (Miku, etc.) — not generic clothing"},
+    {"term": "touhou", "match": "contains", "catalog": "general", "count": null, "note": "Touhou Project characters"},
+    {"term": "vtuber", "match": "contains", "catalog": "general", "count": null, "note": "VTuber-specific tags — not a character description"},
+    {"term": "vrchat", "match": "contains", "catalog": "general", "count": null, "note": "VRChat avatar references — not a generic trait"}
+  ],
+  "noise_patterns": {
+    "username_pattern": {
+      "regex": "^[a-z0-9_]+$",
+      "description": "All lowercase alphanumeric with underscores — likely usernames",
+      "note": "Matches entries like 'yuki_mizuki_79' with no capitals or spaces"
+    },
+    "brand_pattern": {
+      "regex": "\\(brand\\)$",
+      "description": "Items ending with '(brand)' suffix",
+      "note": "These are brand/studio tags, not descriptive clothing"
+    },
+    "game_title_pattern": {
+      "regex": "\\((game|series)\\)$",
+      "description": "Items ending with '(game)' or '(series)'",
+      "note": "Media title references, not descriptive tags"
+    },
+    "short_name": {
+      "max_length": 3,
+      "description": "Remove items with name length ≤ 3 characters",
+      "note": "Too short to be meaningful descriptive tags"
+    },
+    "numeric_only": {
+      "regex": "^[0-9]+$",
+      "description": "Items that are purely numeric",
+      "note": "Likely IDs or catalog numbers"
+    },
+    "long_compound": {
+      "max_length": 60,
+      "description": "Remove items with name > 60 characters",
+      "note": "Likely concatenated or multi-tag entries that slipped through"
+    },
+    "long_no_spaces": {
+      "min_length": 15,
+      "regex": "^[^\\s]+$",
+      "description": "Remove items with no spaces and length > 15 characters",
+      "note": "Likely usernames, compound errors, or machine-generated text"
+    }
+  },
+  "variant_patterns": {
+    "double_parenthesized": {
+      "description": "Items with 2+ parenthesized qualifiers like 'character_name (costume) (franchise)'",
+      "note": "Format: 'character_name (variant) (source)' — specific to a character, not generic",
+      "pattern_hint": "name (\\w+) (\\w+) — two or more trailing parenthesized groups"
+    },
+    "ascension_variant": {
+      "description": "Items matching 'ascension' in the tag name",
+      "note": "Game-specific ascension/evolution variants (common in gacha games)"
+    },
+    "costume_variant_patterns": [
+      "(swimsuit)", "(bunny)", "(school)", "(uniform)", "(dress)",
+      "(armor)", "(casual)", "(formal)", "(party)", "(sporty)",
+      "(beach)", "(wedding)", "(maid)", "(nurse)", "(pajama)",
+      "(santa)", "(halloween)", "(new year)", "(valentine)", "(christmas)",
+      "halloween)", "valentine)", "christmas)", "new years)",
+      "(summer)", "(winter)", "(spring)", "(festival)", "(combat)",
+      "(idle)", "(battle)", "costume)", "outfit)", "variant)"
+    ],
+    "costume_variant_description": "Parenthesized costume qualifiers — these denote character-specific alt costumes, not generic clothing items"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "purpose": "Blocklist for filtering franchise-specific, character-variant, and noise items from expanded anime prompt tag catalogs",
+    "target_tier": "Tier 3 (franchise/character noise)",
+    "used_by": "CatalogCleaner",
+    "inputs": "Expanded tag catalogs (clothing, hair, eyes, general) from tag expansion pipeline",
+    "outputs": "Cleaned catalog with only generic, reusable descriptive tags suitable for random character generation",
+    "rationale": "Franchise-specific items (e.g., 'Saber's armor (Fate)') produce recognizable characters rather than original designs. Character costume variants (e.g., '(swimsuit)') are meaningless without the character name. Noise patterns remove non-descriptive artifacts like usernames, IDs, and garbage tags.",
+    "maintenance_notes": [
+      "Add new franchises as they appear in catalogs with count >= 2",
+      "Costume variant patterns should be reviewed periodically — common anime tropes (e.g., 'school uniform') are valid generic items and should NOT be added here",
+      "Franchise terms match by substring containment — ensure short terms (e.g., 'fate') don't accidentally match unrelated words",
+      "The 'short_name' rule (≤3 chars) may need tuning per catalog — check for false positives"
+    ],
+    "source_catalogs": ["clothing", "hair", "eyes", "general"],
+    "last_updated": "2026-05-07"
+  }
+}

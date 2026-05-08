@@ -73,6 +73,7 @@ function applyStaticTranslations() {
   setText("btn-reset", "btn_reset");
   setText("btn-parse", "btn_parse");
   setText("btn-save-parsed", "btn_save_parsed");
+  setText("setting-expanded", "setting_expanded");
   setText("setting-full-body", "setting_full_body");
   setText("setting-upper-body", "setting_upper_body");
   setText("setting-palette", "setting_palette");
@@ -119,7 +120,7 @@ function applyStaticTranslations() {
   populateLocaleSelector(promptLangSelect, state.promptLocale);
 }
 
-function buildSections() {
+export function buildSections() {
   const container = document.getElementById("sections-container");
   container.innerHTML = "";
 
