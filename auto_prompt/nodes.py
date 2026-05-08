@@ -1047,6 +1047,23 @@ class AutoPromptExpandedNode:
                     config.slots[slot_name].value = locked_value.strip()
                     config.slots[slot_name].value_id = locked_value.strip()
 
+        # Auto-assign palette colors to hair/eye when palette is active and not locked
+        if palette_id and include_color:
+            palette_overrides = {
+                "hair_color": ("hair", lock_hair_color),
+                "eye_color": ("eyes", lock_eye_color),
+            }
+            for slot_name, (body_part, locked_value) in palette_overrides.items():
+                if not locked_value.strip():
+                    slot = config.slots.get(slot_name)
+                    if slot:
+                        color_token = self.gen.sample_color_from_palette(palette_id)
+                        if color_token:
+                            localized = self.gen.localize_color_token(color_token, language) or color_token
+                            slot.value = f"{localized} {body_part}"
+                            slot.value_id = None
+                            slot.color_enabled = False
+
         # Apply constraint engine for logical consistency
         constraints_applied = False
         if use_constraints:
@@ -1100,7 +1117,9 @@ class AutoPromptExpandedNode:
                 continue
 
             slot = config.slots[slot_name]
-            if not slot.enabled or not slot.value_id:
+            if not slot.enabled:
+                continue
+            if not slot.value_id and not slot.value:
                 continue
 
             if config.full_body_mode and slot_name in ["upper_body", "lower_body"]:
@@ -1128,4 +1147,253 @@ class AutoPromptExpandedNode:
 
             parts.append(prompt_part)
 
+        return ", ".join(parts)
+
+
+class AutoPromptSafeNode:
+    """
+    Auto Prompt Safe (SFW) — lightweight curated catalog with SFW defaults.
+
+    Uses only the hand-curated clothing catalog (450 items) with sfw_strict
+    enabled by default. No expanded data, no suggestive content.
+
+    Defaults: sfw_strict=ON, swimwear=OFF, gesture_body_touch=OFF, constraints=ON
+    """
+
+    def __init__(self):
+        self.gen = None
+        self._palette_list = None
+
+    def _ensure_generator(self):
+        if self.gen is None:
+            self.gen = PromptGenerator(catalog_mode="lightweight")
+            self._palette_list = ["none", "random"] + [p["id"] for p in self.gen.get_palette_list()]
+            print(f"[AutoPromptSafe] Loaded {self.gen.get_total_items()} curated items (lightweight catalog)")
+
+    SFW_BLOCKED_TERMS = AutoPromptExpandedNode.SFW_BLOCKED_TERMS
+
+    def _is_item_sfw_blocked(self, item):
+        if not item:
+            return False
+        name = item.get("name", "").lower()
+        for term in self.SFW_BLOCKED_TERMS:
+            escaped = re.escape(term.lower())
+            if re.search(r'\b' + escaped + r'\b', name):
+                return True
+        return False
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        temp_gen = PromptGenerator(catalog_mode="lightweight")
+        palette_ids = ["none", "random"] + [p["id"] for p in temp_gen.get_palette_list()]
+        return {
+            "required": {
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "tooltip": "Random seed"}),
+                "language": (["en", "zh"], {"default": "en", "tooltip": "Output language"}),
+                "palette": (palette_ids, {"default": "none", "tooltip": "Color palette for clothing, hair, and eyes"}),
+                "body_mode": (["normal", "full_body", "upper_body", "random"], {"default": "random", "tooltip": "Body mode"}),
+                "use_constraints": ("BOOLEAN", {"default": True, "tooltip": "Apply consistency rules"}),
+                "sfw_strict": ("BOOLEAN", {"default": True, "tooltip": "Remove suggestive content (ON by default)"}),
+                "gesture_body_touch": ("BOOLEAN", {"default": False, "tooltip": "Body touch gestures (OFF by default)"}),
+                "gesture_clothing_adjust": ("BOOLEAN", {"default": True, "tooltip": "Clothing adjustment gestures"}),
+                "gesture_object_interaction": ("BOOLEAN", {"default": True, "tooltip": "Object interaction gestures"}),
+                "uniform_service": ("BOOLEAN", {"default": True, "tooltip": "Uniforms, military, service"}),
+                "chinese_traditional": ("BOOLEAN", {"default": True, "tooltip": "Chinese traditional"}),
+                "japanese_traditional": ("BOOLEAN", {"default": True, "tooltip": "Japanese traditional"}),
+                "modern_everyday": ("BOOLEAN", {"default": True, "tooltip": "Modern casual"}),
+                "formal_fashion": ("BOOLEAN", {"default": True, "tooltip": "Formal and fashion"}),
+                "sports_stage": ("BOOLEAN", {"default": True, "tooltip": "Sports and stage"}),
+                "armor_fantasy": ("BOOLEAN", {"default": True, "tooltip": "Armor and fantasy"}),
+                "swimwear": ("BOOLEAN", {"default": False, "tooltip": "Swimwear (OFF by default)"}),
+                "cute_themed": ("BOOLEAN", {"default": True, "tooltip": "Cute and themed"}),
+                "props_tech": ("BOOLEAN", {"default": True, "tooltip": "Props and tech"}),
+                "enable_head": ("BOOLEAN", {"default": False, "tooltip": "Head accessories"}),
+                "enable_eye_accessories": ("BOOLEAN", {"default": False, "tooltip": "Eye accessories"}),
+                "enable_special_features": ("BOOLEAN", {"default": False, "tooltip": "Special features"}),
+                "enable_hands": ("BOOLEAN", {"default": False, "tooltip": "Hand accessories"}),
+                "enable_skin": ("BOOLEAN", {"default": True, "tooltip": "Skin descriptions"}),
+            },
+            "optional": {
+                "prefix": ("STRING", {"default": "", "multiline": True, "tooltip": "Text prepended to prompt"}),
+                "suffix": ("STRING", {"default": "", "multiline": True, "tooltip": "Text appended to prompt"}),
+                "lock_hair_color": ("STRING", {"default": "", "tooltip": "Lock hair color"}),
+                "lock_eye_color": ("STRING", {"default": "", "tooltip": "Lock eye color"}),
+                "lock_expression": ("STRING", {"default": "", "tooltip": "Lock expression"}),
+                "lock_body_type": ("STRING", {"default": "", "tooltip": "Lock body type"}),
+                "lock_height": ("STRING", {"default": "", "tooltip": "Lock height"}),
+                "lock_age_appearance": ("STRING", {"default": "", "tooltip": "Lock age appearance"}),
+                "lock_background": ("STRING", {"default": "", "tooltip": "Lock background"}),
+            }
+        }
+
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("prompt",)
+    OUTPUT_NODE = True
+    FUNCTION = "generate"
+    CATEGORY = "prompt"
+
+    def generate(self, seed, language, palette, body_mode, use_constraints, sfw_strict=True,
+                 gesture_body_touch=False, gesture_clothing_adjust=True, gesture_object_interaction=True,
+                 uniform_service=True, chinese_traditional=True, japanese_traditional=True,
+                 modern_everyday=True, formal_fashion=True, sports_stage=True,
+                 armor_fantasy=True, swimwear=False, cute_themed=True, props_tech=True,
+                 enable_head=False, enable_eye_accessories=False, enable_special_features=False,
+                 enable_hands=False, enable_skin=True, prefix="", suffix="",
+                 lock_hair_color="", lock_eye_color="", lock_expression="",
+                 lock_body_type="", lock_height="", lock_age_appearance="", lock_background=""):
+
+        self._ensure_generator()
+        random.seed(seed)
+
+        actual_body_mode = body_mode
+        if body_mode == "random":
+            actual_body_mode = random.choice(["normal", "full_body", "upper_body"])
+        full_body_mode = (actual_body_mode == "full_body")
+        upper_body_mode = (actual_body_mode == "upper_body")
+
+        disabled_gesture_groups = []
+        if not gesture_body_touch: disabled_gesture_groups.append("gesture_body_touch")
+        if not gesture_clothing_adjust: disabled_gesture_groups.append("gesture_clothing_adjust")
+        if not gesture_object_interaction: disabled_gesture_groups.append("gesture_object_interaction")
+
+        disabled_clothing_groups = []
+        for g, e in {"uniform_service": uniform_service, "chinese_traditional": chinese_traditional,
+                      "japanese_traditional": japanese_traditional, "modern_everyday": modern_everyday,
+                      "formal_fashion": formal_fashion, "sports_stage": sports_stage,
+                      "armor_fantasy": armor_fantasy, "swimwear": swimwear,
+                      "cute_themed": cute_themed, "props_tech": props_tech}.items():
+            if not e: disabled_clothing_groups.append(g)
+
+        config = self.gen.create_default_config()
+        config.full_body_mode = full_body_mode
+
+        palette_id = None
+        if palette == "random":
+            avail = list(self.gen.palettes.keys())
+            palette_id = random.choice(avail) if avail else None
+        elif palette != "none":
+            palette_id = palette
+        include_color = palette_id is not None
+
+        clothing_slots = {"head", "neck", "upper_body", "waist", "lower_body",
+                         "full_body", "outerwear", "hands", "legs", "feet", "accessory"}
+
+        for slot_name in self.gen.SLOT_DEFINITIONS:
+            if slot_name in config.slots and config.slots[slot_name].locked:
+                continue
+            slot = config.slots.get(slot_name)
+            if not slot:
+                slot = SlotConfig()
+                config.slots[slot_name] = slot
+
+            sfw_blocked_ids = []
+            if sfw_strict:
+                for opt in self.gen.get_slot_options(slot_name):
+                    if self._is_item_sfw_blocked(opt):
+                        sfw_blocked_ids.append(opt.get("id"))
+
+            if slot_name == "gesture" and disabled_gesture_groups:
+                item = self.gen.sample_slot(slot_name, disabled_groups=disabled_gesture_groups,
+                    disabled_values=sfw_blocked_ids if sfw_blocked_ids else None)
+            elif slot_name in clothing_slots and (disabled_clothing_groups or sfw_blocked_ids):
+                item = self.gen.sample_slot(slot_name,
+                    disabled_groups=disabled_clothing_groups if disabled_clothing_groups else None,
+                    disabled_values=sfw_blocked_ids if sfw_blocked_ids else None)
+            elif sfw_blocked_ids:
+                item = self.gen.sample_slot(slot_name, disabled_values=sfw_blocked_ids)
+            else:
+                item = self.gen.sample_slot(slot_name)
+
+            if item:
+                slot.value = item.get("name", "")
+                slot.value_id = item.get("id", "")
+            else:
+                slot.value = None
+                slot.value_id = None
+
+            if include_color and self.gen.SLOT_DEFINITIONS[slot_name].get("has_color", False):
+                if palette_id and palette_id in self.gen.palettes:
+                    slot.color = self.gen.sample_color_from_palette(palette_id)
+                    slot.color_enabled = True
+
+        if config.full_body_mode:
+            self.gen._apply_full_body_logic(config)
+        self.gen._apply_lower_body_leg_logic(config)
+
+        if upper_body_mode:
+            for sn in ["waist", "lower_body", "full_body", "legs", "feet"]:
+                if sn in config.slots: config.slots[sn].enabled = False
+
+        for sn, en in {"head": enable_head, "eye_accessories": enable_eye_accessories,
+                        "special_features": enable_special_features, "hands": enable_hands,
+                        "skin": enable_skin}.items():
+            if sn in config.slots: config.slots[sn].enabled = en
+
+        for sn, lv in {"hair_color": lock_hair_color, "eye_color": lock_eye_color,
+                        "expression": lock_expression, "body_type": lock_body_type,
+                        "height": lock_height, "age_appearance": lock_age_appearance,
+                        "background": lock_background}.items():
+            if lv and lv.strip() and sn in config.slots:
+                config.slots[sn].value = lv.strip()
+                config.slots[sn].value_id = lv.strip()
+
+        if palette_id and include_color:
+            for sn, (bp, lv) in {"hair_color": ("hair", lock_hair_color),
+                                  "eye_color": ("eyes", lock_eye_color)}.items():
+                if not lv.strip():
+                    slot = config.slots.get(sn)
+                    if slot:
+                        ct = self.gen.sample_color_from_palette(palette_id)
+                        if ct:
+                            loc = self.gen.localize_color_token(ct, language) or ct
+                            slot.value = f"{loc} {bp}"
+                            slot.value_id = None
+                            slot.color_enabled = False
+
+        constraints_applied = False
+        if use_constraints:
+            self.gen._apply_constraints(config)
+            constraints_applied = True
+
+        prompt = self._build_prompt_localized(config, language)
+        if prefix and prefix.strip(): prompt = f"{prefix.strip()}, {prompt}"
+        if suffix and suffix.strip(): prompt = f"{prompt}, {suffix.strip()}"
+
+        stats = self.gen.get_catalog_stats()
+        print(f"\n{'='*60}")
+        print(f"[AutoPromptSafe] Mode: {actual_body_mode} | Palette: {palette_id or 'none'}")
+        print(f"  Items: {self.gen.get_total_items()} | SFW: {'yes' if sfw_strict else 'no'} | Constraints: {'yes' if constraints_applied else 'no'}")
+        print(f"{'='*60}")
+        print(prompt)
+        print(f"{'='*60}\n")
+
+        return {"ui": {"text": [prompt]}, "result": (prompt,)}
+
+    def _build_prompt_localized(self, config, language):
+        parts = ["1girl"]
+        slot_order = ["hair_color","hair_length","hair_style","hair_texture",
+                      "eye_color","eye_expression_quality","eye_shape","eye_pupil_state","eye_state","eye_accessories",
+                      "body_type","height","skin","age_appearance","special_features","expression",
+                      "full_body","head","neck","upper_body","waist","lower_body","outerwear","hands","legs","feet","accessory",
+                      "view_angle","pose","gesture","background"]
+        lbcl = False
+        ls = config.slots.get("lower_body")
+        if ls and ls.enabled and ls.value_id: lbcl = self.gen.lower_body_id_covers_legs(ls.value_id)
+        for sn in slot_order:
+            if sn not in config.slots: continue
+            slot = config.slots[sn]
+            if not slot.enabled: continue
+            if not slot.value_id and not slot.value: continue
+            if config.full_body_mode and sn in ["upper_body","lower_body"]:
+                fb = config.slots.get("full_body")
+                if fb and fb.enabled and fb.value_id: continue
+            if sn == "legs" and lbcl: continue
+            ln = self.gen.resolve_slot_value_name(sn, slot.value_id, slot.value, language)
+            if not ln: ln = slot.value or slot.value_id
+            if slot.color_enabled and slot.color:
+                ct = self.gen.localize_color_token(slot.color, language) or slot.color
+                pp = f"{ct} {ln}"
+            else: pp = ln
+            if slot.weight != 1.0: pp = f"({pp}:{slot.weight:.1f})"
+            parts.append(pp)
         return ", ".join(parts)

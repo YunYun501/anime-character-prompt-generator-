@@ -204,6 +204,16 @@ async def randomize_all(req: RandomizeAllRequest):
             deps.gen.sample_slot(name, disabled_groups=disabled_groups, disabled_values=disabled_values),
     )
 
+    # Auto-assign palette colors to hair/eye if palette is active and slot not locked
+    if req.palette_enabled and req.palette_id:
+        for slot_name, body_part in [("hair_color", "hair"), ("eye_color", "eyes")]:
+            if slot_name in results and not req.locked.get(slot_name, False):
+                color_token = deps.gen.sample_color_from_palette(req.palette_id)
+                if color_token:
+                    localized = deps.gen.localize_color_token(color_token, req.output_language) or color_token
+                    results[slot_name]["value"] = f"{localized} {body_part}"
+                    results[slot_name]["value_id"] = None
+
     payload = {"results": results}
     if constraint_changes:
         payload["constraint_changes"] = constraint_changes

@@ -10,18 +10,20 @@ Installation:
    - "Expanded Auto Prompter" - 20,000+ auto-generated tags
 """
 
-from .nodes import RandomCharacterPromptNode, ExpandedAutoPrompterNode, AutoPromptExpandedNode
+from .nodes import RandomCharacterPromptNode, ExpandedAutoPrompterNode, AutoPromptExpandedNode, AutoPromptSafeNode
 
 NODE_CLASS_MAPPINGS = {
     "RandomCharacterPrompt": RandomCharacterPromptNode,
     "ExpandedAutoPrompter": ExpandedAutoPrompterNode,
     "AutoPromptExpanded": AutoPromptExpandedNode,
+    "AutoPromptSafe": AutoPromptSafeNode,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "RandomCharacterPrompt": "Random Character Prompt",
     "ExpandedAutoPrompter": "Expanded Auto Prompter",
     "AutoPromptExpanded": "Auto Prompt Expanded (Constrained)",
+    "AutoPromptSafe": "Auto Prompt Safe (SFW)",
 }
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
